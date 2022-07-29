@@ -54,9 +54,9 @@ class Main extends CI_controller
 	private function cab($navbar = 1)
 	{
 		define("PATH", "index.php/main/");
-		define("LIBRARY_NAME", "ComgradBib");
+		define("LIBRARY_NAME", "ebbc");
 		$this->load->helper('socials');
-		$data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
+		$data['title'] = 'Encontro Brasileiro de Bibliometria e Cientometria ::::';
 		$this->load->view('header/header', $data);
 		if ($navbar == 1) {
 			$this->load->view('header/navbar', null);

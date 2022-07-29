@@ -282,13 +282,20 @@ class events extends CI_model
 		$evento = trim($line['e_name']);
 		$data = sonumero($line['e_data']);
 		$img_file = $line['e_background'];
+		$tmp = $line['e_templat'];
 
 		$data = substr($data, 6, 2) . ' de ' . $mes[round(substr($data, 4, 2))] . ' de ' . substr($data, 0, 4) . '.';
 		$ass_nome = trim($line['e_ass_none_1']);
 		$ass_cargo = trim($line['e_ass_cargo_1']);
 
 		// create new PDF document
-		$pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+		if ($tmp == 3) {
+			$pdf = new tcpdf('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		} else {
+			$pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		}
+
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
@@ -332,8 +339,15 @@ class events extends CI_model
 		// disable auto-page-break
 		$pdf->SetAutoPageBreak(false, 0);
 		// set bacground image
-		if (strlen($img_file) > 0) {
-			$pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+
+		if ($tmp == 3) {
+			if (strlen($img_file) > 0) {
+				$pdf->Image($img_file, 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
+			}
+		} else {
+			if (strlen($img_file) > 0) {
+				$pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+			}
 		}
 		// restore auto-page-break status
 
@@ -349,13 +363,29 @@ class events extends CI_model
 		$txt1 = troca($txt1, '$titulo', $titulo);
 		$txt1 = troca($txt1, '$autores', $autores);
 
-		$txt2 = '<br><br>' . $cidade . ', ' . $data;
+
+		$txt2 = '<br>' . $cidade . ', ' . $data;
 
 		$txt3 = '<br><br><br><br><br><br><br><br>';
 		$txt3 .= '<b>' . $ass_nome . '</b>';
 		$txt4 = '<br>' . $ass_cargo;
 
-		switch ($line['e_templat']) {
+		switch ($tmp) {
+			case 3:
+				$html = '<br><br><br><br>';
+				$html .= '
+
+				<table cellspacing="0" cellpadding="0" border="0" width="100%"  style="margin-top: 200px; font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 150%;">
+				<tr>
+				<td rowspan="1" width="100%">' . $txt1 . '</td>
+				</tr>
+				<tr>
+				<td rowspan="1" width="100%" align="right">' . $txt2 . '</td>
+				</tr>
+				</table>
+				';
+				break;
+
 			case 5:
 				$html = '<br><br><br>';
 				$html .= '<span style="font-family: tahoma, arial; color: #333333;text-align:left; font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
@@ -373,10 +403,7 @@ class events extends CI_model
 				<tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 100%;">
 				<td rowspan="1" width="100%" align="center">' . $txt3 . '</td>
 				</tr>
-				<tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:9pt; line-height: 120%;">
-				<td rowspan="1" width="100%" align="center">
-				' . $txt4 . '</td>
-				</tr>
+
 				</table>
 				';
 				break;
@@ -410,9 +437,6 @@ class events extends CI_model
 			$pdf->Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
 		}
 
-		$pdf->writeHTML($html, true, false, true, false, '');
-
-
 		// QRCODE,Q : QR-CODE Better error correction
 		// set style for barcode
 		$style = array(
@@ -420,10 +444,26 @@ class events extends CI_model
 			'module_width' => 1, // width of a single module in points
 			'module_height' => 1 // height of a single module in points
 		);
-		$pdf->write2DBarcode('www.ufrgs.br/comgradbib/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
 
-		$pdf->SetFont('helvetica', '', 8, '', false);
-		$pdf->Text(110, 236, 'validador do certificado');
+		/* QRCODE */
+		if ($tmp == 3) {
+			$pdf->SetXY(150, 150);
+			$pdf->SetFont('helvetica', '', 8, '', false);
+			$pdf->Text(0, 140, 'validador do certificado');
+			$pdf->write2DBarcode('www.ebbc.inf.br/certificados/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 0, 145, 30, 30, $style, 'N');
+			$pdf->SetXY(40, 80);
+		}
+
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+
+
+		if ($tmp != 3) {
+
+			$pdf->write2DBarcode('www.ebbc.inf.br/certificados/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
+			$pdf->SetFont('helvetica', '', 8, '', false);
+			$pdf->Text(110, 236, 'validador do certificado');
+		}
 
 		// ---------------------------------------------------------
 

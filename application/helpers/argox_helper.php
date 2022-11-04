@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 @Author: Rene Faustino Gabriel Junior
 https://github.com/ReneFGJr/ViaOro/blob/master/_etiqueta/a_modelo_02.prn
@@ -22,6 +22,27 @@ class argox
 	}
 
 	public $lines = array();
+
+	function cracha($nome,$inst)
+		{
+		$this->lines[] = 'D22' . $this->CR;
+		}
+
+	function start()
+		{
+		$sx = '';
+		$sx .= $this->STX . 'n' . $this->CR;
+		$sx .= $this->STX . 'KI503' . $this->CR;
+		$sx .= $this->STX . 'O0220' . $this->CR;
+		$sx .= $this->STX . 'f220' . $this->CR;
+		$sx .= $this->STX . 'e' . $this->CR;
+		$sx .= $this->STX . 'KW0394' . $this->CR;
+		$sx .= $this->STX . 'KI71' . $this->CR;
+		$sx .= $this->STX . 'V0' . $this->CR;
+		$sx .= $this->STX . 'xAGTF1' . $this->CR;
+		$sx .= $this->STX . 'L' . $this->CR;
+		return $sx;
+		}
 
 	public function add()
 	{

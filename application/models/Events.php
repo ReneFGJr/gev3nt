@@ -86,6 +86,9 @@ class events extends CI_model
                 <li class="nav-item active">
                     <a class="nav-link" href="' . base_url(PATH) . 'users">Usuários <span class="sr-only"></span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="' . base_url(PATH) . 'labels">Etiquetas <span class="sr-only"></span></a>
+                </li>
                 ';
 		}
 		$sx .= '
@@ -131,6 +134,10 @@ class events extends CI_model
 	{
 		$data = array();
 		switch ($action) {
+			case 'labels':
+				$data['content'] = $this->cab($data);
+				$data['content'] .= $this->etiquetas(1);
+				break;
 			case 'social':
 				$data = array('reverse' => true);
 				$this->load->helper('socials');
@@ -476,7 +483,7 @@ class events extends CI_model
 		$sqln = "select * from person
     left join person_contato ON ct_person = id_p and ct_tipo = 'E'
     where p_cracha = '" . trim($cracha) . "'";
-		$rltx = $this->db->query($sql);
+		$rltx = $this->db->query($sqln);
 		$rltx = $rltx->result_array();
 		print_r($rltx);
 		exit;
@@ -1126,6 +1133,12 @@ class events extends CI_model
 		$sx .= '</div>';
 		$sx .= '</a>';
 
+		$sx .= '<a href="' . base_url(PATH . 'labels/' . $id) . '">';
+		$sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
+		$sx .= 'Imprimir etiquetas';
+		$sx .= '</div>';
+		$sx .= '</a>';
+
 		$sx .= '<a href="' . base_url(PATH . 'send_mail/' . $id) . '">';
 		$sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
 		$sx .= 'Enviar Comunicação dos Certificados por e-mail';
@@ -1637,5 +1650,85 @@ class events extends CI_model
     ';
 		$sx .= '</form>';
 		return ($sx);
+	}
+
+	function etiquetas($id = 1)
+	{
+		$sql = "select * from events_names
+					INNER JOIN events_inscritos ON id_n = i_user
+					where i_evento = $id
+					order by n_nome";
+		$db = $this->db->query($sql);
+		$db = $db->result_array();
+		$this->load->helper("argox");
+
+		$et = new argox();
+		$ets = '';
+
+		for ($r = 0; $r < count($db); $r++) {
+
+			//if ($r > 5) { break; }
+
+			$line = $db[$r];
+			$nome = ascii($line['n_nome']);
+			$nome = troca($nome, 'ñ', 'n');
+			$inst = $line['i_titulo_trabalho'];
+
+			$nome = Uppercase($nome);
+
+			$nf = explode(' ', $nome);
+
+			$endf = count($nf) - 1;
+			$namef = $nf[0];
+			$namel = $nf[$endf];
+
+			switch ($namel) {
+				case 'JUNIOR':
+					$namel = $nf[$endf - 1] . ' ' . $nf[$endf];
+					break;
+				case 'NETO':
+					$namel = $nf[$endf - 1] . ' ' . $nf[$endf];
+					break;
+				case 'NETTO':
+					$namel = $nf[$endf - 1] . ' ' . $nf[$endf];
+					break;
+				case 'FILHO':
+					$namel = $nf[$endf - 1] . ' ' . $nf[$endf];
+					break;
+				default:
+					break;
+			}
+			$namex = $namef . ' ' . $namel;
+			$tmax = 20;
+			$tlen = strlen($namex);
+			$tsp = $tmax - $tlen;
+			$tsp = round($tsp/2);
+			if ($tsp > 1) {
+				$namex = str_repeat(' ', $tsp) . $namex;
+			}
+			/************************* */
+			$tmax = 40;
+			$tlen = strlen($inst);
+			$tsp = $tmax - $tlen;
+			$tsp = round($tsp / 3);
+			if ($tsp > 1) {
+				$inst = str_repeat(' ', $tsp) . $inst;
+			}
+
+
+			echo $line['n_nome'] . '==>'. $namex . '<br>';
+
+			$ets .= $et->start();
+			$ets .= 'D22' . chr(13);
+			$ets .= '140000000400000' .	$namex . chr(13);
+			$ets .= 'D22' . chr(13);
+			$ets .= '120000000050000' . $inst . chr(13);
+			$ets .= 'Q0001' . chr(13);
+			$ets .= 'E' . chr(13);
+		}
+		file_put_contents('d:/etiquetas.prn', $ets);
+		exit;
+		$sx = '';
+		return $sx;
 	}
 }

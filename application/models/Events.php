@@ -1840,6 +1840,9 @@ class events extends CI_model
 		if (count($db) == 0) {
 			$sx = 'Menhuma etiqueta para imprimir';
 		} else {
+			$sql = "update events_inscritos set i_cracha=1 where 1=1";
+			$this->db->query($sql);
+
 			$et->et_print($ets);
 		}
 		return $sx;

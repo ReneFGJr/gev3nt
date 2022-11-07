@@ -23,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://gev3/';
+$config['base_url'] = 'http://gev3nt/';
 //$config['base_url'] = 'https://ebbc.inf.br/certificados/';
 
 /*

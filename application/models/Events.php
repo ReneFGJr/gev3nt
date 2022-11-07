@@ -136,7 +136,14 @@ class events extends CI_model
 		switch ($action) {
 			case 'labels':
 				$data['content'] = $this->cab($data);
-				$data['content'] .= $this->etiquetas(1);
+				$data['content'] .= $this->etiquetas_index();
+				break;
+			case 'labels_print':
+				$this->etiquetas(1);
+				break;
+			case 'participante':
+				$data['content'] = $this->cab($data);
+				$data['content'] .= $this->events->new_users_evento($arg);
 				break;
 			case 'social':
 				$data = array('reverse' => true);
@@ -255,6 +262,67 @@ class events extends CI_model
 		}
 		$this->cab(0);
 		$this->load->view('content', $data);
+	}
+
+	function new_users_evento($d1)
+	{
+		$nome = get("nome");
+		$email = get("email");
+		$inst = get("inst");
+		$cracha = get("cracha");
+		$act = get("acao");
+		if ($act != '')
+			{
+				$sql = "select * from events_names where n_email = '$email'";
+				$rlt = $this->db->query($sql);
+				$rlt = $rlt->result_array();
+				if (count($rlt) == 0)
+					{
+						$sqli = "insert into events_names
+							(n_nome, n_email, n_cracha)
+							values
+							('$nome','$email','$cracha')
+							";
+						$rlt = $this->db->query($sqli);
+						sleep(1);
+						$rlt = $this->db->query($sql);
+						$rlt = $rlt->result_array();
+					}
+				$idu = $rlt[0]['id_n'];
+
+				/************* Inscrever */
+				$sql = "select * from events_inscritos where i_evento = $d1 and i_user = $idu ";
+				$rlt = $this->db->query($sql);
+				$rlt = $rlt->result_array();
+
+				if (count($rlt) == 0)
+					{
+						$sql = "insert into events_inscritos
+							(i_evento, i_user, i_titulo_trabalho, i_autores, i_cracha)
+							values
+							($d1,$idu,'$inst','AAAAAA',0)";
+							$rlt = $this->db->query($sql);
+
+							$sx = '<h1>Inserirdo com sucesso</h1>';
+							$sx .= '<a href="'.base_url('index.php/main/evento/labels/?evento='.$d1).'">Imprimir Cracha</a>';
+							return $sx;
+					} else {
+
+					}
+
+			}
+		$sx = '<form method="post" action="' . base_url('index.php/main/evento/participante/' . $d1) . '">';
+		$sx .= "Evento: " . $d1;
+		$sx .= 'Nome completo:<br>';
+		$sx .= '<input type="text" class="form-control" name="nome" size="100%" placeholder="Nome" value="' . get("nome") . '">';
+		$sx .= 'E-mail:<br>';
+		$sx .= '<input type="text" class="form-control" name="email" size="100%" placeholder="E-mail" value="' . get("email") . '">';
+		$sx .= 'Instituição (Silga):<br>';
+		$sx .= '<input type="text" class="form-control" name="inst" size="100%" placeholder="Instituicao" value="' . get("inst") . '">';
+		$sx .= '<input type="hidden" name="cracha" size="100%" value="' . md5(time()) . '">';
+		$sx .= '<br>';
+		$sx .= '<input type="submit"  class="btn btn-primary" name="acao" value="Cadastrar">';
+		return $sx;
 	}
 
 	function certificado_pdf($arg, $arg2)
@@ -571,7 +639,7 @@ class events extends CI_model
 		$cp = array();
 		array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
 		array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
-		$info = 'Ex:<br>Nome;email<br>ouNome;email;Título do Trabalho;Autores';
+		$info = 'Ex:<br>Nome;email<br>ou Nome;email;Título do Trabalho;Autores';
 		array_push($cp, array('$M', '', $info, false, false));
 
 		$form = new form;
@@ -580,6 +648,7 @@ class events extends CI_model
 			$l = get("dd1");
 			$evento = get("dd0");
 			$l = troca($l, ';', '£');
+			$l = troca($l, "\t", '£');
 			$l = troca($l, chr(7), ';');
 			$l = troca($l, chr(8), ';');
 			$l = troca($l, chr(9), ';');
@@ -589,6 +658,7 @@ class events extends CI_model
 			for ($r = 0; $r < count($ln); $r++) {
 				$ll = $ln[$r];
 				$ll = troca($ll, '£', ';');
+				$ll = troca($ll, chr(8), ';');
 				$ll = splitx(';', $ll . ';');
 				if (!isset($ll[1])) {
 					print_r($ll);
@@ -1129,6 +1199,12 @@ class events extends CI_model
 
 		$sx .= '<a href="' . base_url(PATH . 'import/' . $id) . '">';
 		$sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
+		$sx .= 'Importar Participantes';
+		$sx .= '</div>';
+		$sx .= '</a>';
+
+		$sx .= '<a href="' . base_url(PATH . 'participante/' . $id) . '">';
+		$sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; min-height: 50px; background-color: #EEEEFF; border-radius: 5px; margin-top: 20px;">';
 		$sx .= 'Inserir Participantes';
 		$sx .= '</div>';
 		$sx .= '</a>';
@@ -1206,6 +1282,7 @@ class events extends CI_model
 	{
 		$data = array();
 		$data['table'] = 'events';
+		$data['where'] = 'e_status = 1';
 		$data['page_view'] = base_url('index.php/main/evento/show');
 		$data['fields'] = array(0, 1);
 		$sx = row3($data);
@@ -1310,6 +1387,14 @@ class events extends CI_model
 
 	function lista_inscritos($event)
 	{
+		$idu = get('idu');
+		if ($idu != '')
+			{
+				$sql = "update events_inscritos
+					set i_cracha = 0
+					where id_i = $idu";
+				$this->db->query($sql);
+			}
 		$sql = "select * from events_inscritos
     INNER JOIN events_names ON id_n = i_user
     where i_evento = $event
@@ -1347,6 +1432,15 @@ class events extends CI_model
 			$sx .= '<td width="2%" >';
 			$sx .= '<a href="' . base_url(PATH . 'edit_certificado/') . $line['id_i'] . '/' . checkpost_link($line['id_i']) . '" target="_new' . $line['id_i'] . '">[Ed]</a>';
 			$sx .= '</td>';
+			$linke = '<a href="'. base_url(PATH . 'show/'.$event.'?idu='.$line['id_i']).'">';
+			$linka = '</a>';
+			if ($line['i_cracha']==1)
+				{
+					$sx .= '<td>' . $linke . '[etiqueta]' . $linka . '</td>';
+				} else {
+					$sx .= '<td>Para Imprimir</td>';
+				}
+
 
 			$sx .= '</tr>';
 			$sx .= cr();
@@ -1652,16 +1746,36 @@ class events extends CI_model
 		return ($sx);
 	}
 
+	function etiquetas_index($id = '')
+	{
+		$sx = '';
+		$ev = get("evento");
+		if (strlen($ev) == 0) {
+			$sql = "select * from events where e_status = 1 order by e_name";
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			for ($r = 0; $r < count($rlt); $r++) {
+				$line = $rlt[$r];
+				$link = '<a href="' . base_url('index.php/main/evento/labels/?evento=' . $line['id_e']) . '">';
+				$linka = '</a>';
+				$sx .= '<li>' . $link . $line['e_name'] . $linka . '</li>';
+			}
+		} else {
+			$sx .= $this->etiquetas($ev);
+		}
+		return $sx;
+	}
+
 	function etiquetas($id = 1)
 	{
 		$sql = "select * from events_names
 					INNER JOIN events_inscritos ON id_n = i_user
 					where i_evento = $id
+					and i_cracha = 0
 					order by n_nome";
 		$db = $this->db->query($sql);
 		$db = $db->result_array();
 		$this->load->helper("argox");
-
 		$et = new argox();
 		$ets = '';
 
@@ -1702,7 +1816,7 @@ class events extends CI_model
 			$tmax = 20;
 			$tlen = strlen($namex);
 			$tsp = $tmax - $tlen;
-			$tsp = round($tsp/2);
+			$tsp = round($tsp / 2);
 			if ($tsp > 1) {
 				$namex = str_repeat(' ', $tsp) . $namex;
 			}
@@ -1715,9 +1829,6 @@ class events extends CI_model
 				$inst = str_repeat(' ', $tsp) . $inst;
 			}
 
-
-			echo $line['n_nome'] . '==>'. $namex . '<br>';
-
 			$ets .= $et->start();
 			$ets .= 'D22' . chr(13);
 			$ets .= '140000000400000' .	$namex . chr(13);
@@ -1726,9 +1837,11 @@ class events extends CI_model
 			$ets .= 'Q0001' . chr(13);
 			$ets .= 'E' . chr(13);
 		}
-		file_put_contents('d:/etiquetas.prn', $ets);
-		exit;
-		$sx = '';
+		if (count($db) == 0) {
+			$sx = 'Menhuma etiqueta para imprimir';
+		} else {
+			$et->et_print($ets);
+		}
 		return $sx;
 	}
 }

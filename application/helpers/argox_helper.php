@@ -86,12 +86,12 @@ class argox
 		return $i;
 	}
 
-	function print($tx)
+	function et_print($tx='')
 		{
 		$size = strlen($tx);
 		header('Content-Description: File Transfer');
 		header('Content-Type: image/prn');
-		header('Content-Disposition: attachment; filename="etiqueta_atacado.prn"');
+		header('Content-Disposition: attachment; filename="etiqueta_atacado.ets"');
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

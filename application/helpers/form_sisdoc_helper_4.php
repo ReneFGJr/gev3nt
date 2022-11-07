@@ -34,8 +34,15 @@ function row3($p = array())
 	$CI = &get_instance();
 	$table = $p['table'];
 	$show = $p['fields'];
+	if (isset($p['where']))
+		{
+			$where = 'where '.$p['where'];
+		} else {
+			$where = '';
+		}
 
-	$sql = "select * from " . $table;
+
+	$sql = "select * from " . $table.' '.$where;
 	$rst = $CI->db->query($sql);
 	$rlt = $rst->result_array();
 

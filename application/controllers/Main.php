@@ -20,6 +20,7 @@ class Main extends CI_controller
 			$_SESSION['CURSO'] = 5;
 		}
 		DEFINE("CURSO", $_SESSION['CURSO']);
+		DEFINE("LIBRARY","");
 
 		date_default_timezone_set('America/Sao_Paulo');
 		/* Security */

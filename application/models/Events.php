@@ -343,10 +343,10 @@ class events extends CI_model
 		}
 
 		$line = $this->events->le($arg);
-		if (round($line['i_certificado']) == 0) {
+		if (($line['i_certificado']) == 0) {
 			$sql = "update events_inscritos
-        set i_certificado = '" . date("Y-m-d H:i_s") . "'
-        WHERE id_i = " . $line['id_i'];
+				set i_certificado = '" . date("Y-m-d H:i_s") . "'
+				WHERE id_i = " . $line['id_i'];
 			$this->db->query($sql);
 		}
 		$nr = $line['id_i'];

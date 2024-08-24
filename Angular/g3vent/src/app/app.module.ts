@@ -13,6 +13,11 @@ import { LogoutComponent } from './020_user/logout/logout.component';
 import { PerfilComponent } from './020_user/perfil/perfil.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MyeventsComponent } from './020_myevens/page/myevents/myevents.component';
+import { MyeventsResumeComponent } from './020_myevens/page/myevents-resume/myevents-resume.component';
+import { MypageComponent } from './020_user/mypage/mypage.component';
+import { MenuLeftComponent } from './020_user/menu-left/menu-left.component';
+import { MenuTopComponent } from './020_user/menu-top/menu-top.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,11 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     LogoutComponent,
     PerfilComponent,
+    MyeventsComponent,
+    MyeventsResumeComponent,
+    MypageComponent,
+    MenuLeftComponent,
+    MenuTopComponent,
   ],
   imports: [
     BrowserModule,

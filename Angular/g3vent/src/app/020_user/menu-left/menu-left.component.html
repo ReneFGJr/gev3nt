@@ -1,0 +1,37 @@
+<style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80px;
+            background-color: #343a40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 0px 0;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #e9f0e7;
+        }
+        .sidebar a i {
+            font-size: 24px;
+        }
+    </style>
+
+    <div class="sidebar">
+        <div style="height: 50px"></div>
+        <a href="#"><img [src]="icone_events" class="img-fluid p-3" title="Meus eventos"></a>
+        <a href="#"><img [src]="icone_certificate" class="img-fluid p-2" title="Meus eventos"></a>
+        <a href="#"><i class="bi bi-bell-fill"></i></a>
+        <a href="#"><i class="bi bi-box-arrow-right"></i></a>
+    </div>

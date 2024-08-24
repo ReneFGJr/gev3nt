@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Ge3ventServiceService } from 'src/app/000_service/ge3vent-service.service';
 
 @Component({
@@ -12,6 +18,42 @@ export class LoginComponent {
   inscricaoForm: FormGroup;
   cadastroForm: FormGroup;
   email: string = '';
+
+  valida_nome_message = '';
+
+  validaCadastro() {
+    let nome = this.cadastroForm.value['nome'];
+    if (!this.fullNameValidator(nome))
+        {      this.valida_nome_message =
+          'Não pode ser inserido pontuação ou abreviações';
+        } else {
+          this.valida_nome_message = '';
+        }
+  }
+
+  fullNameValidator(value: string): boolean {
+    if (!value) return false;
+
+    // Remover espaços extras e dividir o nome em palavras
+    const words = value.trim().split(/\s+/);
+
+    // Verifica se há pelo menos duas palavras
+    if (words.length < 2) {
+      return false;
+    }
+
+    // Verifica se há caracteres especiais proibidos
+    const hasInvalidChars = /[.,/#!$%^&*;:{}=\-_`~()]/.test(value);
+    if (hasInvalidChars) {
+      return false;
+    }
+
+    // Verifica se cada palavra tem mais de 2 caracteres (para evitar abreviações)
+    const hasAbbreviation = words.some((word) => word.length <= 2);
+
+    // O nome é válido se houver pelo menos duas palavras, nenhuma abreviação, e nenhum caractere inválido
+    return !hasAbbreviation && !hasInvalidChars;
+  }
 
   message: string = '';
   data: Array<any> | any;
@@ -30,7 +72,6 @@ export class LoginComponent {
       cracha_ufrgs: [''],
       orcid: [''],
     });
-
   }
 
   onSubmit() {

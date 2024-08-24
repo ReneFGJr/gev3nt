@@ -3,34 +3,36 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainComponent } from './page/main/main.component';
-import { HeaderComponent } from './000_header/header/header.component';
-import { NavbarComponent } from './000_header/navbar/navbar.component';
-import { FootComponent } from './000_header/foot/foot.component';
-import { ProfileComponent } from './000_widgat/profile/profile.component';
-import { ProfileUserComponent } from './000_page/profile-user/profile-user.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SigninComponent } from './000_oauth/social/signin/signin.component';
-import { SignupComponent } from './000_oauth/social/signup/signup.component';
+import { HeaderComponent } from './000_header/header/header.component';
+import { FooterComponent } from './000_header/footer/footer.component';
+import { NavbarComponent } from './000_header/navbar/navbar.component';
+import { WelcomeComponent } from './010_main/welcome/welcome.component';
+import { LoginComponent } from './020_user/login/login.component';
+import { LogoutComponent } from './020_user/logout/logout.component';
+import { PerfilComponent } from './020_user/perfil/perfil.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     HeaderComponent,
+    FooterComponent,
     NavbarComponent,
-    FootComponent,
-    ProfileComponent,
-    ProfileUserComponent,
-    SigninComponent,
-    SignupComponent
+    WelcomeComponent,
+    LoginComponent,
+    LogoutComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

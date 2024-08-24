@@ -3,14 +3,9 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
-.bodyG3 {
-  background-color: #9DADAF;
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.bodyG3b {
-  background-color: #8D9D9F;
-}
-
-.imputG3b{
-  border: 1px solid #333;
+.big {
+  font-size: 30px;
 }

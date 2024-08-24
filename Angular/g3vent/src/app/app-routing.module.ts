@@ -1,20 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from './page/main/main.component';
-import { ProfileUserComponent } from './000_page/profile-user/profile-user.component';
-import { SigninComponent } from './000_oauth/social/signin/signin.component';
-import { SignupComponent } from './000_oauth/social/signup/signup.component';
+import { WelcomeComponent } from './010_main/welcome/welcome.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: MainComponent,
-    children: [
-      { path: 'profile', component: ProfileUserComponent },
-      { path: 'social/signin', component: SigninComponent },
-      { path: 'social/signup', component: SignupComponent },
-    ],
-  },
+  {path: '', component: WelcomeComponent }
 ];
 
 @NgModule({

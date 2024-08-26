@@ -18,6 +18,10 @@ import { MyeventsResumeComponent } from './020_myevens/page/myevents-resume/myev
 import { MypageComponent } from './020_user/mypage/mypage.component';
 import { MenuLeftComponent } from './020_user/menu-left/menu-left.component';
 import { MenuTopComponent } from './020_user/menu-top/menu-top.component';
+import { EventsOpenComponent } from './010_main/events-open/events-open.component';
+import { SubscribeComponent } from './010_main/subscribe/subscribe.component';
+import { UserComponent } from './010_main/widget/user/user.component';
+import { EventComponent } from './010_main/widget/event/event.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { MenuTopComponent } from './020_user/menu-top/menu-top.component';
     MypageComponent,
     MenuLeftComponent,
     MenuTopComponent,
+    EventsOpenComponent,
+    SubscribeComponent,
+    UserComponent,
+    EventComponent,
   ],
   imports: [
     BrowserModule,

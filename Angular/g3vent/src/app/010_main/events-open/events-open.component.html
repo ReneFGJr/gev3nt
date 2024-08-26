@@ -1,0 +1,15 @@
+Eventos Abertos
+
+<div *ngIf="data" class="container">
+  <div class="row" *ngFor="let ev of data.events">
+    <div class="col-12 col-2">
+      <img src="{{ ev.e_logo }}" class="img-fluid" />
+    </div>
+    <div class="col-12 col-8"></div>
+    <div class="col-12 col-8">
+      <button *ngIf="!ev.ein_data" class="btn btn-outline-primary mt-2" (click)="signin(ev.id_e)">Me inscrever</button>
+      <button *ngIf="ev.ein_data" class="btn btn-outline-success mt-2">Já inscrito</button>
+    </div>
+    <div class="col-12"></div>
+  </div>
+</div>

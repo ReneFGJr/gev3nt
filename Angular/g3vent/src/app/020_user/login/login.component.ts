@@ -20,15 +20,26 @@ export class LoginComponent {
   email: string = '';
 
   valida_nome_message = '';
+  message_global = '';
 
   validaCadastro() {
+    let validate: Boolean = true
     let nome = this.cadastroForm.value['nome'];
     if (!this.fullNameValidator(nome))
-        {      this.valida_nome_message =
+        {
+          this.valida_nome_message =
           'Não pode ser inserido pontuação ou abreviações';
+          validate = false
         } else {
           this.valida_nome_message = '';
         }
+      /******************************* */
+      if (!this.cadastroForm.valid)
+        {
+          validate = false;
+        }
+
+      return validate;
   }
 
   fullNameValidator(value: string): boolean {
@@ -74,6 +85,19 @@ export class LoginComponent {
     });
   }
 
+  onRegister()
+    {
+        if (this.validaCadastro() && this.cadastroForm.valid) {
+          console.log('OK');
+          alert("OK")
+        } else {
+          console.log('ERRO');
+          this.message_global = 'Campos obrigatórios não preenchidos.';
+        }
+
+
+    }
+
   onSubmit() {
     if (this.inscricaoForm.valid) {
       console.log('Formulário Válido:', this.inscricaoForm.value);
@@ -85,6 +109,7 @@ export class LoginComponent {
           this.email = this.inscricaoForm.value.email;
           if (this.data['status'] == '200') {
             this.phase = '1';
+            this.ge3ventServiceService.set("g3vent",this.data)
           }
           if (this.data['status'] == '400') {
             this.phase = '2';

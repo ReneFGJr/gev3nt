@@ -30,15 +30,21 @@
 </style>
 
 <div class="fixed-top-bar">
+
   <div class="logo">
     <a href="#" class="text-white text-decoration-none">
       <i class="bi bi-house-door-fill"></i> G3vent
     </a>
   </div>
-  <div class="user-info">
-    <div class="username">Nome do Usuário</div>
+
+  <div class="user-info" *ngIf="user">
+    <div class="username">{{user.nome}}</div>
     <img src="https://via.placeholder.com/40" alt="User Avatar" />
+  </div>
+
+   <div class="user-info text-end" *ngIf="!user">
+    <a [routerLink]="['/login']" class="text-white text-decoration-none">Login/Cadastro</a>
   </div>
 </div>
 
-<div style="height: 200px;">XX</div>
+<div style="height: 80px;"></div>

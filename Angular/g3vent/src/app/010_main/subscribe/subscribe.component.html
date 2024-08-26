@@ -1,0 +1,32 @@
+<div class="container" *ngIf="data">
+  <div class="row">
+    <div class="col-12">
+      <app-widget-user *ngIf="data.user" [user]="data.user"></app-widget-user>
+    </div>
+    <div class="col-12 mt-5">
+      <app-widget-event
+        *ngIf="data.event"
+        [event]="data.event"
+      ></app-widget-event>
+    </div>
+
+    <div class="col-12 mt-5">Inscrições Disponíveis:</div>
+    <div *ngFor="let event of data.subscribe">
+      <div class="container">
+      <div class="row border border-secondary mb-2">
+      <div class="col-7 col-lg-8">
+          <span class="fw-bold" style="font-size: 1.3rem">{{event.ei_modalidade}}</span>
+          <br>{{event.ei_descricao}}
+      </div>
+      <div class="col-5 col-lg-4">
+      Preço:
+      <span *ngIf="event.ei_preco != '0'"><b>R$ {{event.ei_preco}},00</b></span>
+      <span *ngIf="event.ei_preco == '0'" class="text-success fw-bold">GRÁTIS</span>
+      <br>
+      <button *ngIf="event.ein_event == null" class="btn btn-danger mt-2" style="width: 100%" (click)="subscribe(event.id_ei)">INSCREVER-SE</button>
+      <button *ngIf="event.ein_event != null" class="btn btn-success mt-2" style="width: 100%">INSCRITO</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

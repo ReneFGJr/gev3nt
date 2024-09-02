@@ -1,0 +1,19 @@
+.dropdown {
+  position: absolute;
+  z-index: 1000;
+  width: 90%;
+  border: 1px solid #111;
+  background-color: #EEE;
+  max-height: 200px;
+  overflow-y: auto;
+  color:#111;
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #DDD;
+}

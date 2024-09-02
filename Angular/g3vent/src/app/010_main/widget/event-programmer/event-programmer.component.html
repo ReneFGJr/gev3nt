@@ -1,0 +1,18 @@
+<div class="container">
+  <div *ngFor="let p of day.bloco" class="row mt-4  ">
+    <div class="col-12 col-lg-2 text-center">
+
+        {{p.esb_hora_ini}}-{{p.esb_hora_fim}}
+    </div>
+    <div class="col-12 col-lg-10">
+      <span class="bold big">{{ p.esb_titulo }}</span>
+      <div *ngIf="p.esb_link == null" class="">{{ p.lc_nome }}</div>
+      <div *ngIf="p.esb_link != null"><a href="{{p.esb_link}}" target="_blank">{{ p.lc_nome }}</a></div>
+
+      <span *ngFor="let tipo of p.participantes">
+        <h5 class="mt-3">{{tipo.tp_descricao}}</h5>
+        <app-event-person *ngFor="let person of tipo.person" [person]="person"></app-event-person>
+      </span>
+    </div>
+  </div>
+</div>

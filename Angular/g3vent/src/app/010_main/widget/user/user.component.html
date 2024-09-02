@@ -1,9 +1,1 @@
-<div class="container">
-<div class="row">
-<div class="col-12">
-  <h4>{{user.n_nome}}</h4>
-  <h6 *ngIf="user.n_afiliacao">{{user.n_afiliacao}}</h6>
-  <h6>{{user.n_email}}</h6>
-</div>
-</div>
-</div>
+<app-user-profile [user]="user"></app-user-profile>

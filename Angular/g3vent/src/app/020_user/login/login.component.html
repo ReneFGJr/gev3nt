@@ -1,7 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-3"></div>
-    <div class="col-12 col-lg-9">
+    <div class="col-12 col-lg-12">
       <!-- inscricao-form.component.html -->
       <div *ngIf="phase == '0'">
         <h1>Dados do usuário</h1>
@@ -36,9 +35,8 @@
       <div *ngIf="phase == '1'">
         <span>Nome</span>
         <h1>{{data.nome}}</h1>
-        <h4>{{data.email}}</h4>
-        <h4>{{data.afiliacao}}</h4>
-        {{ data | json}}
+        <h5>{{data.email}}</h5>
+        <h5>{{data.afiliacao}}</h5>
       </div>
 
       <!-- inscricao-form.component.html -->
@@ -67,13 +65,31 @@
             </div>
             <div *ngIf="validaCadastro()" class="error" style="color: red">{{valida_nome_message}}</div>
 
-            <br/>
+            <!----------------- Afiliation-->
             <label for="afiliacao" class="mt-3">Sigla da Afiliação Instituição (ex: UFRGS):</label>
             <input
               id="afiliacao"
               formControlName="afiliacao"
               class="form-control border border-secondary rounded big"
+              (focus)="showDropdown = true"
+              (blur)="hideDropdown()"
+              (input)="showDropdown = true"
+              (keyup)="affiliation()"
             />
+
+            <div *ngIf="showDropdown && filteredOptions.length" class="dropdown">
+              <div *ngFor="let option of filteredOptions" class="dropdown-item" (mousedown)="selectOption(option.name)">
+                {{ option.name }}
+              </div>
+            </div>
+
+            <div
+              class="error"
+              style="color: red"
+              *ngIf="cadastroForm.value['afiliacao'] == ''"
+            >
+              Vínculo institucional obrigatório
+            </div>
 
             <br/>
             <label for="orcid" class="mt-3">Seu OrcID (xxxx-xxxx-xxxx-xxxx):</label>
@@ -113,11 +129,10 @@
           <br />
           <button
             class="btn-outline-primary btn"
-            type="submit"
+            type="button"
             (click)="onRegister()"
             [disabled]="inscricaoForm.invalid"
           >Inscrever-se</button>
-          {{cadastroForm.value | json}}
         </form>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { MypageComponent } from './020_user/mypage/mypage.component';
 import { LoginComponent } from './020_user/login/login.component';
 import { EventsOpenComponent } from './010_main/events-open/events-open.component';
 import { SubscribeComponent } from './010_main/subscribe/subscribe.component';
+import { LogoutComponent } from './020_user/logout/logout.component';
+import { ProgramacaoComponent } from './010_main/programacao/programacao.component';
 
 const routes: Routes = [
   {
@@ -13,8 +15,10 @@ const routes: Routes = [
     children: [
       { path: '', component: EventsOpenComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'logout', component: LogoutComponent },
       { path: 'mypage', component: MypageComponent },
       { path: 'subscribe/:id', component: SubscribeComponent },
+      { path: 'programacao/:id', component: ProgramacaoComponent },
     ],
   },
 ];

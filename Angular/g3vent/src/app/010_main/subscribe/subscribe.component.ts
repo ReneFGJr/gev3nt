@@ -14,12 +14,21 @@ export class SubscribeComponent {
   public chaves: Array<any> | any;
   public id: number = 0;
 
+  user: Array<any> | any;
+
   constructor(
-    private route: ActivatedRoute,
-    public Ge3vent: Ge3ventServiceService
+    public Ge3vent: Ge3ventServiceService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    let endpoint = 'g3vent/open';
+    this.Ge3vent.api_post(endpoint).subscribe((res) => {
+      this.data = res;
+    });
+
+    this.user = this.Ge3vent.getUser();
+
     this.sub = this.route.params.subscribe((params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
 
@@ -30,20 +39,17 @@ export class SubscribeComponent {
       console.log(dt);
       this.Ge3vent.api_post(endpoint, dt).subscribe((res) => {
         this.data = res;
-        console.log(res);
       });
     });
   }
 
-  subscribe(idt:string)
-    {
-      let user = this.data.user.id_n
-      let endpoint = 'g3vent/subscribeType';
-      let dt: any = { event: this.id, event_type: idt, confirm: true };
+  subscribe(idt: string) {
+    let user = this.data.user.id_n;
+    let endpoint = 'g3vent/subscribeType';
+    let dt: any = { event: this.id, event_type: idt, confirm: true };
 
-      this.Ge3vent.api_post(endpoint, dt).subscribe((res) => {
-        this.data = res;
-        console.log(res);
-      });
-    }
+    this.Ge3vent.api_post(endpoint, dt).subscribe((res) => {
+      this.data = res;
+    });
+  }
 }

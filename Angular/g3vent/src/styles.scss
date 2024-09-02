@@ -7,5 +7,54 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .big {
-  font-size: 30px;
+  font-size: 1.5rem;
 }
+
+.small {
+  font-size: 0.7rem;
+}
+
+.middle {
+  font-size: 0.85rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+body
+  {
+    background-color: #FEFEFE;
+  }
+
+.link
+    {
+      text-decoration: none;
+      color:#000;
+      font-weight: 500;
+    }
+
+.handle
+  {
+    cursor: pointer;
+  }
+
+.activeTab
+    {
+      color: red;
+    }
+
+.tabDay
+  {
+    color: #000;
+    border-radius:  10px 0px 0px 10px;
+    border: 1px 1px 0px 1px solid #000;
+  }
+
+a.tabDay:hover
+  {
+    background-color: rgb(161, 135, 104);
+    border-radius:  10px 0px 0px 10px;
+    border: 1px 1px 0px 1px solid #000;
+    color: #fff;
+  }

@@ -1,9 +1,10 @@
 <div class="container" *ngIf="event">
-<div class="row">
-<div class="col-12">
-  <h4>{{event.e_name}}</h4>
-  <img src="{{event.e_logo}}" class="img-fluid">
+  <div class="row">
+    <div class="col-12 col-lg-12">
+      <h4>{{ event.e_name }}</h4>
+    </div>
+    <div class="col-12 col-lg-6">
+      <img src="{{ event.e_logo }}" class="img-fluid" />
+    </div>
+  </div>
 </div>
-</div>
-</div>
-{{event}}

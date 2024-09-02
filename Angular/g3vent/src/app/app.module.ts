@@ -22,6 +22,12 @@ import { EventsOpenComponent } from './010_main/events-open/events-open.componen
 import { SubscribeComponent } from './010_main/subscribe/subscribe.component';
 import { UserComponent } from './010_main/widget/user/user.component';
 import { EventComponent } from './010_main/widget/event/event.component';
+import { UserProfileComponent } from './020_user/widget/user-profile/user-profile.component';
+import { ProgramacaoComponent } from './010_main/programacao/programacao.component';
+import { LoadgingComponent } from './000_header/loadging/loadging.component';
+import { EventDayComponent } from './010_main/widget/event-day/event-day.component';
+import { EventProgrammerComponent } from './010_main/widget/event-programmer/event-programmer.component';
+import { EventPersonComponent } from './010_main/widget/event-person/event-person.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,12 @@ import { EventComponent } from './010_main/widget/event/event.component';
     SubscribeComponent,
     UserComponent,
     EventComponent,
+    UserProfileComponent,
+    ProgramacaoComponent,
+    LoadgingComponent,
+    EventDayComponent,
+    EventProgrammerComponent,
+    EventPersonComponent,
   ],
   imports: [
     BrowserModule,

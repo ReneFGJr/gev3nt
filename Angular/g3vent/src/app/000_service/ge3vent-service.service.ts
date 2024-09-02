@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Ge3ventServiceService {
-  url_post: string = ''
+  url_post: string = '';
   user: Array<any> | any;
 
   constructor(private HttpClient: HttpClient) {
@@ -27,18 +27,37 @@ export class Ge3ventServiceService {
     } else {
       this.url_post = `${environment.url}` + type;
     }
-
-    formData.append('apikey', this.user.apikey);
-    console.log(this.user)
+    /********** Dados do usuário */
+    if (
+      this.user &&
+      typeof this.user === 'object' &&
+      'apikey' in this.user &&
+      this.user.apikey
+    ) {
+      formData.append('apikey', this.user.apikey);
+    } else {
+      formData.append('apikey', '#');
+    }
 
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-    console.log('URL', this.url_post);
+    console.log(this.url_post)
+
+    return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
+      map((res) => res), // Manipula a resposta da forma desejada
+      catchError((error) => {
+        // Manipula o erro da forma desejada, por exemplo, retornando um Observable com erro
+        console.error('Erro ao verificar email', error);
+        return of(error); // Retorna um Observable substituto para que o fluxo não seja interrompido
+      })
+    );
+/*
     return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
       (res) => res,
       (error) => error
     );
+*/
   }
 
   getUser() {
@@ -50,6 +69,10 @@ export class Ge3ventServiceService {
     }
   }
 
+  logout() {
+    this.remove('g3vent');
+  }
+  /*
   checkEmail(email: string) {
     var formData: any = new FormData();
     formData.append('email', email);
@@ -57,6 +80,20 @@ export class Ge3ventServiceService {
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
       (error) => error
+    );
+  }
+  */
+  checkEmail(email: string) {
+    var formData: any = new FormData();
+    formData.append('email', email);
+    let url = environment.api + 'checkEmail';
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      map((res) => res), // Manipula a resposta da forma desejada
+      catchError((error) => {
+        // Manipula o erro da forma desejada, por exemplo, retornando um Observable com erro
+        console.error('Erro ao verificar email', error);
+        return of(error); // Retorna um Observable substituto para que o fluxo não seja interrompido
+      })
     );
   }
 

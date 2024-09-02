@@ -38,8 +38,9 @@
   </div>
 
   <div class="user-info" *ngIf="user">
-    <div class="username">{{user.nome}}</div>
-    <img src="https://via.placeholder.com/40" alt="User Avatar" />
+    <div class="username">
+    <a [routerLink]="['/logout']" class="text-white text-decoration-none">{{user.nome}}</a></div>
+    <a [routerLink]="['/logout']" class="text-white text-decoration-none"><img src="https://via.placeholder.com/40" alt="User Avatar" /></a>
   </div>
 
    <div class="user-info text-end" *ngIf="!user">

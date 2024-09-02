@@ -9,17 +9,24 @@ import { Router } from '@angular/router';
 })
 export class EventsOpenComponent {
   data: Array<any> | any;
+  user: Array<any> | any;
+
   constructor(public Ge3vent: Ge3ventServiceService, private router: Router) {}
   ngOnInit() {
     let endpoint = 'g3vent/open';
     this.Ge3vent.api_post(endpoint).subscribe((res) => {
       this.data = res;
-     });
+    });
+    this.user = this.Ge3vent.getUser();
   }
 
   //*********************************** */
-  signin(id:string) {
-    alert(id)
-    this.router.navigate(['/subscribe/'+id]);
+  signin(id: string) {
+    this.router.navigate(['/subscribe/' + id]);
   }
+
+  login()
+    {
+      this.router.navigate(['/login']);
+    }
 }

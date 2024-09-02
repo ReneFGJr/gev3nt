@@ -1,0 +1,8 @@
+<i><a [routerLink]="['/person/'+person.id_n]" routerLinkActive="router-link-active" class="link">{{ person.n_nome }}</a></i>
+<span *ngIf="person.cb_nome">
+  -
+  {{ person.cb_nome }}
+  <span *ngIf="person.cb_sigla" class="text-secondary">({{ person.cb_sigla }})</span>
+</span>
+<div class="ms-5 middle" *ngIf="person.n_biografia != ''">{{person.n_biografia}}</div>
+<br>

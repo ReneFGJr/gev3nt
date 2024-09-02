@@ -1,0 +1,21 @@
+
+<div>
+  <!-- Navs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" *ngFor="let day of data">
+      <a
+        class="nav-link handle tabDay"
+        [ngClass]="{ active: activeTab === day.sch_day }"
+        (click)="selectTab(day.sch_day)"
+        role="tab">{{day.sch_day  }}</a>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content border border-secondary p-1">
+    <div *ngFor="let day of data" class="tab-pane fade" [ngClass]="{ show: activeTab === day.sch_day, active: activeTab === day.sch_day }">
+      <p>{{day.sch_day}}</p>
+      <app-event-programmer [day]="day"></app-event-programmer>
+    </div>
+  </div>
+</div>

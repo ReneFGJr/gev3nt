@@ -1,15 +1,21 @@
-Eventos Abertos
-
 <div *ngIf="data" class="container">
+  <div class="row mb-3">
+  <div class="big col-12">Eventos Abertos</div>
+  </div>
+
+  <!-- Eventos -->
   <div class="row" *ngFor="let ev of data.events">
-    <div class="col-12 col-2">
+    <div class="col-12 col-lg-5">
       <img src="{{ ev.e_logo }}" class="img-fluid" />
-    </div>
-    <div class="col-12 col-8"></div>
-    <div class="col-12 col-8">
-      <button *ngIf="!ev.ein_data" class="btn btn-outline-primary mt-2" (click)="signin(ev.id_e)">Me inscrever</button>
+
+      <button *ngIf="!ev.ein_data && user != null" class="btn btn-outline-primary mt-2" (click)="signin(ev.id_e)">Me inscrever</button>
+
+      <button *ngIf="!ev.ein_data && user == null" class="btn btn-outline-primary mt-2" (click)="login()">Cadastre-se</button>
+
       <button *ngIf="ev.ein_data" class="btn btn-outline-success mt-2">Já inscrito</button>
+
+      <a [routerLink]="['/programacao/'+ev.id_e]" *ngIf="ev.ein_data" class="btn btn-outline-success ms-2 mt-2">Ver programação</a>
     </div>
-    <div class="col-12"></div>
+    <div class="col-12 col-lg-1"></div>
   </div>
 </div>

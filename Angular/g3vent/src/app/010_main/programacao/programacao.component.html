@@ -1,0 +1,8 @@
+<app-widget-event *ngIf="data" [event]="data.event"></app-widget-event>
+<div *ngIf="data">
+    Programação
+
+    <app-event-day [data]="data"></app-event-day>
+</div>
+
+<app-loadging *ngIf="!data"></app-loadging>

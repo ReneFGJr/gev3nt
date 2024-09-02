@@ -1,7 +1,7 @@
 <div class="container" *ngIf="data">
   <div class="row">
     <div class="col-12">
-      <app-widget-user *ngIf="data.user" [user]="data.user"></app-widget-user>
+      <app-widget-user *ngIf="user" [user]="user"></app-widget-user>
     </div>
     <div class="col-12 mt-5">
       <app-widget-event

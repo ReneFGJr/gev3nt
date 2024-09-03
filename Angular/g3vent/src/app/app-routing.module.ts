@@ -7,6 +7,7 @@ import { EventsOpenComponent } from './010_main/events-open/events-open.componen
 import { SubscribeComponent } from './010_main/subscribe/subscribe.component';
 import { LogoutComponent } from './020_user/logout/logout.component';
 import { ProgramacaoComponent } from './010_main/programacao/programacao.component';
+import { UpdateComponent } from './020_user/update/update.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'mypage', component: MypageComponent },
       { path: 'subscribe/:id', component: SubscribeComponent },
       { path: 'programacao/:id', component: ProgramacaoComponent },
+      { path: 'update_profile', component: UpdateComponent },
     ],
   },
 ];

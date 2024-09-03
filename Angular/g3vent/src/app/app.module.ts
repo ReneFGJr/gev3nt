@@ -28,6 +28,7 @@ import { LoadgingComponent } from './000_header/loadging/loadging.component';
 import { EventDayComponent } from './010_main/widget/event-day/event-day.component';
 import { EventProgrammerComponent } from './010_main/widget/event-programmer/event-programmer.component';
 import { EventPersonComponent } from './010_main/widget/event-person/event-person.component';
+import { UpdateComponent } from './020_user/update/update.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EventPersonComponent } from './010_main/widget/event-person/event-perso
     EventDayComponent,
     EventProgrammerComponent,
     EventPersonComponent,
+    UpdateComponent,
   ],
   imports: [
     BrowserModule,

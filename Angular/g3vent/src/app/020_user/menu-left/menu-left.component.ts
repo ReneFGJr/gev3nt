@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./menu-left.component.scss'],
 })
 export class MenuLeftComponent {
-  icone_events: string = '/assets/icons/icone_events.png';
-  icone_certificate: string = '/assets/icons/icone_certificate.png';
+  icone_events: string =
+    'https://www.ufrgs.br/feisc/g3vent/assets/icons/icone_events.png';
+  icone_certificate: string =
+    'https://www.ufrgs.br/feisc/g3vent/icone_certificate.png';
 }

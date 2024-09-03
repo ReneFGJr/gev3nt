@@ -87,6 +87,7 @@ export class Ge3ventServiceService {
     var formData: any = new FormData();
     formData.append('email', email);
     let url = environment.api + 'checkEmail';
+    console.log(url)
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       map((res) => res), // Manipula a resposta da forma desejada
       catchError((error) => {

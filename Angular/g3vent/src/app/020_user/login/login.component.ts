@@ -113,7 +113,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.inscricaoForm = this.fb.group({
-      email: ['rene@sisdoc.com.br', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
     });
 
     this.cadastroForm = this.fb.group({

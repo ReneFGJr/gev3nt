@@ -8,6 +8,8 @@ import { SubscribeComponent } from './010_main/subscribe/subscribe.component';
 import { LogoutComponent } from './020_user/logout/logout.component';
 import { ProgramacaoComponent } from './010_main/programacao/programacao.component';
 import { UpdateComponent } from './020_user/update/update.component';
+import { MainCertificateComponent } from './030_certificate/main-certificate/main-certificate.component';
+import { AboutComponent } from './010_main/about/about.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,8 @@ const routes: Routes = [
       { path: 'subscribe/:id', component: SubscribeComponent },
       { path: 'programacao/:id', component: ProgramacaoComponent },
       { path: 'update_profile', component: UpdateComponent },
+      { path: 'about', component: AboutComponent },
+      { path: 'certificate', component: MainCertificateComponent },
     ],
   },
 ];

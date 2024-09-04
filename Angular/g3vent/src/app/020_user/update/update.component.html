@@ -85,7 +85,7 @@
           <div
             class="error"
             style="color: red"
-            *ngIf="cadastroForm.value['cpf'] == ''"
+            *ngIf="cadastroForm.value['cpf'] == '' || cadastroForm.value['cpf'] == null"
           >
             CPF Obrigatório
           </div>
@@ -111,6 +111,9 @@
           Atualizar
         </button>
       </form>
+    </div>
+    <div *ngIf="phase == '2'" class="col-12">
+        <app-updated-perfil></app-updated-perfil>
     </div>
   </div>
 </div>

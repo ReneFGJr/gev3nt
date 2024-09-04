@@ -29,6 +29,9 @@ import { EventDayComponent } from './010_main/widget/event-day/event-day.compone
 import { EventProgrammerComponent } from './010_main/widget/event-programmer/event-programmer.component';
 import { EventPersonComponent } from './010_main/widget/event-person/event-person.component';
 import { UpdateComponent } from './020_user/update/update.component';
+import { AboutComponent } from './010_main/about/about.component';
+import { MainCertificateComponent } from './030_certificate/main-certificate/main-certificate.component';
+import { UpdatedPerfilComponent } from './020_user/widget/updated-perfil/updated-perfil.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,9 @@ import { UpdateComponent } from './020_user/update/update.component';
     EventProgrammerComponent,
     EventPersonComponent,
     UpdateComponent,
+    AboutComponent,
+    MainCertificateComponent,
+    UpdatedPerfilComponent,
   ],
   imports: [
     BrowserModule,

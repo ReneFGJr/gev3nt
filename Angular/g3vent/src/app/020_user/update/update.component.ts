@@ -9,12 +9,13 @@ import { Ge3ventServiceService } from 'src/app/000_service/ge3vent-service.servi
   styleUrls: ['./update.component.scss'],
 })
 export class UpdateComponent {
-  public user: Array<any> | any
-  public corporateBody: Array<any> | any
+  public user: Array<any> | any;
+  public rsp: Array<any> | any;
+  public corporateBody: Array<any> | any;
   public phase: string = '1';
   public email: string = ``;
   public message_global: string = '';
-  public valida_nome_message: string = ''
+  public valida_nome_message: string = '';
   public showDropdown = false;
   public busy = false;
 
@@ -32,7 +33,7 @@ export class UpdateComponent {
     this.cadastroForm = this.fb.group({
       nome: ['', [Validators.required]],
       afiliacao: ['', [Validators.required]],
-      cpf: [''],
+      cpf: ['', [Validators.required]],
       cracha_ufrgs: [''],
       orcid: [''],
       email: [''],
@@ -43,13 +44,13 @@ export class UpdateComponent {
   ngOnInit() {
     this.user = this.Ge3vent.getUser();
     this.email = this.user.email;
-                this.cadastroForm.patchValue({
-                  email: this.user.email,
-                  nome: this.user.nome,
-                  cpf: this.user.cpf,
-                  cracha_ufrgs: this.user.cracha,
-                  afiliacao: this.user.afiliacao
-                });
+    this.cadastroForm.patchValue({
+      email: this.user.email,
+      nome: this.user.nome,
+      cpf: this.user.cpf,
+      cracha_ufrgs: this.user.cracha,
+      afiliacao: this.user.afiliacao,
+    });
   }
 
   validaCadastro() {}
@@ -63,7 +64,23 @@ export class UpdateComponent {
     this.showDropdown = false;
   }
 
-  onRegister() {}
+  onRegister() {
+    if (this.cadastroForm.valid) {
+      this.Ge3vent.api_post(
+        'g3vent/update_perfil',
+        this.cadastroForm.value
+      ).subscribe((res) => {
+        this.rsp = res;
+        if (this.rsp['status'] != '200') {
+          this.message_global = this.rsp['message'];
+        } else {
+          this.phase = '2';
+        }
+      });
+    } else {
+      this.message_global = 'Dados obrigatórios não preenchidos';
+    }
+  }
 
   hideDropdown() {
     // Delay the hiding to allow the mousedown event on dropdown items to be processed first

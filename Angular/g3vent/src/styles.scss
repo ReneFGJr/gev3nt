@@ -58,3 +58,26 @@ a.tabDay:hover
     border: 1px 1px 0px 1px solid #000;
     color: #fff;
   }
+
+  h1,h2,h3,h4,h5,h6,body
+    {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  h1 {
+    font-size: 1.8rem;
+  }
+h2 {
+    font-size: 1.7rem;
+  }
+h3 {
+    font-size: 1.6rem;
+  }
+h4 {
+    font-size: 1.5rem;
+  }
+h5 {
+    font-size: 1.4rem;
+  }
+h6 {
+    font-size: 1.2rem;
+  }

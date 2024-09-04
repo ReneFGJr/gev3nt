@@ -5,7 +5,7 @@
             left: 0;
             height: 100%;
             width: 80px;
-            background-color: #343a40;
+            background-color: #AAC;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,12 +26,16 @@
         .sidebar a i {
             font-size: 24px;
         }
+
+      .sidebar a:last-child {
+          margin-top: auto; /* Alinha o último item no final */
+      }
     </style>
 
     <div class="sidebar">
         <div style="height: 50px"></div>
-        <a href="#"><img [src]="icone_events" class="img-fluid p-3" title="Meus eventos"></a>
-        <a href="#"><img [src]="icone_certificate" class="img-fluid p-2" title="Meus eventos"></a>
+        <a [routerLink]="['/']"><img [src]="icone_events" class="img-fluid p-3" title="Meus eventos"></a>
+        <a [routerLink]="['/certificate']"><img [src]="icone_certificate" class="img-fluid p-2" title="Meus eventos"></a>
         <a href="#"><i class="bi bi-bell-fill"></i></a>
-        <a href="#"><i class="bi bi-box-arrow-right"></i></a>
+        <a [routerLink]="['/about']"><img [src]="logo_g3vent" class="img-fluid p-2" title="Meus eventos"></a>
     </div>

@@ -36,6 +36,7 @@ export class UpdateComponent {
       cpf: ['', [Validators.required]],
       cracha_ufrgs: [''],
       orcid: [''],
+      biografia: [''],
       email: [''],
       check: [''],
     });
@@ -44,14 +45,25 @@ export class UpdateComponent {
   ngOnInit() {
     this.user = this.Ge3vent.getUser();
     this.email = this.user.email;
-    this.cadastroForm.patchValue({
-      email: this.user.email,
-      nome: this.user.nome,
-      cpf: this.user.cpf,
-      cracha_ufrgs: this.user.cracha,
-      afiliacao: this.user.afiliacao,
-    });
+    this.loadData();
+    console.log("USER",this.user)
+
   }
+
+  loadData()
+    {
+      this.cadastroForm.patchValue({
+        email: this.user.email,
+        nome: this.user.nome,
+        cpf: this.user.cpf,
+        cracha_ufrgs: this.user.cracha,
+        afiliacao: this.user.afiliacao,
+        biografia: this.user.biografia,
+        orcid: this.user.orcid,
+      });
+      console.log("Carregando Dados")
+      console.log(this.cadastroForm.value);
+    }
 
   validaCadastro() {}
   onSubmit() {}
@@ -66,17 +78,48 @@ export class UpdateComponent {
 
   onRegister() {
     if (this.cadastroForm.valid) {
+      console.log("CADASTRANDO",this.cadastroForm.value)
       this.Ge3vent.api_post(
         'g3vent/update_perfil',
         this.cadastroForm.value
       ).subscribe((res) => {
         this.rsp = res;
+        console.log("RSP",  res)
         if (this.rsp['status'] != '200') {
           this.message_global = this.rsp['message'];
         } else {
+          this.user = this.rsp['post'];
+          this.loadData()
           this.phase = '2';
         }
       });
+
+      console.log("UPDATE")
+      /****** Serviço */
+      this.Ge3vent
+        .checkEmail(this.cadastroForm.value['email'])
+        .subscribe((res) => {
+          this.rsp = res;
+          this.email = this.cadastroForm.value['email'];
+          /****** Retorno */
+
+          console.log('email',this.email)
+
+          /***************** Usuário existe */
+          if (this.rsp['status'] == '200') {
+            this.phase = '1';
+            console.log("Resposta",this.rsp);
+            this.Ge3vent.logout()
+            this.Ge3vent.set('g3vent', this.rsp);
+            this.loadData();
+            console.log('USER-X', this.user);
+            /*
+            this.router.navigate(['/']).then(() => {
+              window.location.reload();
+            })
+            */
+          }
+        })
     } else {
       this.message_global = 'Dados obrigatórios não preenchidos';
     }

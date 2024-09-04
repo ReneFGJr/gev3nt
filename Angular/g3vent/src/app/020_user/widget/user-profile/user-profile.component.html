@@ -3,11 +3,10 @@
     <div class="col=12 small">Nome do usuário</div>
     <div class="col-12 bold big">{{ user.nome }}</div>
 
-    <div class="col-6 col-lg-6 small mt-3">e-mail</div>
-    <div class="col-6 col-lg-6  small mt-3">Crachá</div>
-
-    <div class="col-6  col-lg-6 bold">{{ user.email }}&nbsp;</div>
-    <div class="col-6  col-lg-6 bold">{{ user.cracha }}&nbsp;</div>
+    <div class="col-6 col-lg-4 mt-3"><span class="small">e-mail</span>
+            <br><b>{{ user.email }}&nbsp;</b></div>
+    <div class="col-6 col-lg-4 mt-3"><span class="small">Crachá</span><br><b>{{ user.cracha }}</b>&nbsp;</div>
+    <div class="col-6 col-lg-4 mt-3"><span class="small">OrcID</span><br><b>{{ user.orcid }}&nbsp;</b></div>
 
     <div class="col-12 small mt-3">Afiliação institucional</div>
     <div class="col-12 bold " *ngIf="user.afiliacao">{{ user.afiliacao }}</div>

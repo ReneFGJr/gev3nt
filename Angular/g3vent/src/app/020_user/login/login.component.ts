@@ -74,11 +74,14 @@ export class LoginComponent {
       this.valida_nome_message =
         'Não pode ser inserido pontuação ou abreviações';
       validate = false;
+      console.log(this.valida_nome_message);
     } else {
       this.valida_nome_message = '';
     }
     /******************************* */
     if (!this.cadastroForm.valid) {
+      console.log("Cadastro inválido")
+      console.log(this.cadastroForm.value);
       validate = false;
     }
 
@@ -98,7 +101,7 @@ export class LoginComponent {
     }
 
     // Verifica se cada palavra tem mais de 2 caracteres (para evitar abreviações)
-    const hasAbbreviation = words.some((word) => word.length <= 2);
+    const hasAbbreviation = words.some((word) => word.length <= 0);
 
     // O nome é válido se houver pelo menos duas palavras, nenhuma abreviação, e nenhum caractere inválido
     return !hasAbbreviation && !hasInvalidChars;
@@ -144,6 +147,9 @@ export class LoginComponent {
 
   /***************************** SIGNUP = Novo e-mail */
   onRegister() {
+    console.log('===')
+    console.log(this.validaCadastro());
+    console.log("V2",this.cadastroForm.valid)
     if (this.validaCadastro() && this.cadastroForm.valid) {
       this.ge3ventServiceService
         .api_post('g3vent/signup', this.cadastroForm.value)

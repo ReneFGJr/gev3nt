@@ -32,6 +32,8 @@ import { UpdateComponent } from './020_user/update/update.component';
 import { AboutComponent } from './010_main/about/about.component';
 import { MainCertificateComponent } from './030_certificate/main-certificate/main-certificate.component';
 import { UpdatedPerfilComponent } from './020_user/widget/updated-perfil/updated-perfil.component';
+import { FormEmailComponent } from './030_certificate/widgat/form-email/form-email.component';
+import { CertificateListComponent } from './030_certificate/widgat/certificate-list/certificate-list.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { UpdatedPerfilComponent } from './020_user/widget/updated-perfil/updated
     AboutComponent,
     MainCertificateComponent,
     UpdatedPerfilComponent,
+    FormEmailComponent,
+    CertificateListComponent,
   ],
   imports: [
     BrowserModule,

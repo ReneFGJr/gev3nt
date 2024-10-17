@@ -1,0 +1,22 @@
+<p>Para gerar seus certificados, informe o e-mail utilizado em seu cadastro no evento.</p>
+<form [formGroup]="emailForm">
+  <label for="email">E-mail: </label>
+  <br>
+  <input id="email" type="email" class="form-control" formControlName="email" placeholder="Digite seu e-mail">
+
+  <button type="submit" class="btn btn-outline-primary mt-2" (click)="onSubmit()">Ver certificados</button>
+
+  <div *ngIf="emailForm.get('email')?.invalid && emailForm.get('email')?.touched">
+    <small *ngIf="emailForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</small>
+    <small *ngIf="emailForm.get('email')?.errors?.['email']">Formato de e-mail inválido.</small>
+  </div>
+</form>
+
+<div *ngIf="data" class="row">
+    <div class="col-12 col-lg-6" *ngFor="let item of data.data" class="btn btn-outline-primary mb-2 p-2 full" style="width: 100%;" (click)="showCertificate(item.id_i)">
+      {{ item.e_name }}
+    </div>
+
+  <!-- Mostrar os dados em formato JSON -->
+  <pre>{{data | json}}</pre>
+</div>

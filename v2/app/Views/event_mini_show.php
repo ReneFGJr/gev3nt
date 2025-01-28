@@ -17,7 +17,7 @@
 				<div class="mb-8"></div>
 				<p><?= $e_description; ?></p>
 				<p><?= $e_deadline; ?></p>
-				<p><a href="<?php echo base_url('inscrever/'.$e_id);?>" class="btn btn-primary sizeB">Inscreva-se</a></p>
+				<p><a href="<?php echo base_url('subscribe/'.$e_id);?>" class="btn btn-primary sizeB">Inscreva-se</a></p>
 			</div>
 		</div>
 	</div>

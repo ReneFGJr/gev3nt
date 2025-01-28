@@ -16,7 +16,7 @@
 			<div class="mb-3">
 				<label for="email" class="form-label small">Email</label>
 				<input type="email" class="form-style" id="email" name="email" placeholder="Entre com seu e-mail" value="<?= get("email"); ?>" required>
-				<?= ($check_email == 1) ? '<div class="alert alert-danger">E-mail já cadastrado - Recupere sua senha <a href="'.base_url('novasenha').'">aqui</a>! </div>' : ''; ?>
+				<?= ($check_email == 1) ? '<div class="alert alert-danger">E-mail já cadastrado - Recupere sua senha <a href="' . base_url('novasenha') . '">aqui</a>! </div>' : ''; ?>
 			</div>
 			<div class="mb-3">
 				<label for="badgeName" class="form-label small">Name para o crachá (até 20 caracteres)</label>
@@ -35,6 +35,11 @@
 			</div>
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary w-100">Registrar-se</button>
+			</div>
+
+			<div class="mt-3">
+				<a href="<?= base_url('novasenha'); ?>" class="link">Esqueceu a senha?</a> |
+				<a href="<?= base_url('signin'); ?>" class="link">Fazer login</a>
 			</div>
 		</form>
 	</div>

@@ -1223,3 +1223,425 @@ in APPPATH\Controllers\Home.php on line 56.
  4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
  5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-27 22:16:00 --> Error connecting to the database: mysqli_sql_exception: Unknown database 'g3vent' in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'g3vent', 3306, '', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 E:\Projeto\gev3nt\v2\app\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->index()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Unknown database 'g3vent' in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#4 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#5 E:\Projeto\gev3nt\v2\app\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+#6 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+#7 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->index()
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2025-01-27 22:16:00 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Unknown database 'g3vent'
+[Method: GET, Route: /]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= :e_sigin_until:', [...], false)
+ 3 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-27 22:18:21 --> mysqli_sql_exception: Table 'g3vent.event' doesn't exist in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 E:\Projeto\gev3nt\v2\app\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->index()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-01-27 22:18:21 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.event' doesn't exist
+[Method: GET, Route: /]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= :e_sigin_until:', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:18:21 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.event' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= \'2025-01-27\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= \'2025-01-27\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= :e_sigin_until:', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:18:21 --> [Caused by] mysqli_sql_exception: Table 'g3vent.event' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= \'2025-01-27\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= \'2025-01-27\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= \'2025-01-27\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event`
+WHERE `e_sigin_until` >= :e_sigin_until:', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\Event\Events.php(50): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\Home.php(18): App\Models\Event\Events->getEvents()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:23:36 --> ArgumentCountError: Too few arguments to function App\Controllers\Home::signup(), 0 passed in E:\Projeto\gev3nt\v2\system\CodeIgniter.php on line 933 and exactly 1 expected
+[Method: GET, Route: signup]
+in APPPATH\Controllers\Home.php on line 56.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signup()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:24:44 --> ArgumentCountError: Too few arguments to function App\Controllers\Home::signup(), 0 passed in E:\Projeto\gev3nt\v2\system\CodeIgniter.php on line 933 and exactly 1 expected
+[Method: GET, Route: signup]
+in APPPATH\Controllers\Home.php on line 56.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signup()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:25:21 --> ErrorException: Undefined variable $id
+[Method: GET, Route: signup]
+in APPPATH\Controllers\Home.php on line 66.
+ 1 APPPATH\Controllers\Home.php(66): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id', 'E:\\Projeto\\gev3nt\\v2\\app\\Controllers\\Home.php', 66)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signup()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:34:37 --> ErrorException: Undefined array key "n_password"
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 98.
+ 1 APPPATH\Models\User\Users.php(98): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "n_password"', 'E:\\Projeto\\gev3nt\\v2\\app\\Models\\User\\Users.php', 98)
+ 2 APPPATH\Controllers\Home.php(108): App\Models\User\Users->signin('renefgj@gmail.com', 'qwqwd')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:35:57 --> ErrorException: Undefined variable $event
+[Method: POST, Route: signin]
+in APPPATH\Views\main.php on line 5.
+ 1 APPPATH\Views\main.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $event', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php', 5)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('main', [], true)
+ 5 APPPATH\Controllers\Home.php(113): view('main', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 22:51:02 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\User\Users::check_key
+[Method: GET, Route: setpassword]
+in SYSTEMPATH\Model.php on line 930.
+ 1 APPPATH\Controllers\Home.php(87): CodeIgniter\Model->__call('check_key', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:03:49 --> ErrorException: Undefined array key "id"
+[Method: POST, Route: setpassword]
+in APPPATH\Controllers\Home.php on line 86.
+ 1 APPPATH\Controllers\Home.php(86): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id"', 'E:\\Projeto\\gev3nt\\v2\\app\\Controllers\\Home.php', 86)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:04:13 --> CodeIgniter\Database\Exceptions\DataException: Allowed fields must be specified for model: "App\Models\User\Users"
+[Method: POST, Route: setpassword]
+in SYSTEMPATH\BaseModel.php on line 1338.
+ 1 SYSTEMPATH\BaseModel.php(1338): CodeIgniter\Database\Exceptions\DataException::forInvalidAllowedFields('App\\Models\\User\\Users')
+ 2 SYSTEMPATH\BaseModel.php(1005): CodeIgniter\BaseModel->doProtectFields([...])
+ 3 SYSTEMPATH\Model.php(863): CodeIgniter\BaseModel->update(null, [...])
+ 4 APPPATH\Models\User\Users.php(123): CodeIgniter\Model->update()
+ 5 APPPATH\Controllers\Home.php(86): App\Models\User\Users->updatePassword('239', '2e3db7994011c8c5e315e42a0cb439c5')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:04:58 --> ErrorException: Undefined variable $event
+[Method: POST, Route: setpassword]
+in APPPATH\Views\main.php on line 5.
+ 1 APPPATH\Views\main.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $event', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php', 5)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('main', [], true)
+ 5 APPPATH\Controllers\Home.php(93): view('main', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:06:31 --> ErrorException: Undefined variable $event
+[Method: POST, Route: setpassword]
+in APPPATH\Views\main.php on line 5.
+ 1 APPPATH\Views\main.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $event', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php', 5)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('main', [], true)
+ 5 APPPATH\Controllers\Home.php(91): view('main', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:08:59 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "event_set_password_end.php"
+[Method: POST, Route: setpassword]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('event_set_password_end.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event_set_password_end', [], true)
+ 3 APPPATH\Controllers\Home.php(87): view('event_set_password_end', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->setpassword()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:11:28 --> Error: Call to a member function setCookie() on null
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 62.
+ 1 APPPATH\Models\User\Users.php(102): App\Models\User\Users->saveCookieUser([...])
+ 2 APPPATH\Controllers\Home.php(145): App\Models\User\Users->signin('renefgj@gmail.com', '2e3db7994011c8c5e315e42a0cb439c5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:15:10 --> ErrorException: Undefined array key "n_name"
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 104.
+ 1 APPPATH\Models\User\Users.php(104): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "n_name"', 'E:\\Projeto\\gev3nt\\v2\\app\\Models\\User\\Users.php', 104)
+ 2 APPPATH\Controllers\Home.php(145): App\Models\User\Users->signin('renefgj@gmail.com', '2e3db7994011c8c5e315e42a0cb439c5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:15:47 --> Error: Call to a member function setCookie() on null
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 62.
+ 1 APPPATH\Models\User\Users.php(107): App\Models\User\Users->saveCookieUser([...])
+ 2 APPPATH\Controllers\Home.php(145): App\Models\User\Users->signin('renefgj@gmail.com', '2e3db7994011c8c5e315e42a0cb439c5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:16:46 --> Error: Call to a member function setCookie() on null
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 63.
+ 1 APPPATH\Models\User\Users.php(108): App\Models\User\Users->saveCookieUser([...])
+ 2 APPPATH\Controllers\Home.php(145): App\Models\User\Users->signin('renefgj@gmail.com', '2e3db7994011c8c5e315e42a0cb439c5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:17:11 --> Error: Call to a member function setCookie() on null
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 63.
+ 1 APPPATH\Models\User\Users.php(108): App\Models\User\Users->saveCookieUser([...])
+ 2 APPPATH\Controllers\Home.php(145): App\Models\User\Users->signin('renefgj@gmail.com', '2e3db7994011c8c5e315e42a0cb439c5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:19:35 --> Error: Call to undefined function getCookie()
+[Method: POST, Route: signin]
+in APPPATH\Views\event_signin.php on line 29.
+ 1 SYSTEMPATH\View\View.php(224): include()
+ 2 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event_signin.php', [], true)
+ 4 APPPATH\Controllers\Home.php(146): view('event_signin.php', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:20:02 --> Error: Call to undefined function getCookie()
+[Method: POST, Route: signin]
+in APPPATH\Views\event_signin.php on line 29.
+ 1 SYSTEMPATH\View\View.php(224): include()
+ 2 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event_signin.php', [], true)
+ 4 APPPATH\Controllers\Home.php(147): view('event_signin.php', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:20:51 --> Error: Call to undefined function App\Models\User\getCookie()
+[Method: POST, Route: signin]
+in APPPATH\Models\User\Users.php on line 77.
+ 1 APPPATH\Views\event_signin.php(31): App\Models\User\Users->getCookie()
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event_signin.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event_signin.php', [], true)
+ 5 APPPATH\Controllers\Home.php(146): view('event_signin.php', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->signin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:45:15 --> ErrorException: Undefined variable $usuario
+[Method: GET, Route: profile]
+in APPPATH\Views\user\profile.php on line 86.
+ 1 APPPATH\Views\user\profile.php(86): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $usuario', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php', 86)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('user/profile', [], true)
+ 5 APPPATH\Controllers\Home.php(71): view('user/profile', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:45:58 --> ErrorException: Undefined variable $usuario
+[Method: GET, Route: profile]
+in APPPATH\Views\user\profile.php on line 86.
+ 1 APPPATH\Views\user\profile.php(86): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $usuario', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php', 86)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('user/profile', [], true)
+ 5 APPPATH\Controllers\Home.php(72): view('user/profile', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:46:14 --> ErrorException: Undefined variable $usuario
+[Method: GET, Route: profile]
+in APPPATH\Views\user\profile.php on line 86.
+ 1 APPPATH\Views\user\profile.php(86): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $usuario', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php', 86)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('user/profile', [], true)
+ 5 APPPATH\Controllers\Home.php(73): view('user/profile', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:46:40 --> ErrorException: Undefined variable $usuario
+[Method: GET, Route: profile]
+in APPPATH\Views\user\profile.php on line 86.
+ 1 APPPATH\Views\user\profile.php(86): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $usuario', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php', 86)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\user\\profile.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('user/profile', [], true)
+ 5 APPPATH\Controllers\Home.php(72): view('user/profile', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-27 23:47:49 --> ErrorException: Undefined variable $navbar
+[Method: GET, Route: profile]
+in APPPATH\Views\main.php on line 4.
+ 1 APPPATH\Views\main.php(4): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $navbar', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php', 4)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('main', [], true)
+ 5 APPPATH\Controllers\Home.php(73): view('main', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

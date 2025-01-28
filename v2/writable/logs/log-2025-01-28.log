@@ -1,0 +1,473 @@
+ERROR - 2025-01-28 00:01:34 --> mysqli_sql_exception: Table 'g3vent.corporate_board' doesn't exist in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(609): CodeIgniter\Model->doFind(true, '239')
+#6 E:\Projeto\gev3nt\v2\app\Models\User\Users.php(90): CodeIgniter\BaseModel->find('239')
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(67): App\Models\User\Users->getUserId('239')
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->profile()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-01-28 00:01:34 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.corporate_board' doesn't exist
+[Method: GET, Route: profile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = :events_names.id_n:', [...], false)
+ 2 SYSTEMPATH\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(609): CodeIgniter\Model->doFind(true, '239')
+ 4 APPPATH\Models\User\Users.php(90): CodeIgniter\BaseModel->find('239')
+ 5 APPPATH\Controllers\Home.php(67): App\Models\User\Users->getUserId('239')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 00:01:34 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.corporate_board' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = \'239\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = \'239\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = :events_names.id_n:', [...], false)
+ 4 SYSTEMPATH\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(609): CodeIgniter\Model->doFind(true, '239')
+ 6 APPPATH\Models\User\Users.php(90): CodeIgniter\BaseModel->find('239')
+ 7 APPPATH\Controllers\Home.php(67): App\Models\User\Users->getUserId('239')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 00:01:34 --> [Caused by] mysqli_sql_exception: Table 'g3vent.corporate_board' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = \'239\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = \'239\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = \'239\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `events_names`
+JOIN `corporate_board` ON `n_afiliacao` = `id_cb`
+WHERE `events_names`.`id_n` = :events_names.id_n:', [...], false)
+ 5 SYSTEMPATH\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(609): CodeIgniter\Model->doFind(true, '239')
+ 7 APPPATH\Models\User\Users.php(90): CodeIgniter\BaseModel->find('239')
+ 8 APPPATH\Controllers\Home.php(67): App\Models\User\Users->getUserId('239')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 00:01:58 --> TypeError: view(): Argument #2 ($data) must be of type array, null given, called in E:\Projeto\gev3nt\v2\app\Controllers\Home.php on line 73
+[Method: GET, Route: profile]
+in SYSTEMPATH\Common.php on line 1161.
+ 1 APPPATH\Controllers\Home.php(73): view('user/profile', null)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->profile()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 00:21:27 --> ErrorException: Undefined variable $eventos
+[Method: GET, Route: meuseventos]
+in APPPATH\Views\event\event_meuseventos.php on line 16.
+ 1 APPPATH\Views\event\event_meuseventos.php(16): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $eventos', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_meuseventos.php', 16)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_meuseventos.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_meuseventos', [], true)
+ 5 APPPATH\Controllers\Home.php(85): view('event/event_meuseventos')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->meuseventos()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-28 05:00:47 --> mysqli_sql_exception: Unknown column 'ei_data_fim' in 'where clause' in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('select * from e...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('select * from e...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('select * from e...')
+#3 E:\Projeto\gev3nt\v2\system\Model.php(924): CodeIgniter\Database\BaseConnection->query('select * from e...')
+#4 E:\Projeto\gev3nt\v2\app\Models\Event\EventInscricoes.php(54): CodeIgniter\Model->__call('query', Array)
+#5 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(104): App\Models\Event\EventInscricoes->lotesInscricoes('2')
+#6 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->subscribe('2')
+#7 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#10 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 {main}
+CRITICAL - 2025-01-28 05:00:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ei_data_fim' in 'where clause'
+[Method: GET, Route: subscribe/2]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Model.php(924): CodeIgniter\Database\BaseConnection->query('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 2 APPPATH\Models\Event\EventInscricoes.php(54): CodeIgniter\Model->__call('query', [...])
+ 3 APPPATH\Controllers\Home.php(104): App\Models\Event\EventInscricoes->lotesInscricoes('2')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:00:47 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'ei_data_fim' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 3 SYSTEMPATH\Model.php(924): CodeIgniter\Database\BaseConnection->query('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 4 APPPATH\Models\Event\EventInscricoes.php(54): CodeIgniter\Model->__call('query', [...])
+ 5 APPPATH\Controllers\Home.php(104): App\Models\Event\EventInscricoes->lotesInscricoes('2')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:00:47 --> [Caused by] mysqli_sql_exception: Unknown column 'ei_data_fim' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 4 SYSTEMPATH\Model.php(924): CodeIgniter\Database\BaseConnection->query('select * from event_inscricoes
+					where id_ei = 2
+					and ei_data_inicio <= \'2025-01-28\'
+					and ei_data_fim >= \'2025-01-28\'
+					order by ei_data_inicio')
+ 5 APPPATH\Models\Event\EventInscricoes.php(54): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Home.php(104): App\Models\Event\EventInscricoes->lotesInscricoes('2')
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2')
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:27:12 --> ErrorException: Undefined variable $lote
+[Method: GET, Route: subscribe/2/5]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 1.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(1): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $lote', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 1)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:30:13 --> ErrorException: Undefined variable $e_data_i
+[Method: GET, Route: subscribe/2/5]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 19.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $e_data_i', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 19)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:30:41 --> ErrorException: Undefined array key "e_data_i"
+[Method: GET, Route: subscribe/2/5]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 19.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "e_data_i"', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 19)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:30:59 --> ErrorException: Undefined array key "e_data_i"
+[Method: GET, Route: subscribe/2/5]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 19.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "e_data_i"', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 19)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:31:00 --> ErrorException: Undefined array key "e_data_i"
+[Method: GET, Route: subscribe/2/5]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 19.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "e_data_i"', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 19)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:44:59 --> ErrorException: Undefined array key "el_matricula"
+[Method: GET, Route: subscribe/2/2]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 38.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(38): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "el_matricula"', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 38)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:45:22 --> ErrorException: Undefined array key "el_matricula"
+[Method: GET, Route: subscribe/2/2]
+in APPPATH\Views\event\event_iscricoes_subscript.php on line 38.
+ 1 APPPATH\Views\event\event_iscricoes_subscript.php(38): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "el_matricula"', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php', 38)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_iscricoes_subscript.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_iscricoes_subscript', [], true)
+ 5 APPPATH\Controllers\Home.php(119): view('event/event_iscricoes_subscript', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 05:50:53 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: subscribe/5]
+in APPPATH\Views\event\event_header.php on line 5.
+ 1 APPPATH\Views\event\event_header.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_header.php', 5)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\event\\event_header.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('event/event_header', [], true)
+ 5 APPPATH\Controllers\Home.php(113): view('event/event_header', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('5')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:11:03 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\User\Users::get_cookies
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\Model.php on line 930.
+ 1 APPPATH\Controllers\Home.php(132): CodeIgniter\Model->__call('get_cookies', [])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:16:30 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\Event\Events::subscribe
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\Model.php on line 930.
+ 1 APPPATH\Controllers\Home.php(134): CodeIgniter\Model->__call('subscribe', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:20:13 --> ErrorException: Undefined array key "id_ein"
+[Method: POST, Route: subscribe/2/5]
+in APPPATH\Models\Event\EventInscritos.php on line 74.
+ 1 APPPATH\Models\Event\EventInscritos.php(74): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id_ein"', 'E:\\Projeto\\gev3nt\\v2\\app\\Models\\Event\\EventInscritos.php', 74)
+ 2 APPPATH\Controllers\Home.php(135): App\Models\Event\EventInscritos->subscribe('239', '2', '5')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:28:03 --> ErrorException: mkdir(): File exists
+[Method: POST, Route: subscribe/2/5]
+in APPPATH\Models\Event\EventInscritos.php on line 79.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mkdir(): File exists', 'E:\\Projeto\\gev3nt\\v2\\app\\Models\\Event\\EventInscritos.php', 79)
+ 2 APPPATH\Models\Event\EventInscritos.php(79): mkdir('../uploads/', 511, true)
+ 3 APPPATH\Controllers\Home.php(135): App\Models\Event\EventInscritos->subscribe('239', '2', '5')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:29:20 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed" cannot be found.
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(137): redirect('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:30:45 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed" cannot be found.
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(143): redirect('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:31:17 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed" cannot be found.
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(143): redirect('http://g3vent/subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:32:49 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed" cannot be found.
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(143): redirect('subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:34:05 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed" cannot be found.
+[Method: POST, Route: subscribe/2/5]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(143): redirect('subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '5')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:35:32 --> ErrorException: Undefined variable $event
+[Method: GET, Route: subscribe_confirm/72/82f2b308c3b01637c607ce05f52a2fed]
+in APPPATH\Views\main.php on line 5.
+ 1 APPPATH\Views\main.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $event', 'E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php', 5)
+ 2 SYSTEMPATH\View\View.php(224): include('E:\\Projeto\\gev3nt\\v2\\app\\Views\\main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('main', [], true)
+ 5 APPPATH\Controllers\Home.php(104): view('main', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe_confirm('72', '82f2b308c3b01637c607ce05f52a2fed')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:36:43 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a" cannot be found.
+[Method: POST, Route: subscribe/2/2]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(145): redirect('subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:37:15 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a" cannot be found.
+[Method: POST, Route: subscribe/2/2]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(145): redirect('subscribe_confirm/73/ba3866600c3540f67c1e9575e213be0a')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:37:46 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "subscribe_confirm/73/test" cannot be found.
+[Method: POST, Route: subscribe/2/2]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('subscribe_confirm/73/test')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(146): redirect('subscribe_confirm/73/test')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 06:38:12 --> CodeIgniter\HTTP\Exceptions\HTTPException: The route for "http://g3vent/subscribe_confirm/73/test" cannot be found.
+[Method: POST, Route: subscribe/2/2]
+in SYSTEMPATH\HTTP\RedirectResponse.php on line 63.
+ 1 SYSTEMPATH\HTTP\RedirectResponse.php(63): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('http://g3vent/subscribe_confirm/73/test')
+ 2 SYSTEMPATH\Common.php(855): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH\Controllers\Home.php(146): redirect('http://g3vent/subscribe_confirm/73/test')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->subscribe('2', '2')
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

@@ -14,7 +14,9 @@ class Users extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+		'n_password','apikey','n_name','n_cpf','n_email'
+	];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -52,12 +54,13 @@ class Users extends Model
 		// Nome do cookie
 		$cookieName = 'g3ventos_permanent_cookie';
 		// Valor do cookie
-		$cookieValue = $dt;
+		$cookieValue = json_encode($dt);
 		// Tempo de expiração (10 anos em segundos)
 		$expiry = time() + (10 * 365 * 24 * 60 * 60);
 
+
 		// Configurando o cookie
-		$this->response->setCookie(
+		set_cookie(
 			$cookieName,  // Nome
 			$cookieValue, // Valor
 			$expiry       // Tempo de expiração
@@ -71,21 +74,29 @@ class Users extends Model
 		$cookieName = 'g3ventos_permanent_cookie';
 
 		// Obtendo o valor do cookie
-		$cookieValue = $this->request->getCookie($cookieName);
+		$cookieValue = get_cookie($cookieName);
 
 		if ($cookieValue) {
-			return "Valor do cookie: " . $cookieValue;
+			return (array)json_decode($cookieValue);
 		} else {
 			return "Cookie não encontrado.";
 		}
 	}
+
+	function getUserId($id)
+		{
+			$dt = $this
+				->join('corporatebody', 'n_afiliacao = id_cb')
+				->find($id);
+			return $dt;
+		}
 
 	public function deleteCookie()
 	{
 		$cookieName = 'g3ventos_permanent_cookie';
 
 		// Deletando o cookie
-		$this->response->deleteCookie($cookieName);
+		deleteCookie($cookieName);
 
 		return "Cookie excluído com sucesso.";
 	}
@@ -93,14 +104,42 @@ class Users extends Model
 	/********************************************* SIGNIN */
 	function signin($email, $password)
 	{
-		$dt = $this->where('n_email', $email)->where('apikey', md5($password))->findAll();
+		$dt = $this->where('n_email', $email)->first();
 		if (count($dt) > 0) {
-			$this->saveCookieUser($dt[0]);
-			return 1;
+			$password = md5($password);
+			if ($dt['n_password'] == $password) {
+				$dd = [];
+				$dd['id_n'] = $dt['id_n'];
+				$dd['n_name'] = $dt['n_nome'];
+				$dd['n_email'] = $dt['n_email'];
+				$dd['apikey'] = $dt['apikey'];
+				$this->saveCookieUser($dd);
+				return 1;
+			} else {
+				return 2;
+			}
 		} else {
-			return 2;
+			return -1;
 		}
 	}
+
+	function getByEmail($email)
+		{
+			$dt = $this->where('n_email', $email)->first();
+			if (count($dt) > 0) {
+				return $dt;
+			} else {
+				return [];
+			}
+		}
+
+	function updatePassword($idu,$pass)
+		{
+			$dt = [];
+			$dt['n_password'] = $pass;
+			$this->set($dt)->where('id_n', $idu)->update();
+			return 1;
+		}
 
 	function check_email($email)
 		{

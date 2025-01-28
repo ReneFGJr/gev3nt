@@ -22,6 +22,11 @@
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary w-100">Enviar nova senha</button>
 			</div>
+
+			<div class="mt-3">
+				<a href="<?= base_url('signup'); ?>" class="link">Não tem cadastro?</a> |
+				<a href="<?= base_url('signin'); ?>" class="link">Fazer login</a>
+			</div>
 		</form>
 	</div>
 </div>

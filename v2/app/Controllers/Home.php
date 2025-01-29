@@ -113,6 +113,13 @@ class Home extends BaseController
 		$EventInscricoes = new \App\Models\Event\EventInscricoes();
 		$EventInscritos = new \App\Models\Event\EventInscritos();
 
+		$UserID = $User->getCookie();
+		if ($UserID == [])
+		{
+			$url = 'signin';
+			return redirect()->to($url);
+		}
+
 		$dte = $Event->find($id);
 		$dti = $EventInscricoes->lotesInscricoes($id);
 
@@ -197,12 +204,20 @@ class Home extends BaseController
 
 		$pass1 = get("pass1");
 		$pass2 = get("pass2");
-		if ($pass1 == $pass2) {
+		if (($pass1 == $pass2) and (strlen($pass1) >= 6)) {
 			$dt['check_password'] = 1;
 			$Users->updatePassword($dt['id_n'], md5($pass1));
 			$data['event'] = view('event_set_password_send', $dt);
 		} else {
 			$data['event'] = view('event_set_password', $dt);
+			if ($pass1 != '')
+				{
+					$data['event'] .= '<div class="alert alert-danger">As senhas não conferem</div>';
+				}
+			if (strlen($pass1) < 6)
+				{
+					$data['event'] .= '<div class="alert alert-danger">Senha muito curta</div>';
+				}
 		}
 		$sx .= view('main', $data);
 		return $sx;
@@ -241,6 +256,35 @@ class Home extends BaseController
 		return $sx;
 	}
 
+	function main()
+		{
+			$sx = '';
+			$Events = new \App\Models\Event\Events();
+			$Users = new \App\Models\User\Users();
+			$CorporateBoard = new \App\Models\User\CorporateBoard();
+			$EventInscritos = new \App\Models\Event\EventInscritos();
+			$UserID = $Users->getCookie();
+			if ($UserID == [])
+			{
+				$url = 'signin';
+				return redirect()->to($url);
+			}
+			$sx .= view('header/header');
+			$data = [];
+			$dt = [];
+			$dt['url'] = 'main';
+
+			$data['navbar'] = view('header/navbar');
+
+			$dt = [];
+			$dt['futureEvents'] = $EventInscritos->myInscritos($UserID['id_n']);
+			$data['event'] = view('event/event_minhainscricoes',$dt);
+			$data['event'] .= view('widget/icone_create',$dt);
+
+			$sx .= view('main', $data);
+			return $sx;
+		}
+
 	function signin()
 	{
 		$sx = '';
@@ -262,6 +306,11 @@ class Home extends BaseController
 		} else {
 			$data['event'] = view('event_signin.php', $dt);
 		}
+		if ($dt['check_password'] == 1)
+			{
+				$url = 'main';
+				return redirect()->to($url);
+			}
 
 		$sx .= view('main', $data);
 		return $sx;

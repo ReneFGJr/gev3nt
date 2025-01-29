@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $pre = '';
 $routes->get('/', 'Home::index');
+$routes->get('/main', 'Home::main');
 $routes->get($pre. '/subscribe/(:any)', 'Home::subscribe/$1');
 $routes->get($pre . '/subscribe/(:any)/(:any)', 'Home::subscribe/$1/$2');
 $routes->post($pre . '/subscribe/(:any)', 'Home::subscribe/$1');

@@ -79,7 +79,7 @@ class Users extends Model
 		if ($cookieValue) {
 			return (array)json_decode($cookieValue);
 		} else {
-			return "Cookie não encontrado.";
+			return [];
 		}
 	}
 

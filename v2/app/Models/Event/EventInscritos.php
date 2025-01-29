@@ -52,6 +52,23 @@ class EventInscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function myInscritos($UserID)
+		{
+			$dt = $this
+				->select('*')
+
+				->join('events', 'ein_tipo = ein_event')
+				->join('event_inscricoes', 'id_ei = ein_tipo')
+				//->join('event_tipo', 'event_tipo.id_tipo = event_lotes.el_tipo')
+				//->join('event_status', 'event_status.id_status = events.e_status')
+				//->join('event_status as status_lote', 'status_lote.id_status = event_lotes.el_status')
+				->where('ein_user', $UserID)
+				->where('e_data >= ', date("Y-m-d"))
+				->orderBy('events.e_data', 'DESC')
+				->findAll();
+			return $dt;
+		}
+
 	function subscribe($UserId, $id, $lote)
 		{
 			$dt = $this->where('ein_event', $id)

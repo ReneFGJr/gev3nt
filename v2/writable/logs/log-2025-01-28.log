@@ -484,3 +484,355 @@ in APPPATH\Views\header\navbar.php on line 21.
  8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
  9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
 10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:40:41 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "User/MyEvents.php"
+[Method: GET, Route: main]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('User/MyEvents.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('User/MyEvents', [], true)
+ 3 APPPATH\Controllers\Home.php(271): view('User/MyEvents', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:46:35 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\Event\EventInscritos::myInscritos
+[Method: GET, Route: main]
+in SYSTEMPATH\Model.php on line 930.
+ 1 APPPATH\Controllers\Home.php(280): CodeIgniter\Model->__call('myInscritos', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-28 23:47:32 --> mysqli_sql_exception: Table 'g3vent.event_lotes' doesn't exist in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `event_i...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_i...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_i...')
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_i...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 E:\Projeto\gev3nt\v2\app\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->main()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-01-28 23:47:32 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.event_lotes' doesn't exist
+[Method: GET, Route: main]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:47:32 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'g3vent.event_lotes' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:47:32 --> [Caused by] mysqli_sql_exception: Table 'g3vent.event_lotes' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_lotes` ON `event_lotes`.`id_lote` = `event_inscritos`.`ein_tipo`
+JOIN `event_tipo` ON `event_tipo`.`id_tipo` = `event_lotes`.`el_tipo`
+JOIN `event_status` ON `event_status`.`id_status` = `events`.`e_status`
+JOIN `event_status` as `status_lote` ON `status_lote`.`id_status` = `event_lotes`.`el_status`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-28 23:56:57 --> mysqli_sql_exception: Unknown table 'event_lotes' in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `event_i...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_i...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_i...')
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_i...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 E:\Projeto\gev3nt\v2\app\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->main()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-01-28 23:56:57 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown table 'event_lotes'
+[Method: GET, Route: main]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:56:57 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown table 'event_lotes'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:56:57 --> [Caused by] mysqli_sql_exception: Unknown table 'event_lotes'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `event_inscritos`.*, `events`.*, `event_lotes`.*, `event_tipo`.*, `event_status`.*, `status_lote`.*
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-01-28 23:57:19 --> mysqli_sql_exception: Unknown column 'events.id_event' in 'on clause' in E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 E:\Projeto\gev3nt\v2\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *\nFROM `...', 0)
+#1 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 E:\Projeto\gev3nt\v2\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 E:\Projeto\gev3nt\v2\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 E:\Projeto\gev3nt\v2\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 E:\Projeto\gev3nt\v2\system\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+#6 E:\Projeto\gev3nt\v2\app\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+#7 E:\Projeto\gev3nt\v2\app\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+#8 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(933): App\Controllers\Home->main()
+#9 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#10 E:\Projeto\gev3nt\v2\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 E:\Projeto\gev3nt\v2\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 E:\Projeto\gev3nt\v2\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 E:\Projeto\gev3nt\v2\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-01-28 23:57:19 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'events.id_event' in 'on clause'
+[Method: GET, Route: main]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 5 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:57:19 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'events.id_event' in 'on clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 7 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-01-28 23:57:19 --> [Caused by] mysqli_sql_exception: Unknown column 'events.id_event' in 'on clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = \'239\'
+ORDER BY `events`.`e_data` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `event_inscritos`
+JOIN `events` ON `events`.`id_event` = `event_inscritos`.`ein_event`
+JOIN `event_inscricoes` ON `id_ei` = `ein_tipo`
+WHERE `ein_user` = :ein_user:
+ORDER BY `events`.`e_data` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(675): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\Event\EventInscritos.php(65): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Controllers\Home.php(280): App\Models\Event\EventInscritos->myInscritos('239')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->main()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

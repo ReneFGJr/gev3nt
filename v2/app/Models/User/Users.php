@@ -91,14 +91,20 @@ class Users extends Model
 			return $dt;
 		}
 
+	public function logoff()
+		{
+			$this->deleteCookie();
+			return true;
+		}
+
 	public function deleteCookie()
 	{
 		$cookieName = 'g3ventos_permanent_cookie';
 
-		// Deletando o cookie
-		deleteCookie($cookieName);
-
-		return "Cookie excluído com sucesso.";
+		// Deletando o cookie corretamente
+		//helper('cookie');
+		delete_cookie($cookieName);
+		return "";
 	}
 
 	/********************************************* SIGNIN */

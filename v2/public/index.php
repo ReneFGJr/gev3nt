@@ -6,6 +6,7 @@
  *---------------------------------------------------------------
  */
 
+
 $minPhpVersion = '8.1'; // If you update this, don't forget to update `spark`.
 if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     $message = sprintf(
@@ -27,7 +28,9 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
  */
 
 // Path to the front controller (this file)
-define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
+$system = '/home2/iskoor95/inscricoes/system';
+#define('FCPATH', __DIR__ . $system. DIRECTORY_SEPARATOR);
+define('FCPATH', $system. DIRECTORY_SEPARATOR);
 
 // Ensure the current directory is pointing to the front controller's directory
 if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
@@ -48,7 +51,13 @@ if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
 require FCPATH . '../app/Config/Paths.php';
 // ^^^ Change this line if you move your application folder
 
+
 $paths = new Config\Paths();
+
+
+// Definir corretamente o caminho base do sistema CodeIgniter
+$paths->systemDirectory = realpath(FCPATH . '../../inscricoes/system') ?: FCPATH . '../../inscricoes/system';
+
 
 // LOAD THE FRAMEWORK BOOTSTRAP FILE
 require $paths->systemDirectory . '/Boot.php';

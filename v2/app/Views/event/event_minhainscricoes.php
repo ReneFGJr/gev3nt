@@ -19,21 +19,25 @@
 									📆 <strong><?= esc($event['e_data_i']) ?> a <?= esc($event['e_data_f']) ?></strong><br>
 									📍 <?= esc($event['e_cidade'] ?? 'Local não informado') ?>
 								</p>
-								<button class="btn btn-outline-primary btn-sm">
-									<a href="<?=base_url('meuseventos');?>"><i class="fa-solid fa-info-circle"></i> Detalhes</a>
-								</button>
+								<a href="<?= base_url('meuseventos'); ?>">
+									<button class="btn btn-outline-primary btn-sm mb-2">
+										<i class="fa-solid fa-info-circle"></i> Programação
+									</button></a>
 								<?php if ($event['ein_pago'] == 1) { ?>
-								<button class="btn btn-outline-primary btn-sm">
-									<i class="fa-solid fa-info-circle"></i> INSCRIÇÂO PAGA
-								</button>
+									<button class="btn btn-outline-primary btn-sm mb-2">
+										<i class="fa-solid fa-info-circle"></i> INSCRIÇÂO PAGA
+									</button>
 								<?php } else { ?>
-								<button class="btn btn-outline-danger btn-sm">
-									<i class="fa-solid fa-info-circle"></i> PENDENTE PAGAMENTO
-								</button>
+									<a href="<?= base_url('payment/' . $event['id_ein']); ?>">
+										<button class="btn btn-outline-danger btn-sm mb-2">
+											<i class="fa-solid fa-info-circle"></i> PAGAMENTO PENDENTE
+										</button></a>
 								<?php } ?>
 
-								<?php echo view('widget/icone_create', $event); ?>
-
+								<a href="<?= base_url('gethere/' . $event['id_e']); ?>">
+									<button class="btn btn-outline-success btn-sm mb-2">
+										<i class="fa-solid fa-info-circle"></i> Como chegar
+									</button></a>
 							</div>
 						</div>
 					</div>

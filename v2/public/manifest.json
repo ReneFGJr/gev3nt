@@ -1,7 +1,7 @@
 {
 	"name": "ISKO Brasil",
 	"short_name": "Atalho",
-	"start_url": "/",
+	"start_url": "https://iskobrasil.org.br/inscricoes",
 	"display": "standalone",
 	"background_color": "#ffffff",
 	"theme_color": "#000000",

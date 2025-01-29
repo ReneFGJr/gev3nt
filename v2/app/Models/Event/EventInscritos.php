@@ -69,6 +69,18 @@ class EventInscritos extends Model
 			return $dt;
 		}
 
+	function getSubscribe($id)
+		{
+			$dt = $this
+				->select('*')
+				->join('event', 'ein_event = id_e')
+				->join('event_inscricoes', 'ein_tipo = id_ei')
+				->where('id_ein', $id)
+				->where('ein_status in (1,2)')
+				->first();
+			return $dt;
+		}
+
 	function subscribe($UserId, $id, $lote)
 		{
 			$dt = $this->where('ein_event', $id)

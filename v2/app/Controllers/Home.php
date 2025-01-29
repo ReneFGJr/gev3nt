@@ -11,13 +11,68 @@ class Home extends BaseController
 	{
 		$sx = '';
 		$Users = new \App\Models\User\Users();
+		$UserID = $Users->getCookie();
 
 		$Events = new \App\Models\Event\Events();
 		$sx .= view('header/header');
 		$data = [];
 		$data['navbar'] = view('header/navbar');
-		$data['events'] = $Events->getEvents();
-		$data['event'] = view('event_mini_show', $data);
+		if ($UserID == []) {
+			$data['events'] = $Events->getEvents();
+			$data['event'] = view('event_mini_show', $data);
+		} else {
+			//redirect()->to('main')->send();
+			$data['events'] = $Events->getEvents();
+			$data['event'] = view('event_mini_show', $data);
+		}
+
+		$sx .= view('main', $data);
+		return $sx;
+	}
+
+	function payment($id)
+	{
+		$sx = '';
+		$Events = new \App\Models\Event\Events();
+		$Users = new \App\Models\User\Users();
+		$CorporateBoard = new \App\Models\User\CorporateBoard();
+		$EventInscritos = new \App\Models\Event\EventInscritos();
+		$UploadFiles = new \App\Models\Event\UploadFile();
+
+		$sx .= view('header/header');
+		$data = [];
+		$dt = [];
+		$dt['url'] = 'payment';
+
+		/************** Salva documento */
+		if (isset($_FILES) and (count($_FILES) > 0)) {
+			$valid_type = $UploadFiles->valid_type($_FILES['payment_proof']['type']);
+			if ($valid_type == 1) {
+				$dir = '../uploads/';
+				// Verifica se o diretório existe antes de criar
+				if (!is_dir($dir)) {
+					mkdir($dir, 0777, true);
+				}
+
+				$fileID = 'payment_proof_' . str_pad($id, 8, "0", STR_PAD_LEFT). '.pdf';
+				move_uploaded_file($_FILES['payment_proof']['tmp_name'], $dir . $fileID);
+				$UploadFiles->saveDocument($dir . $fileID, $id, 'payment_proof');
+			}
+		}
+
+		/****** Monta tela */
+		$doc = $UploadFiles->recoverDocument($id, 'payment_proof');
+		if ($doc != []) {
+			$dtf = [];
+			$dtf['files'] = $doc;
+			$data['event'] = view('event/event_files', $dtf);
+		} else {
+			$dt['subscribe'] = $EventInscritos->getSubscribe($id);
+			$data['event'] = view('event/event_comprovante_pagamento', $dt);
+		}
+
+		$data['navbar'] = view('header/navbar');
+
 		$sx .= view('main', $data);
 		return $sx;
 	}
@@ -114,8 +169,8 @@ class Home extends BaseController
 		$EventInscritos = new \App\Models\Event\EventInscritos();
 
 		$UserID = $User->getCookie();
-		if ($UserID == [])
-		{
+
+		if ($UserID == []) {
 			$url = 'signin';
 			return redirect()->to($url);
 		}
@@ -210,16 +265,32 @@ class Home extends BaseController
 			$data['event'] = view('event_set_password_send', $dt);
 		} else {
 			$data['event'] = view('event_set_password', $dt);
-			if ($pass1 != '')
-				{
-					$data['event'] .= '<div class="alert alert-danger">As senhas não conferem</div>';
-				}
-			if (strlen($pass1) < 6)
-				{
-					$data['event'] .= '<div class="alert alert-danger">Senha muito curta</div>';
-				}
+			if ($pass1 != '') {
+				$data['event'] .= '<div class="alert alert-danger">As senhas não conferem</div>';
+			}
+			if (strlen($pass1) < 6) {
+				$data['event'] .= '<div class="alert alert-danger">Senha muito curta</div>';
+			}
 		}
 		$sx .= view('main', $data);
+		return $sx;
+	}
+
+	function logoff()
+	{
+		$Users = new \App\Models\User\Users();
+		$Users->logoff();
+		$url = '';
+		$sx = '';
+		$sx .= view('header/header');
+		$data = [];
+
+		$dt = [];
+
+		$data['navbar'] = view('header/navbar');
+		$data['event'] = view('event_logoff.php', $dt);
+		$sx .= view('main', $data);
+
 		return $sx;
 	}
 
@@ -257,33 +328,32 @@ class Home extends BaseController
 	}
 
 	function main()
-		{
-			$sx = '';
-			$Events = new \App\Models\Event\Events();
-			$Users = new \App\Models\User\Users();
-			$CorporateBoard = new \App\Models\User\CorporateBoard();
-			$EventInscritos = new \App\Models\Event\EventInscritos();
-			$UserID = $Users->getCookie();
-			if ($UserID == [])
-			{
-				$url = 'signin';
-				return redirect()->to($url);
-			}
-			$sx .= view('header/header');
-			$data = [];
-			$dt = [];
-			$dt['url'] = 'main';
-
-			$data['navbar'] = view('header/navbar');
-
-			$dt = [];
-			$dt['futureEvents'] = $EventInscritos->myInscritos($UserID['id_n']);
-			$data['event'] = view('event/event_minhainscricoes',$dt);
-			$data['event'] .= view('widget/icone_create',$dt);
-
-			$sx .= view('main', $data);
-			return $sx;
+	{
+		$sx = '';
+		$Events = new \App\Models\Event\Events();
+		$Users = new \App\Models\User\Users();
+		$CorporateBoard = new \App\Models\User\CorporateBoard();
+		$EventInscritos = new \App\Models\Event\EventInscritos();
+		$UserID = $Users->getCookie();
+		if ($UserID == []) {
+			$url = 'signin';
+			return redirect()->to($url);
 		}
+		$sx .= view('header/header');
+		$data = [];
+		$dt = [];
+		$dt['url'] = 'main';
+
+		$data['navbar'] = view('header/navbar');
+
+		$dt = [];
+		$dt['futureEvents'] = $EventInscritos->myInscritos($UserID['id_n']);
+		$data['event'] = view('event/event_minhainscricoes', $dt);
+		$data['event'] .= view('widget/icone_create', $dt);
+
+		$sx .= view('main', $data);
+		return $sx;
+	}
 
 	function signin()
 	{
@@ -291,6 +361,14 @@ class Home extends BaseController
 		$Events = new \App\Models\Event\Events();
 		$Users = new \App\Models\User\Users();
 		$CorporateBoard = new \App\Models\User\CorporateBoard();
+
+		$dtu = $Users->getCookie();
+		/************ Já esta logado */
+		if ($dtu != []) {
+			$url = '';
+			return redirect()->to($url);
+		}
+
 		$sx .= view('header/header');
 		$data = [];
 		$dt = [];
@@ -306,11 +384,11 @@ class Home extends BaseController
 		} else {
 			$data['event'] = view('event_signin.php', $dt);
 		}
-		if ($dt['check_password'] == 1)
-			{
-				$url = 'main';
-				return redirect()->to($url);
-			}
+		if ($dt['check_password'] == 1) {
+			//$url = 'main';
+			//return redirect()->to($url);
+			$data['event'] = view('event_signin_ok.php', $dt);
+		}
 
 		$sx .= view('main', $data);
 		return $sx;

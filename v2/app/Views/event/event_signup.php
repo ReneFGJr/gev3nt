@@ -12,6 +12,10 @@
 				<input type="text" class="form-style" id="cpf" name="cpf" placeholder="Informe seu CPF" maxlength="11" value="<?= get("cpf"); ?>" required>
 				<?= ($check_cpf == 1) ? '<div class="alert alert-danger">E-mail já cadastrado</div>' : ''; ?>
 				<?= ($check_cpf == 9) ? '<div class="alert alert-danger">E-mail já cadastrado</div>' : ''; ?>
+				<div class="form-check mt-2">
+					<input type="checkbox" class="form-check-input" id="extrangeiro" name="extrangeiro" value="1" onclick="fieldCpfToggle()" <?= (get('extrangeiro') == 1) ? 'checked' : ''; ?>>
+					<label for="extrangeiro" class="form-check-label small">Sou estrangeiro</label>
+				</div>
 			</div>
 			<div class="mb-3">
 				<label for="email" class="form-label small">Email</label>
@@ -44,3 +48,18 @@
 		</form>
 	</div>
 </div>
+
+<script>
+	function fieldCpfToggle() {
+		const cpfField = document.getElementById('cpf');
+		const isChecked = document.getElementById('extrangeiro').checked;
+
+		if (isChecked) {
+			cpfField.setAttribute('disabled', 'disabled');
+			cpfField.value = 'Estrangeiro';
+		} else {
+			cpfField.removeAttribute('disabled');
+			cpfField.value = '';
+		}
+	}
+</script>

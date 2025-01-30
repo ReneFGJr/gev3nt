@@ -39,7 +39,7 @@
 				<span class="text-muted small">Auditório Principal</span>
 			</div>
 		</div>
-
+<?php /*
 		<!-- Sessões Paralelas -->
 		<div class="row g-3">
 			<!-- Sala Azul -->
@@ -142,6 +142,7 @@
 				</div>
 			</div>
 		</div>
+		*/ ?>
 	</div>
 </div>
 

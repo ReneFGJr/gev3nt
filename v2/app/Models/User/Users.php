@@ -15,7 +15,10 @@ class Users extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-		'n_password','apikey','n_name','n_cpf','n_email'
+		'n_password','apikey','n_nome','n_cpf','n_email','n_estrangeiro',
+		'n_badge_name','n_afiliacao',
+		'n_biografia',
+		'n_orcid'
 	];
 
     protected bool $allowEmptyInserts = false;

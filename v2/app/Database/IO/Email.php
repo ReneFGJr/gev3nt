@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models\Event;
+namespace App\Models\IO;
 
 use CodeIgniter\Model;
+use CodeIgniter\Email\Email;
 
-class Events extends Model
+class EmailX extends Model
 {
-    protected $table            = 'event';
-    protected $primaryKey       = 'id_e';
+    protected $table            = 'emails';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -44,13 +45,18 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-	function getEvents($user=0)
-		{
-			$dt = [];
-			$dt = $this
-				->join('event_inscritos ', '(id_e = ein_event) AND (ein_user = '.$user.')', 'left')
-				->where('e_sigin_until >= ', date('Y-m-d'))
-				->findAll();
-			return $dt;
+	public function sendEmail()
+	{
+		$email = service('email');  // Carrega o serviço de e-mail
+
+		$email->setTo('destinatario@example.com');  // Defina o e-mail do destinatário
+		$email->setSubject('Assunto do E-mail');
+		$email->setMessage('<p>Este é um e-mail de teste enviado via CodeIgniter 4.</p>');
+
+		if ($email->send()) {
+			return 'E-mail enviado com sucesso!';
+		} else {
+			return 'Erro ao enviar e-mail: ' . print_r($email->printDebugger(), true);
 		}
+	}
 }

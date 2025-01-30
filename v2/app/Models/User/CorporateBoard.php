@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class CorporateBoard extends Model
 {
-    protected $table            = 'corporateBody';
+    protected $table            = 'corporatebody';
     protected $primaryKey       = 'id_cb';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

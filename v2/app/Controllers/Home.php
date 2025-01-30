@@ -18,16 +18,23 @@ class Home extends BaseController
 		$data = [];
 		$data['navbar'] = view('header/navbar');
 		if ($UserID == []) {
-			$data['events'] = $Events->getEvents();
+			$data['events'] = $Events->getEvents(0);
 			$data['event'] = view('event_mini_show', $data);
 		} else {
 			//redirect()->to('main')->send();
-			$data['events'] = $Events->getEvents();
+			$id = $UserID['id_n'];
+			$data['events'] = $Events->getEvents($id);
 			$data['event'] = view('event_mini_show', $data);
 		}
 
 		$sx .= view('main', $data);
 		return $sx;
+	}
+
+	function emailtest()
+	{
+		$EmailX = new \App\Models\IO\EmailX();
+		echo $EmailX->sendEmail('renefgj@gmail.com', 'Teste de e-mail', 'Este é um teste de e-mail');
 	}
 
 	function payment($id)
@@ -106,6 +113,18 @@ class Home extends BaseController
 			$key = md5(date("YmdHis") . get('email'));
 			$dt['link'] = base_url('setpassword?email=' . get('email') . '&key=' . $key);
 			$data['event'] = view('event_forgot_login_send.php', $dt);
+
+			/************** EMAIL */
+			$EmailX = new \App\Models\IO\EmailX();
+			$dataUser = $Users->getByEmail(get('email'));
+			$dataUser['link'] = $dt['link'];
+
+			$data['email'] = view('event/event_forgot_login_email', $dataUser);
+			$EmailX->sendEmail(get('email'), 'Recuperação de senha', $data['email']);
+		} else {
+			if (get("email") != '') {
+				$data['event'] .= '<div class="alert alert-danger">E-mail não encontrado - faça o <a href="'.base_url('signup'). '">cadastro</a>.</div>';
+			}
 		}
 		$sx .= view('main', $data);
 		return $sx;
@@ -120,6 +139,11 @@ class Home extends BaseController
 		}
 		$id = $dt['id_n'];
 		$dt = $Users->getUserId($id);
+
+		if ($dt == []) {
+			$url = 'logoff';
+			return redirect()->to($url);
+		}
 
 		$sx = '';
 		$sx .= view('header/header');
@@ -268,7 +292,7 @@ class Home extends BaseController
 			if ($pass1 != '') {
 				$data['event'] .= '<div class="alert alert-danger">As senhas não conferem</div>';
 			}
-			if (strlen($pass1) < 6) {
+			if ((strlen($pass1) < 6) and ($pass1 != '')) {
 				$data['event'] .= '<div class="alert alert-danger">Senha muito curta</div>';
 			}
 		}
@@ -315,14 +339,63 @@ class Home extends BaseController
 		/* E-mail já existe */
 		if ($_POST != []) {
 			$_POST['name'] = nbr_author(get("name"), 7);
-			$dt['check_email'] = $Users->check_email($_POST['email']);
-			$dt['check_cpf'] = $Users->check_cpf($_POST['cpf']);
+			$dt['check_email'] = $Users->check_email(get('email'));
+			$dt['check_cpf'] = $Users->check_cpf(get('cpf'));
+			if (get("extrangeiro") == 1) {
+				$dt['check_cpf'] = 0;
+			}
+
+			$data['navbar'] = view('header/navbar');
+
+			if (($dt['check_email'] == 0) and ($dt['check_cpf'] == 0)) {
+				$dt['n_nome'] = get('name');
+				$dt['n_email'] = get('email');
+				if (get('extrangeiro') == 1)
+					{
+						$dt['n_extrangeiro'] = 0;
+						$dt['n_cpf'] = 'Extrangeiro';
+					} else {
+						$dt['n_extrangeiro'] = 0;
+						$dt['n_cpf'] = get('cpf');
+					}
+				$dt['n_afiliacao'] = get('institution');
+				$dt['n_badge_name'] = get('badge_name');
+
+				$dt['n_password'] = md5(date("YmfHis") . get('email'));
+				$dt['apikey'] = md5(date("YmfHis") . get('email'));
+				$Users->set($dt)->insert();
+
+				/************** EMAIL */
+				$key = md5(date("YmdHis") . get('email'));
+				$dt['link'] = base_url('setpassword?email=' . get('email') . '&key=' . $key);
+
+				$EmailX = new \App\Models\IO\EmailX();
+				$dataUser = $Users->getByEmail(get('email'));
+				$dataUser['link'] = $dt['link'];
+
+				$data['email'] = view('event/event_user_welcome_email', $dataUser);
+				$data['event'] = view('event/event_user_welcome', $dataUser);
+				$EmailX->sendEmail(get('email'), 'Cadastro de novo usuário', $data['email']);
+
+				$sx .= view('main', $data);
+				return $sx;
+			}
+
 		}
 
 		/* CPF já existe */
-
 		$data['navbar'] = view('header/navbar');
-		$data['event'] = view('event_cadastro.php', $dt);
+		$data['event'] = view('event/event_signup', $dt);
+		if ($dt['check_email'] == 1) {
+			$data['event'] .= '<div class="alert alert-danger">E-mail já cadastrado</div>';
+		}
+		if ($dt['check_cpf'] == 1) {
+			$data['event'] .= '<div class="alert alert-danger">CPF já cadastrado</div>';
+		}
+
+		if ($dt['check_cpf'] == 9) {
+			$data['event'] .= '<div class="alert alert-danger">CPF Inválido</div>';
+		}
 		$sx .= view('main', $data);
 		return $sx;
 	}
@@ -388,6 +461,10 @@ class Home extends BaseController
 			//$url = 'main';
 			//return redirect()->to($url);
 			$data['event'] = view('event_signin_ok.php', $dt);
+		} else {
+			if (get("email") != '') {
+				$data['event'] .= '<div class="alert alert-danger">Usuário ou senha inválidos</div>';
+			}
 		}
 
 		$sx .= view('main', $data);

@@ -17,7 +17,13 @@
 				<div class="mb-8"></div>
 				<p><?= $e_description; ?></p>
 				<p><?= $e_deadline; ?></p>
-				<p><a href="<?php echo base_url('subscribe/'.$e_id);?>" class="btn btn-primary sizeB">Inscreva-se</a></p>
+
+				<?php if (strlen($event['ein_event']) > 0) { ?>
+					<p><a href="<?php echo base_url('meuseventos/' . $e_id); ?>" class="btn btn-success sizeB">Voce já está inscrito</a></p>
+				<?php } else { ?>
+					<p><a href="<?php echo base_url('subscribe/' . $e_id); ?>" class="btn btn-primary sizeB">Inscreva-se</a></p>
+				<?php } ?>
+
 			</div>
 		</div>
 	</div>

@@ -33,3 +33,7 @@ $routes->post($pre . '/setpassword', 'Home::setpassword');
 $routes->get($pre . '/profile', 'Home::profile');
 
 $routes->get($pre . '/meuseventos', 'Home::meuseventos');
+$routes->get($pre . '/meuseventos/(:any)', 'Home::meuseventos');
+
+
+$routes->get($pre . '/email/test', 'Home::emailtest');

@@ -57,15 +57,16 @@ class EventInscritos extends Model
 			$dt = $this
 				->select('*')
 
-				->join('events', 'ein_tipo = ein_event')
+				->join('event', 'id_e = ein_event')
 				->join('event_inscricoes', 'id_ei = ein_tipo')
 				//->join('event_tipo', 'event_tipo.id_tipo = event_lotes.el_tipo')
 				//->join('event_status', 'event_status.id_status = events.e_status')
 				//->join('event_status as status_lote', 'status_lote.id_status = event_lotes.el_status')
 				->where('ein_user', $UserID)
-				->where('e_data >= ', date("Y-m-d"))
-				->orderBy('events.e_data', 'DESC')
+				->where('e_data_f >= ', date("Y-m-d"))
+				->orderBy('e_data_f', 'DESC')
 				->findAll();
+
 			return $dt;
 		}
 
@@ -83,18 +84,27 @@ class EventInscritos extends Model
 
 	function subscribe($UserId, $id, $lote)
 		{
+			$PAGO = 0;
 			$dt = $this->where('ein_event', $id)
 				->where('ein_user', $UserId)
 				->where('ein_tipo', $lote)
 				->first();
 			if ($dt == [])
 				{
+					$EventTipo = new \App\Models\Event\EventInscricoes();
+					$dataEvent = $EventTipo->find($lote);
+					$preco = $dataEvent['ei_preco'];
+					if ($preco == 0)
+						{
+							$PAGO = 1;
+						}
+
 					$data = [
 						'ein_event' => $id,
 						'ein_user' => $UserId,
 						'ein_tipo' => $lote,
 						'ein_data' => date("Y-m-d"),
-						'ein_pago' => 0,
+						'ein_pago' => $PAGO,
 						'ein_pago_em' => '',
 						'ein_recibo' => ''
 					];
@@ -112,6 +122,8 @@ class EventInscritos extends Model
 
 					$fileID = 'doc_'.str_pad($ID, 8, "0", STR_PAD_LEFT);
 					move_uploaded_file($_FILES['comprovante']['tmp_name'], $dir . $fileID . '.pdf');
+					$UploadFiles = new \App\Models\Event\UploadFile();
+					$UploadFiles->saveDocument($dir . $fileID.'.pdf', $ID, 'registration');
 				}
 			return $ID;
 		}

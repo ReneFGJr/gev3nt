@@ -22,11 +22,11 @@
 
 			<div class="mb-3">
 				<label for="pass1" class="form-label small">Nova senha</label>
-				<input type="password" class="form-control" id="pass1" name="pass1" placeholder="Informe nova senha" maxlength="11" value="<?= get('pass1'); ?>" <?= (get('extrangeiro') == 1) ? 'disabled' : ''; ?> required>
+				<input type="password" class="form-control border border-secondary big" id="pass1" name="pass1" placeholder="Informe nova senha" maxlength="11" value="<?= get('pass1'); ?>" <?= (get('extrangeiro') == 1) ? 'disabled' : ''; ?> required>
 			</div>
 			<div class="mb-3">
 				<label for="pass1" class="form-label small">Repita a nova senha</label>
-				<input type="password" class="form-control" id="pass2" name="pass2" placeholder="reinforme nova senha" maxlength="11" value="<?= get('pass2'); ?>" <?= (get('extrangeiro') == 1) ? 'disabled' : ''; ?> required>
+				<input type="password" class="form-control border border-secondary big" id="pass2" name="pass2" placeholder="reinforme nova senha" maxlength="11" value="<?= get('pass2'); ?>" <?= (get('extrangeiro') == 1) ? 'disabled' : ''; ?> required>
 				<?= ($check_password == 1) ? '<div class="alert alert-success mt-2">E-mail localizado</div>' : ''; ?>
 				<?= ($check_password == 2) ? '<div class="alert alert-danger mt-2">E-mail NÂO localizado</div>' : ''; ?>
 			</div>

@@ -10,3 +10,10 @@
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/pt-br.js'></script>
 	<link rel="manifest" href="manifest.json">
 </header>
+<script>
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('/inscricoes/assets/js/service-worker.js')
+			.then(() => console.log('Service Worker registrado!'))
+			.catch((err) => console.error('Erro ao registrar o Service Worker:', err));
+	}
+</script>

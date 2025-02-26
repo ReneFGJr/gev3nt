@@ -44,6 +44,45 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function programEvents($id)
+		{
+
+			$cp = 'sch_day, esb_hora_ini, esb_hora_fim, esb_local, esb_titulo, esb_participantes, lc_nome, lc_class, id_lc as sala, id_sch as day';
+			//$cp = '*';
+			$dt = $this
+					->select($cp)
+					->join('event_schedule', 'id_e = sch_event')
+					->join('event_schedule_bloco', 'id_sch = esb_day')
+					->join('event_local','id_lc = esb_local')
+					->where('id_e', $id)
+					->orderBy('sch_day, esb_hora_ini, esb_local')
+					->findAll();
+
+			$dtt = [];
+			# Dias
+			$day = [];
+			foreach($dt as $idd=>$d)
+				{
+					if (!isset($day[$d['day']]))
+						{
+							$day[$d['day']] =$d['sch_day'];
+						}
+				}
+			# Salas
+			$room = [];
+			foreach ($dt as $idd => $d) {
+				if (!isset($room[$d['sala']])) {
+					$room[$d['sala']] = $d['lc_nome'];
+				}
+			}
+
+			$dtt['programacao'] = $dt;
+			$dtt['dias'] = $day;
+			$dtt['salas'] = $room;
+
+			return $dtt;
+		}
+
 	function getEvents($user=0)
 		{
 			$dt = [];

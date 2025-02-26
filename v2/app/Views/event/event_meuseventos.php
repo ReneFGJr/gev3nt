@@ -5,149 +5,65 @@
 	<div class="row g-3 mb-4">
 		<div class="col-md-12">
 			<div class="btn-group w-100 shadow">
-				<button class="btn btn-outline-primary active" data-day="day1">Dia 1</button>
-				<button class="btn btn-outline-primary" data-day="day2">Dia 2</button>
-				<button class="btn btn-outline-primary" data-day="day3">Dia 3</button>
+				<?php
+				$active = 'active';
+				foreach ($dias as $key => $day) {
+					$dia = substr($day, 8, 2) . '/' . substr($day, 5, 2);
+					echo "<button class='btn btn-outline-primary $active' data-day='day_$key'>$dia</button>";
+					$active = '';
+				}
+				?>
 			</div>
 		</div>
 		<div class="col-md-8">
 			<div class="d-flex gap-2 flex-wrap">
 				<button class="btn btn-sm btn-salas active" data-room="all">Todas</button>
-				<button class="btn btn-sm btn-salas" data-room="azul">Sala Azul</button>
-				<button class="btn btn-sm btn-salas" data-room="rosa">Sala Rosa</button>
-				<button class="btn btn-sm btn-salas" data-room="verde">Sala Verde</button>
+				<?php
+				$active = '';
+				foreach ($salas as $key => $room) {
+					$dia = substr($day, 8, 2) . '/' . substr($day, 5, 2);
+					echo '<button class="btn btn-sm btn-salas ' . $active . '" data-room="room_' . $key . '">' . $room . '</button>';
+					$active = '';
+				}
+				?>
 			</div>
 		</div>
 	</div>
 
 	<!-- Grade de Horários -->
 	<div class="schedule-grid">
-		<!-- Sessão 1 -->
-		<div class="schedule-item bg-light p-3 mb-3 rounded-3 shadow-sm" data-day="day1" data-room="all">
-			<div class="time-badge bg-primary text-white rounded-pill px-3 py-1 d-inline-block">09:00</div>
-			<div class="mt-2">
-				<h5 class="mb-0">Credenciamento</h5>
-				<span class="text-muted small">Área Principal</span>
-			</div>
-		</div>
 
-		<!-- Sessão 2 -->
-		<div class="schedule-item bg-light p-3 mb-3 rounded-3 shadow-sm" data-day="day1" data-room="all">
-			<div class="time-badge bg-primary text-white rounded-pill px-3 py-1 d-inline-block">10:00</div>
-			<div class="mt-2">
-				<h5 class="mb-0">Palestra de Abertura</h5>
-				<span class="text-muted small">Auditório Principal</span>
-			</div>
-		</div>
-<?php /*
+
+
 		<!-- Sessões Paralelas -->
 		<div class="row g-3">
-			<!-- Sala Azul -->
-			<div class="col-md-12 schedule-item" data-day="day1" data-room="azul">
-				<div class="h-100 bg-azul p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">27/06 14:00</div>
-						<span class="badge bg-white text-azul border border-azul">Sala Azul</span>
-					</div>
-					<h5 class="fw-bold">Indexação em Repositórios Digitais</h5>
-					<p class="small mb-1">A importância da indexação de documentos em repositórios digitais</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> João da Silva<br>
-						<i class="bi bi-person-fill"></i> Rene Faustino Gabriel<br>
-						<i class="bi bi-person-fill"></i> Viviane de Fátima Túlio
-					</div>
-				</div>
-			</div>
 
-			<!-- Sala Azul -->
-			<div class="col-md-12 schedule-item" data-day="day1" data-room="azul">
-				<div class="h-100 bg-azul p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">27/06 14:30</div>
-						<span class="badge bg-white text-azul border border-azul">Sala Azul</span>
-					</div>
-					<h5 class="fw-bold">Indexação em Repositórios Digitais 2</h5>
-					<p class="small mb-1">A importância da indexação de documentos em repositórios digitais</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> João da Silva<br>
-						<i class="bi bi-person-fill"></i> Rene Faustino Gabriel<br>
-						<i class="bi bi-person-fill"></i> Viviane de Fátima Túlio
-					</div>
-				</div>
-			</div>
-
-			<!-- Sala Azul -->
-			<div class="col-md-12 schedule-item" data-day="day1" data-room="azul">
-				<div class="h-100 bg-azul p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">27/06 15:00</div>
-						<span class="badge bg-white text-azul border border-azul">Sala Azul</span>
-					</div>
-					<h5 class="fw-bold">Indexação em Repositórios Digitais 3</h5>
-					<p class="small mb-1">A importância da indexação de documentos em repositórios digitais</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> João da Silva<br>
-						<i class="bi bi-person-fill"></i> Rene Faustino Gabriel<br>
-						<i class="bi bi-person-fill"></i> Viviane de Fátima Túlio
-					</div>
-				</div>
-			</div>
-
-			<!-- Sala Rosa -->
-			<div class="col-md-12 schedule-item" data-day="day1" data-room="rosa">
-				<div class="h-100 bg-rosa p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">27/06 14:00</div>
-						<span class="badge bg-white text-rosa border border-rosa">Sala Rosa</span>
-					</div>
-					<h5 class="fw-bold">Gestão do Conhecimento</h5>
-					<p class="small mb-1">Novas abordagens na organização da informação</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> Maria Oliveira<br>
-						<i class="bi bi-person-fill"></i> Carlos Andrade
-					</div>
-				</div>
-			</div>
-
-			<!-- Sala Verde -->
-			<div class="col-md-12 schedule-item" data-day="day1" data-room="verde">
-				<div class="h-100 bg-verde p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">27/06 14:00</div>
-						<span class="badge bg-white text-verde border border-verde">Sala Verde</span>
-					</div>
-					<h5 class="fw-bold">Tecnologias Emergentes</h5>
-					<p class="small mb-1">IA aplicada à organização da informação</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> Ana Paula Costa<br>
-						<i class="bi bi-person-fill"></i> Fernando Almeida
-					</div>
-				</div>
-			</div>
-
-			<!-- Sala Azul -->
-			<div class="col-md-12 schedule-item" data-day="day2" data-room="azul">
-				<div class="h-100 bg-azul p-3 rounded-3 shadow">
-					<div class="d-flex justify-content-between align-items-center mb-2">
-						<div class="time-badge bg-dark text-white rounded-pill px-3 py-1">28/06 14:00</div>
-						<span class="badge bg-white text-azul border border-azul">Sala Azul</span>
-					</div>
-					<h5 class="fw-bold">Indexação em Repositórios Digitais 3</h5>
-					<p class="small mb-1">A importância da indexação de documentos em repositórios digitais</p>
-					<div class="speakers text-muted small">
-						<i class="bi bi-person-fill"></i> João da Silva<br>
-						<i class="bi bi-person-fill"></i> Rene Faustino Gabriel<br>
-						<i class="bi bi-person-fill"></i> Viviane de Fátima Túlio
-					</div>
-				</div>
-			</div>
+			<?php
+			foreach ($programacao as $p) {
+				$diaID = $p['day'];
+				$dia = $p['sch_day'];
+				$dia = substr($dia, 8, 2) . '/' . substr($dia, 5, 2);
+				$hora_ini = $p['esb_hora_ini'];
+				$hora_fim = $p['esb_hora_fim'];
+				$local = $p['lc_nome'];
+				$localID = $p['esb_local'];
+				$titulo = $p['esb_titulo'];
+				$participantes = $p['esb_participantes'];
+				$sala = $p['sala'];
+				$class = $p['lc_class'];
+				require("event_meuseventos_day_room_class.php");
+			}
+			?>
 		</div>
-		*/ ?>
 	</div>
 </div>
 
 <style>
-	.btn-salas {
+	.text-coffee {
+		color: #333;
+	}
+
+	.border-coffee .btn-salas {
 		border: 1px solid #dee2e6;
 		transition: all 0.3s ease;
 	}
@@ -158,19 +74,31 @@
 		color: white !important;
 	}
 
+	/*************************************** Background */
+
+	.bg-coffee {
+		background-color: rgb(189, 190, 190);
+		border-left: 10px #333 solid;
+	}
+
+	.bg-gray {
+		background-color: rgb(215, 219, 221);
+		border-left: 10px solidrgb(32, 36, 39);
+	}
+
 	.bg-azul {
-		background-color: #e3f2fd;
-		border-left: 4px solid #2196F3;
+		background-color: rgb(212, 227, 238);
+		border-left: 10px solid #2196F3;
 	}
 
 	.bg-rosa {
 		background-color: #fce4ec;
-		border-left: 4px solid #E91E63;
+		border-left: 10px solid #E91E63;
 	}
 
 	.bg-verde {
-		background-color: #e8f5e9;
-		border-left: 4px solid #4CAF50;
+		background-color: rgb(216, 244, 218);
+		border-left: 10px solid #4CAF50;
 	}
 
 	.text-azul {
@@ -204,7 +132,7 @@
 				const day = this.dataset.day;
 				document.querySelectorAll('.schedule-item').forEach(item => {
 					item.style.display = item.dataset.day === day ? 'block' : 'none';
-				});
+					});
 			});
 		});
 

@@ -246,11 +246,13 @@ class Home extends BaseController
 
 	function meuseventos()
 	{
+		$Events = new \App\Models\Event\Events();
 		$sx = '';
 		$sx .= view('header/header');
 		$data = [];
 		$data['navbar'] = view('header/navbar');
-		$dt = [];
+
+		$dt = $Events->programEvents(2);
 
 		$data['event'] = view('event/event_meuseventos', $dt);
 		$sx .= view('main', $data);

@@ -29,6 +29,12 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
 
 // Path to the front controller (this file)
 $system = '/home2/iskoor95/inscricoes/system';
+if (isset($_SERVER['HTTP_HOST'])) {
+	if ($_SERVER['HTTP_HOST'] == 'g3vent') {
+		$system = __DIR__;
+	}
+}
+
 #define('FCPATH', __DIR__ . $system. DIRECTORY_SEPARATOR);
 define('FCPATH', $system. DIRECTORY_SEPARATOR);
 
@@ -55,8 +61,10 @@ require FCPATH . '../app/Config/Paths.php';
 $paths = new Config\Paths();
 
 
-// Definir corretamente o caminho base do sistema CodeIgniter
-$paths->systemDirectory = realpath(FCPATH . '../../inscricoes/system') ?: FCPATH . '../../inscricoes/system';
+if ($_SERVER['HTTP_HOST'] != 'g3vent') {
+	// Definir corretamente o caminho base do sistema CodeIgniter
+	$paths->systemDirectory = realpath(FCPATH . '../../inscricoes/system') ?: FCPATH . '../../inscricoes/system';
+}
 
 
 // LOAD THE FRAMEWORK BOOTSTRAP FILE

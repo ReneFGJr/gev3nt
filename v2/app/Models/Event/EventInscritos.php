@@ -70,6 +70,35 @@ class EventInscritos extends Model
 			return $dt;
 		}
 
+	function getInscricao($id)
+	{
+		$dt = $this
+		->select('*')
+		->join('event', 'ein_event = id_e')
+		->join('event_inscricoes', 'ein_tipo = id_ei')
+		->join('events_names', 'id_n = ein_user')
+		->join('corporatebody', 'n_afiliacao = id_cb','left')
+		->where('id_ein', $id)
+		->orderBy('ein_data desc, id_ein desc')
+		->first();
+		return $dt;
+	}
+
+	function getInscritos($id)
+		{
+			$dt = $this
+				->select('*')
+				->join('event', 'ein_event = id_e')
+				->join('event_inscricoes', 'ein_tipo = id_ei')
+				->join('events_names', 'id_n = ein_user')
+				->join('corporatebody', 'n_afiliacao = id_cb', 'left')
+				->where('ein_event', $id)
+				->where('ein_status in (1,2)')
+				->orderBy('ein_data desc, id_ein desc')
+				->findAll();
+			return $dt;
+		}
+
 	function getSubscribe($id)
 		{
 			$dt = $this

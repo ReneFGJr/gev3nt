@@ -9,7 +9,7 @@ foreach ($inscricoes as $idx => $line) {
 		<div class="card-body d-flex flex-column">
 			<div class="d-flex justify-content-between align-items-center">
 				<div>
-					<a href="/admin/inscricoes/view/<?= esc($line['id_ein']) ?>" class="link">
+					<a href="<?=base_url('/admin/inscricoes/view/'.esc($line['id_ein'])); ?>" class="link">
 						<strong><?= $line['n_nome'] ?></strong>
 					</a>
 					<br><?= $line['cb_nome']; ?>
@@ -19,7 +19,7 @@ foreach ($inscricoes as $idx => $line) {
 					</span>
 				</div>
 				<?php if ($line['ein_recibo'] == '') { ?>
-					<a href="/admin/inscricoes/check/<?= $line['id_ein']; ?>" target="_blank" class="btn btn-primary">Validar</a>
+					<a href="<?=base_url('/admin/inscricoes/check/'.$line['id_ein']); ?>" target="_blank" class="btn btn-primary">Validar</a>
 				<?php } ?>
 			</div>
 		</div>

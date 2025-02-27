@@ -45,13 +45,15 @@ class EmailX extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-	public function sendEmail()
+	public function sendEmail($to='renefgj@gmail.com', $subject='Assunto do E-mail', $message='Mensagem do E-mail')
 	{
 		$email = service('email');  // Carrega o serviço de e-mail
 
-		$email->setTo('destinatario@example.com');  // Defina o e-mail do destinatário
-		$email->setSubject('Assunto do E-mail');
-		$email->setMessage('<p>Este é um e-mail de teste enviado via CodeIgniter 4.</p>');
+		// Configuração do e-mail para HTML
+		$email->setMailType('html');
+		$email->setTo($to);  // Defina o e-mail do destinatário
+		$email->setSubject($subject);
+		$email->setMessage($message);
 
 		if ($email->send()) {
 			return 'E-mail enviado com sucesso!';

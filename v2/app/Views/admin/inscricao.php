@@ -17,8 +17,8 @@
 			</div>
 			<?php if ($action == True) { ?>
 				<div class="card-footer text-end">
-					<a href="/admin/inscricoes/unchecked/<?= esc($data['id_ein']) ?>" class="btn btn-danger">Indeferir Inscrição</a>
-					<a href="/admin/inscricoes/checked/<?= esc($data['id_ein']) ?>" class="btn btn-success">Validar Inscrição</a>
+					<a href="<?=base_url('/admin/inscricoes/unchecked/'.esc($data['id_ein'])); ?>" class="btn btn-danger">Indeferir Inscrição</a>
+					<a href="<?=base_url('/admin/inscricoes/checked/'.esc($data['id_ein'])); ?>" class="btn btn-success">Validar Inscrição</a>
 				</div>
 			<?php } ?>
 		</div>

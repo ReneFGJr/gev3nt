@@ -52,6 +52,49 @@ class EventInscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	public function messages($tp = 0,$dt=[])
+	{
+		switch($tp)
+			{
+				case '1': /* Confirmação de inscrição */
+				$message = 'Prezado(a) [Nome],
+							<br>
+							<br>Agradecemos sua inscrição [Evento]!
+							<br>
+							<br>Temos o prazer de confirmar o recebimento do seu pagamento e sua participação no evento.
+							<br>
+							<br>Detalhes da Inscrição:
+							<br>Nome: [Nome]
+							<br>Categoria: [Tipo]
+							<br>Valor Pago: R$ [Valor]
+							<br>Data do Pagamento: [Data]
+							<br>
+							<br>Próximos Passos:
+							<br>📌 Em breve, você receberá mais informações sobre a programação completa e instruções para acessar o evento.
+							<br>📌 Caso tenha alguma dúvida ou precise de suporte, entre em contato pelo e-mail: [EmailSuporte].
+							<br>
+							<br>Estamos ansiosos para recebê-lo(a) em nosso evento e proporcionar uma experiência enriquecedora com debates e aprendizados.
+							<br>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+							break;
+				default:
+					$message = 'Nenhuma mensagem definida '.$tp;
+					break;
+			}
+
+			$message = str_replace('[Nome]','<b>'.$dt['n_nome'].'</b>',$message);
+			$message = str_replace('[Evento]',$dt['e_name'],$message);
+
+			$message = str_replace('[Tipo]',$dt['ei_modalidade'],$message);
+			$message = str_replace('[Valor]',number_format($dt['ei_preco'],2,',','.'),$message);
+			$message = str_replace('[Data]',$dt['cb_created'],$message);
+			$message = str_replace('[EmailSuporte]','isko@isko.org.br',$message);
+
+		return $message;
+
+	}
+
 	function myInscritos($UserID)
 		{
 			$dt = $this

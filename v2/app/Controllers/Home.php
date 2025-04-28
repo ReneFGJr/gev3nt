@@ -27,6 +27,9 @@ class Home extends BaseController
 			$data['event'] = view('event_mini_show', $data);
 		}
 
+		$EventInscricoes = new \App\Models\Event\EventInscricoes();
+		$data['event'] .= $EventInscricoes->showTypeInscricoes(2);
+
 		$sx .= view('main', $data);
 		return $sx;
 	}

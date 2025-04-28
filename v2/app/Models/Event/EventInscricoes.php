@@ -45,13 +45,51 @@ class EventInscricoes extends Model
     protected $afterDelete    = [];
 
 
+	function showTypeInscricoes($id)
+		{
+			$sx = '';
+			$dc = $this->lotesInscricoesTodos($id);
+
+			$dc = array_map(function ($item) {
+				$item['ei_data_inicio'] = date('d/m/Y', strtotime($item['ei_data_inicio']));
+				$item['ei_data_final'] = date('d/m/Y', strtotime($item['ei_data_final']));
+				return $item;
+			}, $dc);
+
+			$dfl = '';
+			$sx .= '<table class="table table-striped table-bordered table-hover mt-3">';
+			foreach ($dc as $key => $value) {
+				$df = $value['ei_descricao'];
+				if ($dfl != $df)
+					{
+						$dfl = $df;
+						$sx .= '<tr><th colspan="3" class="h4">'.$dfl.'</th></tr>';
+					}
+				$sx .= '<tr>';
+				$sx .= '<td class="text-center" style="width: 20%;">até '.$value['ei_data_final'].'</td>';
+				$sx .= '<td class="text-center" style="width: 60%;">'.$value['ei_modalidade'].'</td>';
+				$sx .= '<td class="text-center" style="width: 20%;">' . number_format($value['ei_preco'],2,',','.') . '</td>';
+				$sx .= '</tr>';
+			}
+			$sx .= '</table>';
+			return ($sx);
+		}
+	function lotesInscricoesTodos($id_e)
+	{
+		$rlt = $this
+			->where('ei_event', $id_e)
+			->orderBy('ei_descricao, ei_data_inicio, ei_modalidade, ei_preco desc')
+			->findAll();
+		return ($rlt);
+	}
+
 	function lotesInscricoes($id_e)
 	{
 		$rlt = $this
 			->where('ei_event', $id_e)
 			->where('ei_data_inicio <=', date("Y-m-d"))
 			->where('ei_data_final >=', date("Y-m-d"))
-			->orderBy('ei_data_inicio, ei_modalidade')
+			->orderBy('ei_descricao, ei_data_inicio, ei_modalidade')
 			->findAll();
 		return($rlt);
 	}

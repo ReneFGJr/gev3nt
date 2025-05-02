@@ -70,13 +70,13 @@ class EventInscritos extends Model
 
 							<br><b>Informações para pagamento:</b>
 							<br>Para efetivar sua inscrição, realize o pagamento de forma rápida e segura via PIX utilizando a Chave PIX: 10.262.169/0001-73 em nome da Sociedade ISKO Brasil.
-
-							Ou por meio de depósito bancário:
-							Sociedade ISKO Brasil
-							Banco do Brasil (Código: 001)
-							Agência: 0141-4
-							C/C: 70261-7
-							CNPJ: 10.262.169/0001-73
+							<br>
+							<br>Ou por meio de depósito bancário:
+							<br>Sociedade ISKO Brasil
+							<br>Banco do Brasil (Código: 001)
+							<br>Agência: 0141-4
+							<br>C/C: 70261-7
+							<br>CNPJ: 10.262.169/0001-73
 							<br>
 							<br>
 							<br>Próximos Passos:

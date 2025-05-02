@@ -34,6 +34,81 @@ class Home extends BaseController
 		return $sx;
 	}
 
+	function sample($id=10)
+	{
+		// 1) Buscar dados (opcional)
+		//$model = new WordAproved();
+		//$data  = $model->find($id);
+		$data = [];
+
+		// 2) Caminhos para PEMs
+		// Caminhos dos seus arquivos de chave/certificado e selo
+		$certPem   = 'e:/certs/cert.pem';
+		$keyPem    = 'e:/certs/key.pem';
+		$keyPass   = '';               // vazio se sua chave não tiver senha
+		$sealImage = 'e:/certs/selo.png';
+
+
+		// 3) Verificação de leitura da chave privada
+		$keyContents = file_get_contents($keyPem);
+		if ($keyContents === false) {
+			throw new \RuntimeException("Não conseguiu ler key.pem em {$keyPem}");
+		}
+		$private = openssl_pkey_get_private($keyContents, $keyPass);
+		if ($private === false) {
+			$err = openssl_error_string();
+			throw new \RuntimeException("Falha ao carregar chave privada: {$err}");
+		}
+		// opcional: libera o recurso
+		openssl_pkey_free($private);
+
+		// 4) Instanciar TCPDF
+		$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdf->SetCreator('Seu Sistema');
+		$pdf->SetAuthor('Rene Faustino Gabriel Junior');
+		$pdf->SetTitle('Trabalho #' . $id);
+		$pdf->SetSubject('PDF Assinado Gov.br');
+
+		$pdf->SetMargins(20, 20, 20);
+		$pdf->SetAutoPageBreak(true, 20);
+		$pdf->AddPage();
+
+		// 5) Conteúdo do PDF
+		$html  = '<h1>' . esc($data['titulo'] ?? 'Sem título') . '</h1>';
+		$html .= '<p>Autor(es): ' . esc($data['autor'] ?? 'Desconhecido') . '</p>';
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		// 6) Dados da assinatura
+		$info = [
+			'Name'        => 'Rene Faustino Gabriel Junior',
+			'Location'    => 'Porto Alegre, RS',
+			'Reason'      => 'Assinatura Digital Gov.br',
+			'ContactInfo' => 'rene.gabriel@ufrgs.br',
+		];
+
+		// 7) Configura assinatura com os arquivos PEM
+		$pdf->setSignature(
+			'file://' . realpath($certPem),
+			'file://' . realpath($keyPem),
+			$keyPass,
+			'',
+			2,
+			$info
+		);
+
+		// placeholder visual
+		$pdf->addEmptySignatureAppearance(15, 240, 50, 30);
+
+		// Insere selo no canto inferior direito da página 1
+		$pdf->Image($sealImage, 140, 240, 50, 50, 'PNG');
+
+		// 8) Gera e retorna o PDF
+		$output = $pdf->Output('', 'S');
+		return $this->response
+			->setHeader('Content-Type', 'application/pdf')
+			->setBody($output);
+	}
+
 	function emailtest()
 	{
 		$EmailX = new \App\Models\IO\EmailX();

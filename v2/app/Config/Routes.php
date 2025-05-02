@@ -43,3 +43,4 @@ $routes->get($pre . '/meuseventos/(:any)', 'Home::meuseventos');
 
 
 $routes->get($pre . '/email/test', 'Home::emailtest');
+$routes->get($pre . '/sample', 'Home::sample');

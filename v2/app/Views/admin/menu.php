@@ -7,10 +7,16 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="<?=base_url('/admin');?>">Home</a>
+					<a class="nav-link active" aria-current="page" href="<?= base_url('/admin'); ?>">Home</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/admin/eventos/">Eventos</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Programação
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?= base_url('/admin/works'); ?>">Trabalhos</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/authors'); ?>">Autores Aprovados</a></li>
+					</ul>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -18,16 +24,21 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="<?= base_url('/admin/inscricoes/validar'); ?>">Validar inscrições</a></li>
-						<li><a class="dropdown-item" href="#">Another action</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li><a class="dropdown-item" href="#">Something else here</a></li>
 					</ul>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Tools
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?= base_url('/admin/import'); ?>">Importar OJS</a></li>
+					</ul>
 				</li>
+
 			</ul>
 			<form class="d-flex" role="search">
 				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

@@ -10,6 +10,8 @@ $routes->get('/', 'Home::index');
 $routes->get('/main', 'Home::main');
 
 $routes->get('/admin', 'Admin::index');
+$routes->get('/admin/(:any)', 'Admin::index/$1');
+$routes->post('/admin/(:any)', 'Admin::index/$1');
 $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin/(:any)/(:any)/(:any)', 'Admin::index/$1/$2/$3');
 

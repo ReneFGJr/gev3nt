@@ -5,6 +5,7 @@ namespace App\Controllers;
 helper("sisdoc");
 helper("nbr");
 
+
 class Home extends BaseController
 {
 	public function index(): string

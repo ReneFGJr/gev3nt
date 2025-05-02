@@ -233,8 +233,7 @@ class EventInscritos extends Model
 
 					$EmailX = new \App\Models\IO\EmailX();
 					$EmailX->sendEmail($email, $subject, $message);
-				echo $message;
-				exit;
+
 					$ID = $this->insert($data);
 				} else {
 					$ID = $dt['id_ein'];

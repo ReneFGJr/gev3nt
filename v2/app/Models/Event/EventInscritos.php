@@ -66,7 +66,7 @@ class EventInscritos extends Model
 							<br>Detalhes da Inscrição:
 							<br>Nome: [Nome]
 							<br>Categoria: [Tipo]
-							<br>Valor Pago: R$ [Valor]
+							<br>Valor da inscrição: R$ [Valor]
 
 							<br><b>Informações para pagamento:</b>
 							<br>Para efetivar sua inscrição, realize o pagamento de forma rápida e segura via PIX utilizando a Chave PIX: 10.262.169/0001-73 em nome da Sociedade ISKO Brasil.

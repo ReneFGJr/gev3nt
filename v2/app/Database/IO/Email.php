@@ -52,6 +52,7 @@ class EmailX extends Model
 		// Configuração do e-mail para HTML
 		$email->setMailType('html');
 		$email->setTo($to);  // Defina o e-mail do destinatário
+		$email->setCCO(['renefgj@gmail.com', 'iskosecretaria@isko.org.br']);
 		$email->setSubject($subject);
 		$email->setMessage($message);
 

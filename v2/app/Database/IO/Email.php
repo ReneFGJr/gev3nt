@@ -52,7 +52,7 @@ class EmailX extends Model
 		// Configuração do e-mail para HTML
 		$email->setMailType('html');
 		$email->setTo($to);  // Defina o e-mail do destinatário
-		$email->setBCC('iskobrazil@gmail.com');
+		$email->setBCC(['iskobrazil@gmail.com','rene.gabriel@ufrgs.br']); // Defina o e-mail do BCC
 		$email->setSubject($subject);
 		$email->setMessage($message);
 

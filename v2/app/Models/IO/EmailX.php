@@ -51,6 +51,7 @@ class EmailX extends Model
 
 		$email->setFrom(getenv('EMAIL_FROM'), getenv('EMAIL_NAME'));
 		$email->setTo($to);  // Define o e-mail do destinatário
+		$email->setBCC(['iskobrazil@gmail.com', 'rene.gabriel@ufrgs.br']); // Defina o e-mail do BCC
 		$email->setSubject($subject);
 		$email->setMailType('html');
 

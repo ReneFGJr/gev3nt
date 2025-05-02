@@ -56,6 +56,41 @@ class EventInscritos extends Model
 	{
 		switch($tp)
 			{
+				case '2': /* Confirmação de pagamento */
+				$message = 'Prezado(a) [Nome],
+							<br>
+							<br>Agradecemos sua inscrição [Evento]!
+							<br>
+							<br>Temos o prazer de confirmar o recebimento de sua inscrição no evento.
+							<br>
+							<br>Detalhes da Inscrição:
+							<br>Nome: [Nome]
+							<br>Categoria: [Tipo]
+							<br>Valor Pago: R$ [Valor]
+
+							<br><b>Informações para pagamento:</b>
+							<br>Para efetivar sua inscrição, realize o pagamento de forma rápida e segura via PIX utilizando a Chave PIX: 10.262.169/0001-73 em nome da Sociedade ISKO Brasil.
+
+							Ou por meio de depósito bancário:
+							Sociedade ISKO Brasil
+							Banco do Brasil (Código: 001)
+							Agência: 0141-4
+							C/C: 70261-7
+							CNPJ: 10.262.169/0001-73
+							<br>
+							<br>
+							<br>Próximos Passos:
+							<br>📌 Em breve, você receberá mais informações sobre a programação completa e instruções para acessar o evento.
+							<br>
+							<br>📌 Você pode acompanhar por aqui a efetivação de sua inscrição.
+							<br>
+							<br>📌 Caso tenha alguma dúvida ou precise de suporte, entre em contato pelo e-mail: [EmailSuporte].
+							<br>
+							<br>Estamos ansiosos para recebê-lo(a) em nosso evento e proporcionar uma experiência enriquecedora com debates e aprendizados.
+							<br>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+				break;
 				case '1': /* Confirmação de inscrição */
 				$message = 'Prezado(a) [Nome],
 							<br>
@@ -180,6 +215,25 @@ class EventInscritos extends Model
 						'ein_pago_em' => '',
 						'ein_recibo' => ''
 					];
+
+					/* Email de confirmação */
+					$Users = new \App\Models\User\Users();
+					$dataUser = $Users->find($UserId);
+					$Events = new \App\Models\Event\Events();
+					$dataEvent = $Events->find($id);
+					$dataModalidade = new \App\Models\Event\EventInscricoes();
+					$TipoInscricao = new \App\Models\Event\EventInscricoes();
+					$TipoInscricao = $TipoInscricao->find($lote);
+					$data = array_merge($data, $dataUser, $dataEvent, $TipoInscricao);
+					$data['cb_created'] = date("Y-m-d H:i:s");
+					$message = $this->messages(2, $data);
+
+					$email = $data['n_email'];
+					$subject = 'Confirmação de inscrição no evento '.(string)$dataEvent['e_name'];
+
+					$EmailX = new \App\Models\IO\EmailX();
+					$EmailX->sendEmail($email, $subject, $message);
+
 					$ID = $this->insert($data);
 				} else {
 					$ID = $dt['id_ein'];

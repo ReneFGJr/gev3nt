@@ -59,13 +59,13 @@ class ArticleDoc extends Model
 
 		$id_doc = get("doc");
 
-
-		$dados = $Work->where('w_id', $id)->first();
+		$dados = $Work->where('id_w', $id)->first();
 		if ($dados == []) {
 			echo "ID: " . $id;
 			echo "Article not found";
 			exit;
 		}
+
 		$doc = $ArticleDocType->where('id_adt', $id_doc)->first();
 		$txt = $doc['adt_text'];
 		foreach ($dados as $idx => $vlr) {

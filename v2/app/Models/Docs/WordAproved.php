@@ -57,9 +57,16 @@ class WordAproved extends Model
 		// $data  = $model->find($id);
 
 		// 2) Paths para os PEMs
-		$dir =  '/../../../../certs';
-		$certPem   = $dir . '/cert.pem';
-		$keyPem    = $dir . '/key.pem';
+		$dir =  'cert';
+		for ($i=0; $i < 10; $i++) {
+			$file = $dir . '/cert.pem';
+			if (file_exists($dir)) {
+				break;
+			}
+			$dir = '../' . $dir;
+		}
+		$certPem   = $dir . '/cert_luciana.pem';
+		$keyPem    = $dir . '/key_luciana.pem';
 		$keyPass   = '';               // vazio se sua chave não tiver senha
 		$sealImage = __DIR__ . '/selo.png';
 		$outputPdf = __DIR__ . '/x.pdf';
@@ -67,7 +74,7 @@ class WordAproved extends Model
 		// 3) Verifique leitura da chave (depuração opcional)
 		if (!file_exists($certPem)) {
 			echo 'Certificado não encontrado. Verifique o caminho.';
-			echo $certPem;
+			echo '<hr>'.$certPem;
 			exit;
 		}
 		$keyContents = file_get_contents($keyPem);
@@ -77,10 +84,10 @@ class WordAproved extends Model
 
 		// 4) Instancia o TCPDF
 		$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		$pdf->SetCreator('Seu Sistema');
-		$pdf->SetAuthor('Seu Nome');
-		$pdf->SetTitle('Documento Assinado');
-		$pdf->SetSubject('Assinatura Gov.br');
+		$pdf->SetCreator('ISKO Brasil');
+		$pdf->SetAuthor('ISKO Brasil');
+		$pdf->SetTitle('Declaração de aprovação de trabalho');
+		$pdf->SetSubject('ISKO Brasil');
 
 		$pdf->SetMargins(20, 20, 20);
 		$pdf->SetAutoPageBreak(true, 20);
@@ -165,7 +172,8 @@ class WordAproved extends Model
 		$pdf->addEmptySignatureAppearance($signX, $signY, $signW, $signH);
 
 		// 9) Retorna o PDF
-		$output = $pdf->Output('e:\lixo\xxxx.pdf', 'F');
+		$output = $pdf->Output();
+		//$output = $pdf->Output('e:\lixo\xxxx.pdf', 'F');
 		exit;
 	}
 

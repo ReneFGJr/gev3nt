@@ -52,6 +52,56 @@ class EventInscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
+
+	public function summary($ev=2)
+	{
+		$dt = $this
+			->select('count(*) as total, ei_modalidade, sum(ei_preco) as valor')
+			//->join('event', 'ein_event = id_e')
+			->join('event_inscricoes', 'ein_tipo = id_ei')
+			->where('ein_event', $ev)
+			->groupBy('ei_modalidade')
+			->findAll();
+		$sx = '<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Modalidade</th>
+						<th>Total</th>
+						<th>Valor</th>
+					</tr>
+				</thead>
+				<tbody>';
+		$tot = 0;
+		$ins = 0;
+		foreach($dt as $d)
+			{
+				$ins += $d['total'];
+				$tot += $d['valor'];
+				$sx .= '<tr>
+							<td>'.$d['ei_modalidade'].'</td>
+							<td align="center">'.$d['total'].'</td>
+							<td align="right">R$ '.number_format($d['valor'],2,',','.').'</td>
+						</tr>';
+			}
+		$sx .= '</tbody>';
+		$sx .= '<tfoot>
+					<tr>
+						<th>Total</th>
+						<th style="text-align: center">'.$ins. '</th>
+						<th style="text-align: right">R$ '.number_format($tot,2,',','.').'</th>
+					</tr>
+				</tfoot>
+				</table>';
+
+		$dt = '<div class="row">
+					<div class="col-md-12">
+						<h4>Resumo de Inscrições</h4>
+						'.$sx.'
+					</div>';
+		return $dt;
+	}
+
 	public function messages($tp = 0,$dt=[])
 	{
 		switch($tp)

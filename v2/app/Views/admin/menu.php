@@ -27,6 +27,7 @@
 						<li>
 							<hr class="dropdown-divider">
 						</li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/summary'); ?>">Resumo Geral</a></li>
 					</ul>
 				</li>
 

@@ -86,14 +86,59 @@ class WordAproved extends Model
 		$pdf->SetAutoPageBreak(true, 20);
 		$pdf->AddPage();
 
+		$logoImage = 'assets/logos/logo_isko_brasil.png';
+
+		$pdf->image($logoImage, 35, 15, 150, 0, 'PNG', '', '', true, 300, '', false, false, 1, false, false, false);
+		$pdf->SetX(15);
+		$pdf->setY(70);
+
 		// 5) Conteúdo do PDF
 		$html = $txt;
 		$pdf->writeHTML($html, true, false, true, false, '');
 
-		$output = $pdf->Output('', 'S');
+
+
+		$XX = 120;
+		$logoImage = 'assets/cert/ass_luciana_gracioso.jpg';
+		$pdf->image($logoImage, $XX+10, 234, 50, 0);
+
+		$logoImage = 'assets/cert/selo.png';
+		// Insere selo no canto inferior direito da página 1
+		$pdf->Image($logoImage,$XX, 245, 30, 15, 'PNG');
+
+		// 1) Defina posição e tamanho do campo de assinatura
+		$signX = $XX+28;    // X em mm
+		$signY = 245;   // Y em mm
+		$signW = 60;    // largura em mm
+		$signH = 20;    // altura maior para caber o texto
+
+		// 3) Imprima o texto do $info dentro desse retângulo
+		$pdf->SetFont('helvetica', '', 8);
+		$pdf->SetXY($signX + 1, $signY + 1);
+		$emissao = date('d/m/Y H:i:s');
+
+		$info = [
+			'Name'        => 'Luciana Gracioso',
+			'Location'    => 'Canela, RS',
+			'Reason'      => 'Declaração de participação',
+			'ContactInfo' => 'Emissão: ' . $emissao,
+		];
+		$pdf->MultiCell(
+			$signW - 2,   // largura interna
+			0,
+			"Name: " . $info['Name'] . "\n" .
+				"Location: " . $info['Location'] . "\n" .
+				"Reason: " . $info['Reason'] . "\n" .
+				"Contact: " . $info['ContactInfo'],
+			0,            // sem borda no texto
+			'L',          // alinhamento à esquerda
+			false,
+			1
+		);
+
 
 		// 6) Informações da assinatura
-		$emissao = date('d/m/Y H:i:s');
+
 		$info = [
 			'Name'        => 'Rene Faustino Gabriel Junior',
 			'Location'    => 'Porto Alegre, RS',
@@ -112,14 +157,15 @@ class WordAproved extends Model
 		);
 
 		// 8) Placeholder visual da assinatura (opcional)
-		$x = 15;
-		$y = 240;
-		$w = 50;
-		$h = 30;
-		$pdf->addEmptySignatureAppearance($x, $y, $w, $h);
+		$signX = $XX ;    // X em mm
+		$signY = 245;   // Y em mm
+		$signW = 60 + 28;    // largura em mm
+		$signH = 20;
+
+		$pdf->addEmptySignatureAppearance($signX, $signY, $signW, $signH);
 
 		// 9) Retorna o PDF
-		$output = $pdf->Output('xxxx.pdf', 'S');
+		$output = $pdf->Output('e:\lixo\xxxx.pdf', 'F');
 		exit;
 	}
 

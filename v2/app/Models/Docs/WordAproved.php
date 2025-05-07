@@ -57,7 +57,7 @@ class WordAproved extends Model
 		// $data  = $model->find($id);
 
 		// 2) Paths para os PEMs
-		$dir = __DIR__ . '/../../../../certs';
+		$dir =  '/../../../../certs';
 		$certPem   = $dir . '/cert.pem';
 		$keyPem    = $dir . '/key.pem';
 		$keyPass   = '';               // vazio se sua chave não tiver senha
@@ -90,6 +90,8 @@ class WordAproved extends Model
 		$html = $txt;
 		$pdf->writeHTML($html, true, false, true, false, '');
 
+		$output = $pdf->Output('', 'S');
+
 		// 6) Informações da assinatura
 		$emissao = date('d/m/Y H:i:s');
 		$info = [
@@ -117,7 +119,7 @@ class WordAproved extends Model
 		$pdf->addEmptySignatureAppearance($x, $y, $w, $h);
 
 		// 9) Retorna o PDF
-		$output = $pdf->Output('', 'S');
+		$output = $pdf->Output('xxxx.pdf', 'S');
 		exit;
 	}
 

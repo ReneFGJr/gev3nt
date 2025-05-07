@@ -35,6 +35,14 @@ class Admin extends BaseController
 			$ev = 2;
 
 			switch ($a1) {
+				case 'docs_emitir':
+					$id = get('id');
+					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
+					$dt = $ArticleDoc->emitir($id);
+					//$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . '";</script>';
+					$redirect = 'ok';
+					return $redirect;
+					break;
 				/**********************	Admin  */
 				case 'authors':
 					$Publications = new \App\Models\OJS\Publications();
@@ -55,7 +63,7 @@ class Admin extends BaseController
 					$ApiOJS = new \App\Models\OJS\Api();
 					if (get("update") != '') {
 						$dt = $ApiOJS->updateDB($a2);
-						$redirect = '<script>window.location.href ="/admin/work/' . $a2 . '";</script>';
+						$redirect = '<script>window.location.href ="'.base_url('/admin/work/' . $a2) . '";</script>';
 						return $redirect;
 					}
 					break;

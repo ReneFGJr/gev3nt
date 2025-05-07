@@ -44,16 +44,17 @@ class Api extends Model
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
 
-	function updateDB($id)
+	function updateDB($idI)
 		{
 			$sx = '';
 			$Work = new \App\Models\OJS\Publications();
-			$dados = $Work->where('w_id', $id)->first();
+			$dados = $Work->where('id_w', $idI)->first();
 			if ($dados == []) {
-				echo "ID: " . $id;
+				echo "ID: " . $idI;
 				echo "Article not found";
 				exit;
 			}
+			$id = $dados['w_id'];
 			$dt = $this->api_article($id);
 			if ($dt['title'] != $dados['titulo']) {
 				$Work->set('titulo', $dt['title'])->where('w_id', $id)->update();

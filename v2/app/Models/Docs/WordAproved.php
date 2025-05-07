@@ -50,6 +50,77 @@ class WordAproved extends Model
 	openssl pkcs12 -in cert_govbr.p12 -nocerts -out key_encrypted.pem
 	*/
 
+	public function emitir($txt,$ass=0)
+	{
+		// 1) Carrega dados (opcional)
+		// $model = new \App\Models\Docs\WordAproved();
+		// $data  = $model->find($id);
+
+		// 2) Paths para os PEMs
+		$dir = __DIR__ . '/../../../../certs';
+		$certPem   = $dir . '/cert.pem';
+		$keyPem    = $dir . '/key.pem';
+		$keyPass   = '';               // vazio se sua chave não tiver senha
+		$sealImage = __DIR__ . '/selo.png';
+		$outputPdf = __DIR__ . '/x.pdf';
+
+		// 3) Verifique leitura da chave (depuração opcional)
+		if (!file_exists($certPem)) {
+			echo 'Certificado não encontrado. Verifique o caminho.';
+			echo $certPem;
+			exit;
+		}
+		$keyContents = file_get_contents($keyPem);
+		if ($keyContents === false || !openssl_pkey_get_private($keyContents, $keyPass)) {
+			throw new \RuntimeException('Não foi possível carregar a chave privada.');
+		}
+
+		// 4) Instancia o TCPDF
+		$pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdf->SetCreator('Seu Sistema');
+		$pdf->SetAuthor('Seu Nome');
+		$pdf->SetTitle('Documento Assinado');
+		$pdf->SetSubject('Assinatura Gov.br');
+
+		$pdf->SetMargins(20, 20, 20);
+		$pdf->SetAutoPageBreak(true, 20);
+		$pdf->AddPage();
+
+		// 5) Conteúdo do PDF
+		$html = $txt;
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		// 6) Informações da assinatura
+		$emissao = date('d/m/Y H:i:s');
+		$info = [
+			'Name'        => 'Rene Faustino Gabriel Junior',
+			'Location'    => 'Porto Alegre, RS',
+			'Reason'      => 'Declaração de participação',
+			'ContactInfo' => 'Emissão: ' . $emissao,
+		];
+
+		// 7) Configura a assinatura usando os PEMs
+		$pdf->setSignature(
+			'file://' . realpath($certPem),
+			'file://' . realpath($keyPem),
+			$keyPass,
+			'',
+			2,
+			$info
+		);
+
+		// 8) Placeholder visual da assinatura (opcional)
+		$x = 15;
+		$y = 240;
+		$w = 50;
+		$h = 30;
+		$pdf->addEmptySignatureAppearance($x, $y, $w, $h);
+
+		// 9) Retorna o PDF
+		$output = $pdf->Output('', 'S');
+		exit;
+	}
+
 	public function sample()
 	{
 			// 1) Carrega dados (opcional)
@@ -57,12 +128,17 @@ class WordAproved extends Model
 			// $data  = $model->find($id);
 
 			// 2) Paths para os PEMs
-			$certPath = WRITEPATH . 'certs/cert.pem';
-			$keyPath  = WRITEPATH . 'certs/key.pem';
-			$keyPass  = ''; // chave sem criptografia
+			$certPem   = __DIR__ . '/cert.pem';
+			$keyPem    = __DIR__ . '/key.pem';
+			$keyPass   = '';               // vazio se sua chave não tiver senha
+			$sealImage = __DIR__ . '/selo.png';
+			$outputPdf = __DIR__ . '/x.pdf';
+
+			echo $certPem;
+			exit;
 
 			// 3) Verifique leitura da chave (depuração opcional)
-			$keyContents = file_get_contents($keyPath);
+			$keyContents = file_get_contents($keyPem);
 			if ($keyContents === false || !openssl_pkey_get_private($keyContents, $keyPass)) {
 				throw new \RuntimeException('Não foi possível carregar a chave privada.');
 			}
@@ -83,22 +159,25 @@ class WordAproved extends Model
 			$pdf->writeHTML($html, true, false, true, false, '');
 
 			// 6) Informações da assinatura
+			$emissao = date('d/m/Y H:i:s');
 			$info = [
 				'Name'        => 'Rene Faustino Gabriel Junior',
 				'Location'    => 'Porto Alegre, RS',
-				'Reason'      => 'Assinatura Digital Gov.br',
-				'ContactInfo' => 'seu.email@exemplo.com',
+				'Reason'      => 'Declaração de participação',
+				'ContactInfo' => 'Emissão: ' . $emissao,
 			];
 
 			// 7) Configura a assinatura usando os PEMs
 			$pdf->setSignature(
-				$certPath,   // certificado público
-				$keyPath,    // chave privada
-				$keyPass,    // senha (vazia aqui)
+				'file://' . realpath($certPem),
+				'file://' . realpath($keyPem),
+				$keyPass,
 				'',
-				2,           // X.509
+				2,
 				$info
 			);
+
+
 
 			// 8) Placeholder visual da assinatura (opcional)
 			$x = 15;

@@ -10,7 +10,13 @@
 <body class="container my-4">
 
 	<h2 class="mb-3"><?= esc($dados['titulo']) ?></h2>
-	<i><?= esc($dados['w_autores']);?></i>
+	<i><?php
+		if ($dados['w_autores'] != '') {
+			echo esc($dados['w_autores']);
+		} else {
+			echo esc($dados['nome_autor1'] . ' ' . $dados['sobrenome_autor1']);
+		}
+		?></i>
 	<hr>
 
 	<div class="mb-3">

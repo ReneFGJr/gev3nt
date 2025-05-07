@@ -163,6 +163,9 @@ class Publications extends Model
 		$sx .= view('admin/work/view', ['dados' => $dt]);
 		$sx .= view('admin/work/view_status', ['dados' => $dt]);
 		$sx .= $Publications_log->show($id);
+
+		$ArticleDoc = new \App\Models\Docs\ArticleDoc();
+		$sx .= $ArticleDoc->show($dt['w_id'], $dt['w_evento']);
 		return $sx;
 	}
 
@@ -202,6 +205,7 @@ class Publications extends Model
 				->first();
 
 			if (isset($existingArticle['w_id'])) {
+
 				// Update existing article
 				$this->set($data)->where('id_w', $existingArticle['id_w'])->update();
 				$sx .= '<li>' . $data['w_id'] . ' was Updated</li>';

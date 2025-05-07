@@ -1,5 +1,5 @@
 <hr>
-<h5>Alterar Status do Trabalho #<?= esc($dados['w_id']) ?></h5>
+<h5>Alterar Status do Trabalho #<?= esc($dados['id_w']) ?></h5>
 
 <form action="<?= base_url('admin/work/' . $dados['id_w']) ?>" method="post">
 	<?= csrf_field() ?>
@@ -16,6 +16,6 @@
 
 	<button type="submit" class="btn btn-primary">Salvar</button>
 	<a href="<?= base_url('admin/works') ?>" class="btn btn-secondary ms-2">Voltar</a>
-	<a href="<?php echo base_url('admin/work/' . esc($dados['w_id'] . '?update=' . date("Y-md-d:h:i:s"))); ?>
+	<a href="<?php echo base_url('admin/work/' . esc($dados['id_w'] . '?update=' . date("Y-md-d:h:i:s"))); ?>
 		class=" btn btn-secondary ms-2" class="btn btn-secondary ms-2">Atualizar (via API)</a>
 </form>

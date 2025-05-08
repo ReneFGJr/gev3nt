@@ -64,6 +64,7 @@ class ArticleDocType extends Model
 		$dt = $this
 			->join('articles_doc_type', 'adt_codigo = doc_tipo','right')
 			->where('doc_id', $id)->findAll();
+			echo "OXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXK";
 		pre($dt);
 
 

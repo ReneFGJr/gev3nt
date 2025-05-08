@@ -17,8 +17,11 @@
 			</div>
 			<?php if ($action == True) { ?>
 				<div class="card-footer text-end">
-					<a href="<?=base_url('/admin/inscricoes/unchecked/'.esc($data['id_ein'])); ?>" class="btn btn-danger">Indeferir Inscrição</a>
-					<a href="<?=base_url('/admin/inscricoes/checked/'.esc($data['id_ein'])); ?>" class="btn btn-success">Validar Inscrição</a>
+					<?php if ($data['ein_pago'] == 0) { ?>
+						<a href="<?= base_url('/admin/inscricoes/email_alert/' . esc($data['id_ein'])); ?>" class="btn btn-warning">E-mail comprovante</a>
+					<?php } ?>
+					<a href="<?= base_url('/admin/inscricoes/unchecked/' . esc($data['id_ein'])); ?>" class="btn btn-danger">Indeferir Inscrição</a>
+					<a href="<?= base_url('/admin/inscricoes/checked/' . esc($data['id_ein'])); ?>" class="btn btn-success">Validar Inscrição</a>
 				</div>
 			<?php } ?>
 		</div>

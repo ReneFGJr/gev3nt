@@ -62,7 +62,17 @@ class UploadDoc extends Model
 		if ($_SERVER['SERVER_NAME'] == 'isko.org.br') {
 			$dir = '/home2/iskoor95/inscricoes/uploads/';
 		} else {
-			$dir .= '../uploads/';
+			$dir = $_SERVER['DOCUMENT_ROOT'];
+			$loop = 0;
+			while ($loop < 3) {
+				$dir = $dir . '../';
+				$dirz = $dir . 'uploads/';
+				if (is_dir($dirz)) {
+					$dir = $dirz;
+					break;
+				}
+				$loop++;
+			}
 		}
 		return $dir;
 	}
@@ -82,8 +92,7 @@ class UploadDoc extends Model
 			if (file_exists($path)) {
 				$sx .= '<a href="'.base_url('download'). '?file='.$file.'&check='.$this->md5check($file).'" class="btn btn-outline-primary me-2 p-0" target="_blank"> '.$label.' </a>';
 			} else {
-				echo $file."- File not found";
-				pre($_SERVER);
+				$sx .= $path."- File not found";
 			}
 		}
 		return $sx;

@@ -77,6 +77,9 @@ class Admin extends BaseController
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {
+						case 'email_alert':
+							$data['event'] .= $EventInscritos->email_alert($a3);
+							break;
 						case 'validar':
 							$dt = [];
 							$dt['inscricoes'] = $EventInscritos->getInscritos($ide);

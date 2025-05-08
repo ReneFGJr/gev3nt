@@ -70,6 +70,7 @@ class Api extends Model
 
 	function api_article($id)
 	{
+		$RSP = [];
 		$Publications = new \App\Models\OJS\Publications();
 		$dt = $Publications->where('w_id', $id)->first();
 		if ($dt == []) {
@@ -102,13 +103,15 @@ class Api extends Model
 
 		if (curl_errno($ch)) {
 			echo 'Erro na requisição: ' . curl_error($ch);
+			exit;
 		} elseif ($httpCode !== 200) {
 			echo "Erro HTTP $httpCode: " . $response;
+			exit;
 		} else {
 			$data = json_decode($response, true);
-			echo '<h1>Resposta da API</h1>';
-			echo '<pre>';
+
 			$pb = $data['publications'][0];
+
 			if (isset($pb['authorsString']))
 				{
 

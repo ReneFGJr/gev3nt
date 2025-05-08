@@ -72,6 +72,14 @@ class Publications extends Model
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
 
+	public $status = [
+			'0' => 'Em avaliação',
+			'1' => 'Aprovado',
+			'2' => 'Programado no evento',
+			'8' => 'Rejeitado',
+			'9' => 'Cancelado',
+		];
+
 	function authors($ev)
 	{
 		$dt = $this
@@ -112,6 +120,67 @@ class Publications extends Model
 		$sx = '<h3>Autores</h3>' . $sx;
 
 		return $sx;
+	}
+
+	function summary($ev)
+	{
+		$status = $this->status;
+		$dt = $this
+			->select('w_status, count(w_status) as total')
+			->where('w_evento', $ev)
+			->groupBy('w_status')
+			->findAll();
+		$sx = '';
+
+		$sx = '<table class="table table-striped table-bordered full" style="font-size: 12px">';
+		$sx .= '<tr>';
+		$sx .= '<th>Status</th>';
+		$sx .= '<th>Total</th>';
+		$sx .= '</tr>';
+		$tot = 0;
+		foreach ($dt as $id => $line) {
+			$tot += $line['total'];
+			$st = $line['w_status'];
+			if (isset($status[$st])) {
+				$st = $status[$st];
+			} else {
+				$st = 'Desconhecido';
+			}
+			$sx .= '<tr>';
+			$sx .= '<td>' . $st . '</td>';
+			$sx .= '<td style="text-align: center">' . $line['total'] . '</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '<tr>';
+		$sx .= '<td>Total</td>';
+		$sx .= '<td style="text-align: center">' . $tot . '</td>';
+		$sx .= '</tr>';
+		$sx .= '</table>';
+		return $sx;
+	}
+
+	function check_status($ev)
+	{
+		$status = $this->status;
+		$Publications_log = new \App\Models\OJS\Publications_log();
+		$dt = $this
+			->where('w_evento', $ev)
+			->where('w_status', 0)
+			->where('decisao4', 'Aceitar Submissão')
+			->findAll();
+		foreach ($dt as $id => $line) {
+			$dt = [];
+			$dt['w_status'] = 1;
+			$statusX = $status[1];
+			$dt['w_update'] = date('Y-m-d H:i:s');
+			$Publications_log->log_insert($line['id_w'], 'Alterado status para ' . $statusX);
+			$this
+				->set($dt)
+				->where('id_w', $line['id_w'])
+				->where('w_evento', $ev)
+				->update();
+		}
+		return True;
 	}
 
 	function works($ev)

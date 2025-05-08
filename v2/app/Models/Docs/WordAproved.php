@@ -93,7 +93,18 @@ class WordAproved extends Model
 		$pdf->SetAutoPageBreak(true, 20);
 		$pdf->AddPage();
 
-		$logoImage = 'assets/logos/logo_isko_brasil.png';
+		$dir = '';
+		if ($_SERVER['SERVER_NAME'] == 'isko.org.br') {
+			$dir = '/home2/iskoor95/inscricoes/public/';
+		}
+
+		$logoImage = $dir.'assets/logos/logo_isko_brasil.png';
+		if (!file_exists($logoImage)) {
+			echo 'Logo não encontrado. Verifique o caminho.';
+			echo '<hr>'.$logoImage;
+			exit;
+
+		}
 
 		$pdf->image($logoImage, 35, 15, 150, 0, 'PNG', '', '', true, 300, '', false, false, 1, false, false, false);
 		$pdf->SetX(15);
@@ -106,10 +117,10 @@ class WordAproved extends Model
 
 
 		$XX = 120;
-		$logoImage = 'assets/cert/ass_luciana_gracioso.jpg';
+		$logoImage = $dir.'assets/cert/ass_luciana_gracioso.jpg';
 		$pdf->image($logoImage, $XX+10, 234, 50, 0);
 
-		$logoImage = 'assets/cert/selo.png';
+		$logoImage = $dir .'assets/cert/selo.png';
 		// Insere selo no canto inferior direito da página 1
 		$pdf->Image($logoImage,$XX, 245, 30, 15, 'PNG');
 

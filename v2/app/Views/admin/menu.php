@@ -28,6 +28,7 @@
 							<hr class="dropdown-divider">
 						</li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/summary'); ?>">Resumo Geral</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/inscricoes/validar2'); ?>">Relatório Inscrições</a></li>
 					</ul>
 				</li>
 

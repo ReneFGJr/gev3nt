@@ -28,7 +28,7 @@ switch ($w_status) {
 	default:
 		break;
 }
-$link = '<a href="/admin/work/' . $id_w . '" class="link">';
+$link = '<a href="'.base_url('/admin/work/' . $id_w) . '" class="link">';
 $linka = '</a>';
 ?>
 <div class="container mb-3">
@@ -41,6 +41,7 @@ $linka = '</a>';
 						if ($w_autores == '') {
 							$nome = nbr_author($nome_autor1 . ' ' . $sobrenome_autor1, 7);
 							echo $nome;
+							echo ' <sup style="color: red">[outdated]</sup>';
 						} else {
 							$nome = $w_autores;
 							echo $nome;

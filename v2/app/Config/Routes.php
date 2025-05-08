@@ -8,6 +8,9 @@ use CodeIgniter\Router\RouteCollection;
 $pre = '';
 $routes->get('/', 'Home::index');
 $routes->get('/main', 'Home::main');
+$routes->get('/download', 'Home::download');
+
+//http://g3vent/inscricoes/download?file=doc_00000044.pdf&check470de110dbbeb21638ec2f89a4539eda
 
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/(:any)', 'Admin::index/$1');

@@ -35,6 +35,36 @@ class Home extends BaseController
 		return $sx;
 	}
 
+	function download()
+		{
+			$UploadDoc = new \App\Models\Docs\UploadDoc();
+			$file = get('file');
+			$check = get('check');
+			$check2 = $UploadDoc->md5check($file);
+
+			if ($check != $check2) {
+				echo "Arquivo não encontrado";
+				exit;
+			}
+			$dir = $UploadDoc->directory();
+			$file = $dir . $file;
+			if (!file_exists($file)) {
+				echo "Arquivo não encontrado";
+				exit;
+			}
+
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="' . $file . '"');
+			//header('Content-Transfer-Encoding: binary');
+			header('Content-Length: ' . filesize($file));
+			//header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Expires: 0');
+			readfile($file);
+			exit;
+;
+		}
+
 	function sample($id=10)
 	{
 		// 1) Buscar dados (opcional)

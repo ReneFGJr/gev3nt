@@ -59,6 +59,9 @@ class Admin extends BaseController
 				case 'works':
 					$Publications = new \App\Models\OJS\Publications();
 					$ev = 2;
+					/* Aprova os trabalhos com status "Aceito" */
+					$Publications->check_status($ev);
+					$data['event'] .= $Publications->summary($ev);
 					$data['event'] .= $Publications->works($ev);
 					break;
 				case 'work':
@@ -77,17 +80,24 @@ class Admin extends BaseController
 						case 'validar':
 							$dt = [];
 							$dt['inscricoes'] = $EventInscritos->getInscritos($ide);
-							$data['event'] = view('admin/inscricoes_validar', $dt);
+							$data['event'] .= view('admin/inscricoes_validar', $dt);
+							break;
+						case 'validar2':
+							$dt = [];
+							$dt['inscricoes'] = $EventInscritos->getInscritos($ide,2);
+							$data['event'] .= view('admin/inscricoes_validar_2', $dt);
 							break;
 						case 'check':
+							$Upload = new \App\Models\Docs\UploadDoc();
 							$dt['data'] = $EventInscritos->getInscricao($a3);
 							$dt['action'] = true;
-							$data['event'] = view('admin/inscricao', $dt);
+							$data['event'] .= view('admin/inscricao', $dt);
+							$data['event'] .= $Upload->show($a3);
 							break;
 						case 'view':
 							$dt['data'] = $EventInscritos->getInscricao($a3);
 							$dt['action'] = false;
-							$data['event'] = view('admin/inscricao', $dt);
+							$data['event'] .= view('admin/inscricao', $dt);
 							break;
 
 						case 'checked':

@@ -117,19 +117,19 @@ class EventInscritos extends Model
 		if ($dt['ein_pago'] == 1) {
 			return 'Inscrição já validada';
 		}
-
+		pre($_POST,false);
 		if ($_POST) {
-			$dt['ein_pago'] = 1;
-			$dt['ein_pago_em'] = date("Y-m-d H:i:s");
-			$dt['ein_recibo'] = 1;
-			$this->save($dt);
-			$message = $this->messages(1, $dt);
+			$dt['type'] = [];
+			$dt['type']['1'] = get("email");		# Enviar e-mail de cobrança
+			$dt['type']['2'] = get("matricula");	# Solicitar comprovante de matrícula
+			$dt['type']['3'] = get("pagamento");	# Solicitar comprovante de pagamento
+			$message = $this->messages(3, $dt);
 			$email = $dt['n_email'];
-			$subject = 'Confirmação de inscrição no evento ' . (string)$dt['e_name'];
-			print($message);
-			exit;
+			$subject = 'Solicitação de Comprovantes para Validação da Inscrição ' . (string)$dt['e_name'];
+
 			$EmailX = new \App\Models\IO\EmailX();
-			return $EmailX->sendEmail($email, $subject, $message);
+			$EmailX->sendEmail($email, $subject, $message);
+			return "E-mail enviado com sucesso!";
 		} else {
 			$sx = view('admin/pay/pay_remember', $dt);
 		}
@@ -140,6 +140,28 @@ class EventInscritos extends Model
 	public function messages($tp = 0, $dt = [])
 	{
 		switch ($tp) {
+			case '3':
+			$message = 'Prezado(a) [Nome],
+							<br>
+							<br>Agradecemos sua inscrição no [Evento]. Entretanto, não identificamos a efetivação do pagamento da sua inscrição. Para darmos continuidade ao processo de validação, solicitamos que nos envie o(s) seguinte(s) documento(s):<ul>';
+
+			if ($dt['type']['2'] == 1) {
+				$message .= '<li>Comprovante de Depósito/PIX: referente ao pagamento da inscrição.</li>';
+			}
+			if ($dt['type']['3'] == 1) {
+				$message .= '<li>Comprovante de Matrícula: para inscrições na categoria estudante de graduação ou pós-graduação.</li>';
+			}
+
+			$message .= '</ul><br>Pedimos que os documentos sejam encaminhados para o e-mail de contato [EventoEmail], identificando no assunto o seu nome completo e o número da inscrição.';
+			$message .= '<p><b>Pagamento Realizado por Terceiros</b>: caso o pagamento tenha sido efetuado por terceiros, como uma fundação, solicitamos que informe o nome da fundação e a data do pagamento.</p>';
+			$message .= '<p>Informamos que a programação completa do evento, bem como o status de validação da sua inscrição, estão disponíveis no sistema, por meio do link: [site].
+							<br>Caso tenha alguma dúvida ou necessite de suporte, estamos à disposição.
+							<br>Agradecemos sua participação e aguardamos o envio dos documentos para finalizarmos sua inscrição.
+							</p>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+							break;
+
 			case '2': /* Confirmação de pagamento */
 				$message = 'Prezado(a) [Nome],
 							<br>
@@ -203,6 +225,7 @@ class EventInscritos extends Model
 
 		$message = str_replace('[Nome]', '<b>' . $dt['n_nome'] . '</b>', $message);
 		$message = str_replace('[Evento]', $dt['e_name'], $message);
+		$message = str_replace('[EventoEmail]', $dt['e_email'], $message);
 
 		$message = str_replace('[Tipo]', $dt['ei_modalidade'], $message);
 		$message = str_replace('[Valor]', number_format($dt['ei_preco'], 2, ',', '.'), $message);

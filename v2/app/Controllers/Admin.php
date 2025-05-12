@@ -39,12 +39,20 @@ class Admin extends BaseController
 					$EventInscritos = new \App\Models\Event\EventInscritos();
 					$data['event'] .= $EventInscritos->summary($ev);
 					break;
+				case 'docs_email':
+					$id = get('id');
+					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
+					$dt = $ArticleDoc->email_enviar($id);
+					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . ';5";</script>';
+					return $redirect;
+					break;
+
+					break;
 				case 'docs_emitir':
 					$id = get('id');
 					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 					$dt = $ArticleDoc->emitir($id);
-					//$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . '";</script>';
-					$redirect = 'ok';
+					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . '";</script>';
 					return $redirect;
 					break;
 				/**********************	Admin  */

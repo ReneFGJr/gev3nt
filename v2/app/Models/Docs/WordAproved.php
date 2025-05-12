@@ -50,7 +50,7 @@ class WordAproved extends Model
 	openssl pkcs12 -in cert_govbr.p12 -nocerts -out key_encrypted.pem
 	*/
 
-	public function emitir($txt,$ass=0)
+	public function emitir($txt,$ass=0, $outputPdf='')
 	{
 		// 1) Carrega dados (opcional)
 		// $model = new \App\Models\Docs\WordAproved();
@@ -69,7 +69,7 @@ class WordAproved extends Model
 		$keyPem    = $dir . '/key_luciana.pem';
 		$keyPass   = '';               // vazio se sua chave não tiver senha
 		$sealImage = __DIR__ . '/selo.png';
-		$outputPdf = __DIR__ . '/x.pdf';
+
 
 		// 3) Verifique leitura da chave (depuração opcional)
 		if (!file_exists($certPem)) {
@@ -113,8 +113,6 @@ class WordAproved extends Model
 		// 5) Conteúdo do PDF
 		$html = $txt;
 		$pdf->writeHTML($html, true, false, true, false, '');
-
-
 
 		$XX = 120;
 		$logoImage = $dir.'assets/cert/ass_luciana_gracioso.jpg';
@@ -183,9 +181,10 @@ class WordAproved extends Model
 		$pdf->addEmptySignatureAppearance($signX, $signY, $signW, $signH);
 
 		// 9) Retorna o PDF
-		$output = $pdf->Output();
+		#$output = $pdf->Output();
+		$output = $pdf->Output($outputPdf, 'F');
 		//$output = $pdf->Output('e:\lixo\xxxx.pdf', 'F');
-		exit;
+		return true;
 	}
 
 	public function sample()

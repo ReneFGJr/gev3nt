@@ -16,6 +16,7 @@ class ArticleDoc extends Model
     protected $allowedFields    = [
 		'id_doc',
 		'doc_tipo',
+		'doc_id',
 		'doc_url',
 		'doc_status',
 		'doc_created',
@@ -51,6 +52,14 @@ class ArticleDoc extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function email_enviar($id)
+		{
+			$id = get('id');
+			$doc = get('doc');
+			$dt = $this->where('id_doc', $id)->first();
+			pre($dt);
+		}
+
 	function emitir($id)
 	{
 		$ArticleDocType = new \App\Models\Docs\ArticleDocType();
@@ -65,13 +74,40 @@ class ArticleDoc extends Model
 			echo "Article not found";
 			exit;
 		}
-
+		$idW = get("id");
 		$doc = $ArticleDocType->where('id_adt', $id_doc)->first();
 		$txt = $doc['adt_text'];
 		foreach ($dados as $idx => $vlr) {
 			$txt = str_replace('$' . $idx, $vlr, $txt);
 		}
-		$WordAproved->emitir($txt,1);
+		$dir = $this->getDir();;
+		if (!is_dir($dir)) {
+			mkdir($dir, 0777, true);
+		}
+		$file = $dir.'/aceite_'. str_pad($idW, 7, '0', STR_PAD_LEFT) . '.pdf';
+		$WordAproved->emitir($txt,1,$file);
+
+		$Publications_log = new \App\Models\OJS\Publications_log();
+		$Publications_log->log_insert($idW, 'Emitido certificado de aceite: ' . $doc['adt_nome'] . ' - ' . $file);
+
+		$dt = [];
+		$dt['doc_id'] = $idW;
+		$dt['doc_tipo'] = 'ACEIT';
+		$dt['doc_url'] = $file;
+		$dt['doc_status'] = 1;
+		$this->set($dt)->insert();
+
+	}
+
+	function getDir()
+	{
+		$pre = $_SERVER['DOCUMENT_ROOT'];
+		$pre = str_replace('public', 'uploads', $pre);
+		if (is_dir($pre)) {
+			return $pre.'/';
+		}
+		echo "Erro de diretorio: " . $pre;
+		exit;
 	}
 
 	function show($id,$ev)
@@ -91,6 +127,7 @@ class ArticleDoc extends Model
 			->where('doc_id', $id)
 			->Orwhere('doc_id', null)
 			->findAll();
+			echo $this->getlastquery();
 		$dd = [];
 		$dd['docs'] = $da;
 		$sx = '<table border="1" cellpadding="5" cellspacing="0" class="table table-striped table-bordered full">';
@@ -107,7 +144,8 @@ class ArticleDoc extends Model
 					$status = 'Aguardando';
 					break;
 				case '1':
-					$status = 'Aprovado';
+					$status = 'Emitido';
+					$act = '<a href="' . base_url('admin/docs_email/?doc=' . $line['id_adt'] . '&id=' . $id . '&ev=' . $ev) . '" class="btn btn-outline-primary">Enviar e-mail</a>';
 					break;
 				case '2':
 					$status = 'Reprovado';

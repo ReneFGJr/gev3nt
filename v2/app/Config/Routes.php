@@ -9,6 +9,8 @@ $pre = '';
 $routes->get('/', 'Home::index');
 $routes->get('/main', 'Home::main');
 $routes->get('/download', 'Home::download');
+$routes->get('/downloadDoc', 'Home::downloadDoc');
+
 
 //http://g3vent/inscricoes/download?file=doc_00000044.pdf&check470de110dbbeb21638ec2f89a4539eda
 

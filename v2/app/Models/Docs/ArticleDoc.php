@@ -54,10 +54,39 @@ class ArticleDoc extends Model
 
 	function email_enviar($id)
 		{
-			$id = get('id');
-			$doc = get('doc');
-			$dt = $this->where('id_doc', $id)->first();
-			pre($dt);
+			$id = get('doc');
+			$docID = get('id');
+			$ev = get('ev');
+			$dt = $this
+			->join('articles_doc_type', 'adt_codigo = doc_tipo','left')
+			->join('articles', 'id_w = doc_id','left')
+			->where('id_doc', $id)->first();
+			$dt['n_mail'] = $dt['email_autor1'];
+			$dt['n_nome'] = $dt['nome_autor1'].' '.$dt['sobrenome_autor1'];
+			$dt['e_name'] = 'VIII Isko Brasil';
+
+			$dt['e_email'] = 'iskobrazil@gmail.com';
+			$dt['cb_created'] = date('Y-m-d H:i:s');
+			$dt['autores'] = $dt['w_autores'];
+
+			/********* Files */
+			$files = [$dt['doc_url']];
+
+			$Message = new \App\Models\Messages\Index();
+			$txt = $Message->messages(4, $dt);
+
+			$this->set(['doc_status'=> 2])->where('id_doc', $dt['id_doc'])->update();
+
+			$Email = new \App\Models\IO\EmailX();
+			$email = $dt['email_autor1'];
+			$rsp = $Email->sendEmail($email, '['.$dt['e_name'].'] Aceite de Trabalho - #ID'.$id, $txt,$files);
+
+			$Publications_log = new \App\Models\OJS\Publications_log();
+			$Publications_log->log_insert($dt['doc_id'], 'Carta de aceite enviada os autores');
+
+
+
+		return "Enviado e-mail com sucesso para " . $dt['n_nome'] . " - " . $dt['n_mail'];
 		}
 
 	function emitir($id)
@@ -74,13 +103,14 @@ class ArticleDoc extends Model
 			echo "Article not found";
 			exit;
 		}
+
 		$idW = get("id");
 		$doc = $ArticleDocType->where('id_adt', $id_doc)->first();
 		$txt = $doc['adt_text'];
 		foreach ($dados as $idx => $vlr) {
 			$txt = str_replace('$' . $idx, $vlr, $txt);
 		}
-		$dir = $this->getDir();;
+		$dir = $this->getDir();
 		if (!is_dir($dir)) {
 			mkdir($dir, 0777, true);
 		}
@@ -97,12 +127,19 @@ class ArticleDoc extends Model
 		$dt['doc_status'] = 1;
 		$this->set($dt)->insert();
 
+		return "Certificado emitido com sucesso ";
+
 	}
 
 	function getDir()
 	{
 		$pre = $_SERVER['DOCUMENT_ROOT'];
-		$pre = str_replace('public', 'uploads', $pre);
+		if ($pre == '/home2/iskoor95/public_html')
+			{
+				$pre = '/home2/iskoor95/inscricoes/uploads/';
+				return $pre;
+			}
+
 		if (is_dir($pre)) {
 			return $pre.'/';
 		}
@@ -123,11 +160,9 @@ class ArticleDoc extends Model
 
 		$ArticleDocType = new \App\Models\Docs\ArticleDocType();
 		$da = $ArticleDocType
-			->join('articles_doc', 'adt_codigo = doc_tipo','left')
-			->where('doc_id', $id)
-			->Orwhere('doc_id', null)
+			->join('articles_doc', 'adt_codigo = doc_tipo AND `doc_id` = '.$id,'left')
 			->findAll();
-			echo $this->getlastquery();
+
 		$dd = [];
 		$dd['docs'] = $da;
 		$sx = '<table border="1" cellpadding="5" cellspacing="0" class="table table-striped table-bordered full">';
@@ -139,16 +174,19 @@ class ArticleDoc extends Model
 		foreach ($da as $idx => $line) {
 			$status = $line['doc_status'];
 			$act = '';
+
 			switch($status) {
 				case '0':
 					$status = 'Aguardando';
 					break;
 				case '1':
 					$status = 'Emitido';
-					$act = '<a href="' . base_url('admin/docs_email/?doc=' . $line['id_adt'] . '&id=' . $id . '&ev=' . $ev) . '" class="btn btn-outline-primary">Enviar e-mail</a>';
+					$act = '<a href="' . base_url('admin/docs_email/?doc=' . $line['id_doc'] . '&id=' . $id . '&ev=' . $ev) . '" class="btn btn-outline-primary">Enviar e-mail</a>';
+					$act .= '<a href="' . base_url('downloadDoc/?doc=' . $line['id_doc'] . '&id=' . $id . '&ev=' . $ev) . '" class="btn btn-outline-primary ms-2">Ver documento</a>';
 					break;
 				case '2':
-					$status = 'Reprovado';
+					$status = 'Comunicado autor';
+					$act .= '<a href="' . base_url('downloadDoc/?doc=' . $line['id_doc'] . '&id=' . $id . '&ev=' . $ev) . '" class="btn btn-outline-primary ms-2">Ver documento</a>';
 					break;
 				case '3':
 					$status = 'Aguardando revisão';

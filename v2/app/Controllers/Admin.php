@@ -43,7 +43,7 @@ class Admin extends BaseController
 					$id = get('id');
 					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 					$dt = $ArticleDoc->email_enviar($id);
-					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . ';5";</script>';
+					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . '";</script>';
 					return $redirect;
 					break;
 

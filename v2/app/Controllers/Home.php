@@ -35,6 +35,39 @@ class Home extends BaseController
 		return $sx;
 	}
 
+	function downloadDoc()
+	{
+		$ArticleDoc = new \App\Models\Docs\ArticleDoc();
+		$id = get('doc');
+		$idX = get('id');
+		$ev = get('ev');
+		$check = get('check');
+
+		if ($id == '') {
+			echo "ID do arquivo não encontrado";
+			exit;
+		}
+		//$check = $ArticleDoc->md5check($file);
+
+		if ($check != $check) {
+			echo "Arquivo não encontrado";
+			exit;
+		}
+
+		$dt = $ArticleDoc->where('id_doc', $id)->first();
+		$file = $dt['doc_url'];
+		if (!file_exists($file)) {
+			echo "Arquivo não encontrado";
+			exit;
+		}
+
+		header('Content-Type: application/pdf');
+		header('Content-Disposition: attachment; filename="' . $file . '"');
+		header('Content-Length: ' . filesize($file));
+		readfile($file);
+		exit;
+	}
+
 	function download()
 		{
 			$UploadDoc = new \App\Models\Docs\UploadDoc();

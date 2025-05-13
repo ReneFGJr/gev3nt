@@ -35,6 +35,10 @@ class Admin extends BaseController
 			$ev = 2;
 
 			switch ($a1) {
+				case 'accepts':
+					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
+					$data['event'] .= $ArticleDoc->accepts($ev);
+					break;
 				case 'summary':
 					$EventInscritos = new \App\Models\Event\EventInscritos();
 					$data['event'] .= $EventInscritos->summary($ev);

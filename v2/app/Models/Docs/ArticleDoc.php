@@ -52,6 +52,36 @@ class ArticleDoc extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function accepts($id)
+		{
+			$Publication = new \App\Models\OJS\Publications();
+
+			$da = $Publication
+				->join('articles_doc', 'doc_tipo = w_id', 'left')
+				->where('w_evento', $id)
+				->where('w_status', 1)
+				->orderBy('w_id', 'desc')
+				->findAll();
+
+			$sx = '';
+			$sx .= '<table border="1" cellpadding="5" cellspacing="0" class="table table-striped table-bordered full">';
+
+			foreach ($da as $idx => $line) {
+				$link = '<a href="' . base_url('admin/work/' . $line['id_w']) . '" class="link">';
+				$linka = '</a>';
+				$sx .= '<tr>';
+				$sx .= '<td>' . $link.$line['titulo'] .$linka. '</td>';
+				$sx .= '</tr>';
+				$sx .= '<tr>';
+				$sx.= '<td>';
+				$sx .= $this->show($line['w_id'], $id);
+				$sx .= '</td>';
+				$sx .= '</tr>';
+			}
+			$sx .= '</table>';
+			return $sx;
+	}
+
 	function email_enviar($id)
 		{
 			$id = get('doc');
@@ -163,6 +193,13 @@ class ArticleDoc extends Model
 			->join('articles_doc', 'adt_codigo = doc_tipo AND `doc_id` = '.$id,'left')
 			->findAll();
 
+		$sx = $this->showTable($da, $id, $ev);
+		return $sx;
+	}
+
+		function showTable($da, $id, $ev)
+	{
+		$sx = '';
 		$dd = [];
 		$dd['docs'] = $da;
 		$sx = '<table border="1" cellpadding="5" cellspacing="0" class="table table-striped table-bordered full">';

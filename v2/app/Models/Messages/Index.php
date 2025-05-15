@@ -69,10 +69,10 @@ class Index extends Model
 							<br>
 							<br>Agradecemos sua inscrição no [Evento]. Entretanto, não identificamos a efetivação do pagamento da sua inscrição. Para darmos continuidade ao processo de validação, solicitamos que nos envie o(s) seguinte(s) documento(s):<ul>';
 
-				if ($dt['type']['2'] == 1) {
+				if ($dt['type']['3'] == 1) {
 					$message .= '<li>Comprovante de Depósito/PIX: referente ao pagamento da inscrição.</li>';
 				}
-				if ($dt['type']['3'] == 1) {
+				if ($dt['type']['2'] == 1) {
 					$message .= '<li>Comprovante de Matrícula: para inscrições na categoria estudante de graduação ou pós-graduação.</li>';
 				}
 
@@ -168,6 +168,11 @@ class Index extends Model
 		$message = str_replace('[Data]', $dt['cb_created'], $message);
 		$message = str_replace('[EmailSuporte]', 'isko@isko.org.br', $message);
 
+		if (isset($dt['site'])) {
+			$message = str_replace('[site]', $dt['site'], $message);
+		} else {
+			$message = str_replace('[site]', 'https://www.isko.org.br/inscricao', $message);
+		}
 		return $message;
 	}
 }

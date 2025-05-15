@@ -117,7 +117,6 @@ class EventInscritos extends Model
 		if ($dt['ein_pago'] == 1) {
 			return 'Inscrição já validada';
 		}
-		pre($_POST,false);
 		if ($_POST) {
 			$dt['type'] = [];
 			$dt['type']['1'] = get("email");		# Enviar e-mail de cobrança

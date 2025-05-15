@@ -171,7 +171,7 @@ class Index extends Model
 		if (isset($dt['site'])) {
 			$message = str_replace('[site]', $dt['site'], $message);
 		} else {
-			$message = str_replace('[site]', 'https://www.isko.org.br/inscricao', $message);
+			$message = str_replace('[site]', 'https://isko.org.br/inscricoes', $message);
 		}
 		return $message;
 	}

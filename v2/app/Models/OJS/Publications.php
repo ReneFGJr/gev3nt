@@ -211,7 +211,7 @@ class Publications extends Model
 
 			if ($dl['w_status'] != $status) {
 				if ($status != $dl['w_status']) {
-					$Publications_log->log_insert($dl['id_w'],'Alterado status para ' . $status);
+					$Publications_log->log_insert($dl['id_w'], 'Alterado status para ' . $status);
 					$this->set(['w_status' => $status, 'w_update' => date('Y-m-d H:i:s')])
 						->where('id_w', $id)
 						->where('w_evento', $ev)
@@ -235,6 +235,41 @@ class Publications extends Model
 
 		$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 		$sx .= $ArticleDoc->show($dt['w_id'], $dt['w_evento']);
+		return $sx;
+	}
+
+	function workHeader($id, $ev)
+	{
+		$Publications_log = new \App\Models\OJS\Publications_log();
+
+		/*** POST */
+		if ($_POST) {
+			$status = get('w_status');
+			$dl = $this->where('w_id', $id)
+				->where('w_evento', $ev)
+				->first();
+
+			if ($dl['w_status'] != $status) {
+				if ($status != $dl['w_status']) {
+					$Publications_log->log_insert($dl['id_w'],'Alterado status para ' . $status);
+					$this->set(['w_status' => $status, 'w_update' => date('Y-m-d H:i:s')])
+						->where('id_w', $id)
+						->where('w_evento', $ev)
+						->update();
+				}
+			}
+		}
+
+		/*************** View */
+		$dt = $this
+			->where('w_evento', $ev)
+			->where('w_id', $id)
+			->first();
+		if ($dt == []) {
+			return 'Work not found';
+		}
+		$sx = '';
+		$sx .= view('admin/work/viewHeader', ['dados' => $dt]);
 		return $sx;
 	}
 

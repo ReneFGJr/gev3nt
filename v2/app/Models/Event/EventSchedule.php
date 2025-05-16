@@ -4,15 +4,26 @@ namespace App\Models\Event;
 
 use CodeIgniter\Model;
 
-class Events extends Model
+class EventSchedule extends Model
 {
-    protected $table            = 'event';
-    protected $primaryKey       = 'id_e';
+    protected $table            = 'event_schedule_bloco';
+    protected $primaryKey       = 'id_esb';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+		'id_esb',
+		'esb_event',
+		'esb_day',
+		'esb_hora_ini',
+		'esb_hora_fim',
+		'esb_local',
+		'esb_titulo',
+		'esb_participantes',
+		'esb_link',
+		'esb_ativo'
+	];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -44,51 +55,47 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-	function programEvents($id)
+	function programSchedule($idv,$ev)
 		{
+			$id_esb = get("id_esb");
+			if ($id_esb != '') {
+				$Publications = new \App\Models\OJS\Publications();
+				$dd['w_programado'] = $id_esb;
+				$dd['w_status'] = 2;
+				$Publications->set($dd)->where('id_w', $idv)->update();
+				$sx = '<script>window.location.href ="'.base_url('/admin/workEvent/' . $idv) . '";</script>';
+				return $sx;
+			}
 			$cp = 'sch_day, esb_hora_ini, esb_hora_fim, esb_local, esb_titulo, esb_participantes, lc_nome, lc_class, id_lc as sala, id_sch as day';
-			//$cp = '*';
+			$cp = '*';
 			$dt = $this
 					->select($cp)
-					->join('event_schedule', 'id_e = sch_event')
-					->join('event_schedule_bloco', 'id_sch = esb_day')
+					->join('event_schedule', 'id_sch = esb_day')
 					->join('event_local','id_lc = esb_local')
-					->where('id_e', $id)
+					->join('articles', 'id_esb = w_programado', 'left')
+					->where('esb_event', $ev)
 					->orderBy('sch_day, esb_hora_ini, esb_local')
 					->findAll();
 
-			$dtt = [];
-			# Dias
-			$day = [];
-			foreach($dt as $idd=>$d)
-				{
-					if (!isset($day[$d['day']]))
-						{
-							$day[$d['day']] =$d['sch_day'];
-						}
+			$sx = '<div class="row">';
+			$section = 0;
+			$day = 0;
+			foreach ($dt as $id => $line) {
+				$xSection = $line['id_esb'];
+				$xDay = $line['sch_day'];
+				if ($xDay != $day) {
+					$sx .= view('admin/event/schedule_day', $line);
+					$day = $xDay;
 				}
-			# Salas
-			$room = [];
-			foreach ($dt as $idd => $d) {
-				if (!isset($room[$d['sala']])) {
-					$room[$d['sala']] = $d['lc_nome'];
+				if ($xSection != $section) {
+					$sx .= view('admin/event/schedule_section', $line);
+					$section = $xSection;
 				}
+				$sx .= view('admin/event/schedule', $line);
 			}
-
-			$dtt['programacao'] = $dt;
-			$dtt['dias'] = $day;
-			$dtt['salas'] = $room;
-
-			return $dtt;
+			$sx .= '</div>';
+			$line['work'] = $idv;
+			$sx .= view('admin/event/schedule_js', $line);
+			return $sx;
 		}
-
-	function getEvents($user=0)
-		{
-			$dt = [];
-			$dt = $this
-				->join('event_inscritos ', '(id_e = ein_event) AND (ein_user = '.$user.')', 'left')
-				->where('e_sigin_until >= ', date('Y-m-d'))
-				->findAll();
-			return $dt;
-		}
-}
+	}

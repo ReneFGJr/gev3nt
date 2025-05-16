@@ -16,6 +16,8 @@
 
 	<button type="submit" class="btn btn-primary">Salvar</button>
 	<a href="<?= base_url('admin/works') ?>" class="btn btn-secondary ms-2">Voltar</a>
-	<a href="<?php echo base_url('admin/work/' . esc($dados['id_w'] . '?update=' . date("Y-md-d:h:i:s"))); ?>
-		class=" btn btn-secondary ms-2" class="btn btn-secondary ms-2">Atualizar (via API)</a>
+	<a href="<?php echo base_url('admin/work/' . esc($dados['id_w'] . '?update=' . date("Y-md-d:h:i:s"))); ?>"
+		 class="btn btn-secondary ms-2">Atualizar (via API)</a>
+	<a href="<?php echo base_url('admin/workEvent/' . esc($dados['w_id'])); ?>"
+		class="btn btn-outline-success ms-2">Programar</a>
 </form>

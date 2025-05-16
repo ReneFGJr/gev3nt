@@ -68,6 +68,15 @@ class Admin extends BaseController
 					$Publications = new \App\Models\OJS\Publications();
 					$data['event'] .= $Publications->import();
 					break;
+				case 'workEvent':
+					$Publications = new \App\Models\OJS\Publications();
+					$EventSchedule = new \App\Models\Event\EventSchedule();
+					$ev = 2;
+					/* Aprova os trabalhos com status "Aceito" */
+					$Publications->check_status($ev);
+					$data['event'] .= $Publications->workHeader($a2,$ev);
+					$data['event'] .= $EventSchedule->programSchedule($a2, $ev);
+					break;
 				case 'works':
 					$Publications = new \App\Models\OJS\Publications();
 					$ev = 2;

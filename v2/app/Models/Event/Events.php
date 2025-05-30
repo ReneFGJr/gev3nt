@@ -46,8 +46,9 @@ class Events extends Model
 
 	function programEvents($id)
 		{
-			$cp = 'sch_day, esb_hora_ini, esb_hora_fim, esb_local, esb_titulo, esb_participantes, lc_nome, lc_class, id_lc as sala, id_sch as day';
+			$cp = 'id_esb, sch_day, esb_hora_ini, esb_hora_fim, esb_local, esb_titulo, esb_participantes, lc_nome, lc_class, id_lc as sala, id_sch as day';
 			//$cp = '*';
+
 			$dt = $this
 					->select($cp)
 					->join('event_schedule', 'id_e = sch_event')
@@ -60,12 +61,31 @@ class Events extends Model
 			$dtt = [];
 			# Dias
 			$day = [];
+			$Publications = new \App\Models\OJS\Publications();
+			$cp = 'titulo, w_autores, nome_autor1, sobrenome_autor1, w_programado, w_ordem, w_id, id_w';
+			$works = $Publications
+				->select($cp)
+				->where('w_evento', $id)
+				->where('w_programado != 0')
+				->orderBy('w_programado, w_ordem')
+				->findAll();
+
 			foreach($dt as $idd=>$d)
 				{
 					if (!isset($day[$d['day']]))
 						{
 							$day[$d['day']] =$d['sch_day'];
 						}
+					/********************* WORKDS */
+					$wk = [];
+					foreach($works as $idw=>$w)
+						{
+							if ($d['id_esb'] == $w['w_programado'])
+								{
+									array_push($wk, $w);
+								}
+						}
+					$dt[$idd]['works'] = $wk;
 				}
 			# Salas
 			$room = [];

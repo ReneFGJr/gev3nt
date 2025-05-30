@@ -51,6 +51,7 @@
 				$participantes = $p['esb_participantes'];
 				$sala = $p['sala'];
 				$class = $p['lc_class'];
+				$works = $p['works'];
 				require("event_meuseventos_day_room_class.php");
 			}
 			?>

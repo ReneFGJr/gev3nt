@@ -21,6 +21,10 @@ switch ($w_status) {
 	case 5:
 		$class = "primary";
 		break;
+	case 8:
+		$class = "danger";
+		$style = "opacity: 0.3";
+		break;
 	case 9:
 		$class = "secondary";
 		$style = "opacity: 0.3";
@@ -30,10 +34,16 @@ switch ($w_status) {
 }
 $link = '<a href="'.base_url('/admin/work/' . $id_w) . '" class="link">';
 $linka = '</a>';
+$alert = '';
+if (($w_programado == 0) and ($w_status < 8))
+	{
+		$class .= ' border-bottom: 6px solid #FF0;';
+		$alert = '*';
+	}
 ?>
 <div class="container mb-3">
 	<div class="row">
-		<div class="alert alert-<?= $class; ?> col-1 h4 text-center"><?= $w_id; ?></div>
+		<div class="alert alert-<?= $class; ?> col-1 h4 text-center"><?= $w_id; ?><?=$alert;?></div>
 		<div class="col-11" style="<?= $style; ?>">
 			<?= $link . nTitle($titulo) . $linka; ?>
 			<div class="ms-5"><i><span>

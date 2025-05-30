@@ -126,7 +126,7 @@ class Publications extends Model
 	{
 		$status = $this->status;
 		$dt = $this
-			->select('w_status, count(w_status) as total')
+			->select('w_status, count(w_status) as total, (w_programado > 0) as programado')
 			->where('w_evento', $ev)
 			->groupBy('w_status')
 			->findAll();
@@ -135,7 +135,8 @@ class Publications extends Model
 		$sx = '<table class="table table-striped table-bordered full" style="font-size: 12px">';
 		$sx .= '<tr>';
 		$sx .= '<th>Status</th>';
-		$sx .= '<th>Total</th>';
+		$sx .= '<th width="20%">Total</th>';
+		$sx .= '<th width="20%">Na programação</th>';
 		$sx .= '</tr>';
 		$tot = 0;
 		foreach ($dt as $id => $line) {
@@ -149,6 +150,14 @@ class Publications extends Model
 			$sx .= '<tr>';
 			$sx .= '<td>' . $st . '</td>';
 			$sx .= '<td style="text-align: center">' . $line['total'] . '</td>';
+			$sx .= '<td class="text-center">';
+				if ($line['programado'] == 0)
+				{
+					$sx .= 'Não';
+				} else {
+					$sx .= 'Sim';
+				}
+			$sx .='</td>';
 			$sx .= '</tr>';
 		}
 		$sx .= '<tr>';
@@ -195,6 +204,7 @@ class Publications extends Model
 			//pre($line);
 			$sx .= view('admin/work/info', $line);
 		}
+		$sx .= '<p>* Fora da programação</p>';
 		return $sx;
 	}
 
@@ -232,6 +242,10 @@ class Publications extends Model
 		$sx .= view('admin/work/view', ['dados' => $dt]);
 		$sx .= view('admin/work/view_status', ['dados' => $dt]);
 		$sx .= $Publications_log->show($id);
+
+		/********************************** Programação */
+		$EventSchedule = new \App\Models\Event\EventSchedule();
+		$sx .= $EventSchedule->show($dt['w_id'], $dt['w_evento']);
 
 		$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 		$sx .= $ArticleDoc->show($dt['w_id'], $dt['w_evento']);

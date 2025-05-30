@@ -55,6 +55,45 @@ class EventSchedule extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function show($id,$ev)
+	{
+		$Publications = new \App\Models\OJS\Publications();
+		$dt = $Publications
+			->join('event_schedule_bloco', 'id_esb = w_programado')
+			->join('event_schedule', 'id_sch = esb_day')
+			->join('event_local','id_lc = esb_local')
+			->where('id_w', $id)
+			->where('w_evento', $ev)
+			->first();
+		if ($dt != []) {
+			$sx = '<table class="table table-striped table-bordered">';
+			$sx .= '<tr><td colspan="2" class="bg-light">';
+			$sx .= '<h5>Local na programação</h5>';
+			$sx .= '</td></tr>';
+			$sx .= '<tr><td>';
+			$data = $dt['sch_day'];
+			$sx .= date('d/m/Y', strtotime($data));
+			$sx .= ' - ';
+			$hora = $dt['esb_hora_ini'];
+			$hora = date('H:i', strtotime($hora));
+			$sx .= $hora;
+			$sx .= ' - ';
+			$hora = $dt['esb_hora_fim'];
+			$hora = date('H:i', strtotime($hora));
+			$sx .= $hora;
+			$sx .= ' - ';
+			$sx .= $dt['lc_nome'];
+			$sx .= '</td>';
+			$sx .= '<td class="text-end">';
+			$sx .= '<a href="'.base_url('admin/workEventCancel/'.$id).'" onclick="return confirm(\'Deseja cancelar a programação?\');" class="btn btn-danger btn-sm">Cancelar programação</a>';
+			$sx .= '</td></tr>';
+			$sx .= '</table>';
+
+			return $sx;
+		}
+		return $dt;
+	}
+
 	function programSchedule($idv,$ev)
 		{
 			$id_esb = get("id_esb");

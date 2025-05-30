@@ -8,9 +8,21 @@
 			<span class="badge bg-white text-azul border border-azul"><?php echo $local; ?></span>
 		</div>
 		<h5 class="fw-bold"><?php echo $titulo; ?></h5>
-		<p class="small mb-1"></p>
-		<div class="speakers text-muted small">
+		<div class="speakers text-muted">
 			<?=$participantes;?>
+			<?php
+			foreach ($works as $w) {
+				$autores = $w['w_autores'];
+				if ($autores == '') {
+					$autores = $w['nome_autor1'] . ' ' . $w['sobrenome_autor1'];
+				}
+
+				echo '<div class="text-muted ms-4 mb-2" style="border-left:6px solid #888; padding-left: 5px;"><b>' . $w['titulo'] . '</b>';
+				echo '<sup> (ID:'.$w['w_id'].')</sup>';
+				echo '<div class="ms-3"><i>' . $autores . '</i></div>';
+				echo '</div>';
+			}
+			?>
 			<!-- <i class="bi bi-person-fill"></i> Joseph Busch <a href="https://taxonomystrategies.com/about-us/joseph-busch-resume/" target="_blank">[currículo]</a> -->
 		</div>
 	</div>

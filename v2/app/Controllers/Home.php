@@ -388,13 +388,14 @@ class Home extends BaseController
 
 	function meuseventos()
 	{
+		$idev = 2;
 		$Events = new \App\Models\Event\Events();
 		$sx = '';
 		$sx .= view('header/header');
 		$data = [];
 		$data['navbar'] = view('header/navbar');
 
-		$dt = $Events->programEvents(2);
+		$dt = $Events->programEvents($idev);
 
 		$data['event'] = view('event/event_meuseventos', $dt);
 		$sx .= view('main', $data);

@@ -39,6 +39,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="<?= base_url('/admin/import'); ?>">Importar OJS</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/import_api'); ?>">Atualizar Trabalhos OJS (API)</a></li>
 					</ul>
 				</li>
 

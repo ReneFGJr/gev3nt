@@ -72,6 +72,37 @@ class Publications extends Model
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
 
+	public function import_ojs()
+		{
+			$ev = 2; // Evento padrão
+			$sx = '';
+			$offset = get('offset');
+			if ($offset == '') {
+				$offset = 0;
+			}
+			$Pubblication = new \App\Models\OJS\Publications();
+			$ApiOJS = new \App\Models\OJS\Api();
+			$dt = $Pubblication
+				->select('w_id, id_w')
+				->where('w_evento', $ev)
+				->where('id_w >= ' . $offset)
+				->orderBy('id_w', 'asc')
+				->first();
+
+			if ($dt == []) {
+				$sx .= '<h3>Todos os trabalhos foram atualizados</h3>';
+				$sx .= '<p><a href="' . base_url('/admin/works') . '">Voltar para a lista de trabalhos</a></p>';
+				return $sx;
+			}
+
+			$id = $dt['id_w'];
+			$idw = $dt['w_id'];
+			$sx .= '<li>'.$idw.' - '.$ApiOJS->updateDB($id).'</li>';
+			$redirect = '<script>window.location.href ="' . base_url('/admin/import_api/?offset=' .($id+1)) . '";</script>';
+			$sx .= $redirect;
+			return $sx;
+		}
+
 	public $status = [
 			'0' => 'Em avaliação',
 			'1' => 'Aprovado',

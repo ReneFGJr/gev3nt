@@ -68,6 +68,10 @@ class Admin extends BaseController
 					$Publications = new \App\Models\OJS\Publications();
 					$data['event'] .= $Publications->import();
 					break;
+				case 'import_api':
+					$Publications = new \App\Models\OJS\Publications();
+					$data['event'] .= $Publications->import_ojs();
+					break;
 				case 'workEvent':
 					$Publications = new \App\Models\OJS\Publications();
 					$EventSchedule = new \App\Models\Event\EventSchedule();

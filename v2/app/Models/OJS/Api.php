@@ -43,12 +43,18 @@ class Api extends Model
 	protected $afterFind      = [];
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
+	public $title = '';
+
+
+
 
 	function updateDB($idI)
 		{
 			$sx = '';
 			$Work = new \App\Models\OJS\Publications();
-			$dados = $Work->where('id_w', $idI)->first();
+			$dados = $Work
+				->where('id_w', $idI)
+				->first();
 			if ($dados == []) {
 				echo "ID: " . $idI;
 				echo "Article not found";
@@ -58,12 +64,18 @@ class Api extends Model
 			$dt = $this->api_article($id);
 			if ($dt['title'] != $dados['titulo']) {
 				$Work->set('titulo', $dt['title'])->where('w_id', $id)->update();
-				$sx .= "Title: " . $dt['title'] . " Update<br>";
+				$sx .= "Title: " . $dt['title'] . ' <span style="color: green">(update)</span><br>';
 			}
 
 			if ($dt['authors'] != $dados['w_autores']) {
 				$Work->set('w_autores', $dt['authors'])->where('w_id', $id)->update();
-				$sx .= "Authors: " . $dt['authors'] . " Update<br>";
+				$sx .= "Authors: " . $dt['authors'] . ' <span style="color: green">(update)</span><br>';
+			}
+
+			if ($sx == '') {
+				$sx = "Nothing to update";
+			} else {
+				$sx = "ID: " . $id . "<br>" . $sx;
 			}
 			return $sx;
 		}

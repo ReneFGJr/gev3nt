@@ -15,8 +15,9 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="<?= base_url('/admin/works'); ?>">Trabalhos</a></li>
-						<li><a class="dropdown-item" href="<?= base_url('/admin/authors'); ?>">Autores Aprovados</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/sessions'); ?>">Blocos da programação</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/accepts'); ?>">Comunicação de aceites</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/authors'); ?>">Autores Aprovados</a></li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown">

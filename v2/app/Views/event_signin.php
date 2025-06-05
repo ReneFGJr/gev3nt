@@ -14,6 +14,9 @@
 				<?= ($check_password == 2) ? '<div class="alert alert-danger mt-2">Senha inválida - clique <a href="' . base_url('novasenha') . '">aqui</a> para recuperar a senha.</div>' : ''; ?>
 				<?= ($check_password == -1) ? '<div class="alert alert-danger mt-2">Usuário não localizado</div>' : ''; ?>
 			</div>
+
+			<br />
+
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary w-100">Acessar</button>
 			</div>

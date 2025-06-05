@@ -1,3 +1,4 @@
+<script src="https://www.google.com/recaptcha/api.js?render=6LeAh1UrAAAAAB4xFyeQyVdHajgEBeL6U8xiDBYq"></script>
 <div class="row">
 	<div class="col-sm-12">
 		<h2 class="card-title text-center">Registro de Usuário</h2>
@@ -37,6 +38,19 @@
 					?>
 				</select>
 			</div>
+			<!-- Captcha Google reCAPTCHA v3 -->
+			<input type="hidden" name="token_recaptcha" id="token_recaptcha">
+			<script>
+				grecaptcha.ready(function() {
+					grecaptcha.execute('6LeAh1UrAAAAAB4xFyeQyVdHajgEBeL6U8xiDBYq', {
+						action: 'signup'
+					}).then(function(token) {
+						document.getElementById('token_recaptcha').value = token;
+					});
+				});
+			</script>
+
+
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary w-100">Registrar-se</button>
 			</div>

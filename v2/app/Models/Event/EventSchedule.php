@@ -55,6 +55,104 @@ class EventSchedule extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+	function session_ed($id, $ev)
+	{
+		if ($_POST != []) {
+			$dd = $_POST;
+			$dd['esb_event'] = $ev;
+			$dd['esb_ativo'] = 1;
+			$this->set($dd)
+				->where('id_esb', $id)
+				->where('esb_event', $ev)
+				->update();
+		}
+
+		$dt = $this
+			->join('event_schedule', 'id_sch = esb_day')
+			->join('event_local','id_lc = esb_local')
+			->where('id_esb', $id)
+			->where('esb_event', $ev)
+			->first();
+
+
+		if ($dt == []) {
+			return '<div class="alert alert-warning">Sessão não encontrada</div>';
+		}
+
+		$dt['days'] = $this
+			->select('id_sch, sch_day')
+			->join('event_schedule', 'id_sch = esb_day')
+			->where('esb_event', $ev)
+			->groupBy('id_sch, sch_day')
+			->orderBy('sch_day')
+			->findAll();
+
+		$times = [];
+		for ($i = 8; $i < 24; $i++) {
+			$times[] = sprintf('%02d:00', $i);
+			$times[] = sprintf('%02d:30', $i);
+		}
+		$dt['hours'] = $times;
+
+		$times = [];
+		for ($i = 8; $i < 24; $i++) {
+			$times[] = sprintf('%02d:29', $i);
+			$times[] = sprintf('%02d:59', $i);
+		}
+		$dt['hours2'] = $times;
+
+		$rooms = $this
+			->select('id_lc, lc_nome')
+			->join('event_local', 'id_lc = esb_local')
+			->where('esb_event', $ev)
+			->groupBy('id_lc, lc_nome')
+			->orderBy('lc_nome')
+			->findAll();
+		$dt['rooms'] = $rooms;
+
+		return view('admin/event/scheduleForm', $dt);
+	}
+
+	function sessions($ev)
+	{
+		$dt = $this
+			->select('*')
+			->join('event_schedule', 'id_sch = esb_day')
+			->join('event_local','id_lc = esb_local')
+			->where('esb_event', $ev)
+			->orderBy('esb_day, esb_local, esb_hora_ini')
+			->findAll();
+
+		if ($dt == []) {
+			return '<div class="alert alert-warning">Nenhuma sessão programada</div>';
+		}
+
+		$sx = '<div class="row">';
+		$xday = '';
+		$xroom = '';
+		foreach ($dt as $id => $line) {
+			if ($xday != $line['sch_day']) {
+
+				$xday = $line['sch_day'];
+				$line['lc_class'] = 'text-primary';
+				$sx .= view('admin/event/schedule_day', $line);
+			}
+
+			if ($xroom != $line['esb_local']) {
+
+				$xroom = $line['esb_local'];
+				$sx .= view('admin/event/schedule_room', $line);
+			}
+			//pre($line);
+			//$line['sch_day'] = $line['esb_day'];
+			//$line['lc_class'] = 'text-primary';
+			//$line['lc_nome'] = $line['esb_local'];
+			$sx .= view('admin/event/scheduleRow', $line);
+		}
+		$sx .= '</div>';
+		return $sx;
+	}
+
 	function show($id,$ev)
 	{
 		$Publications = new \App\Models\OJS\Publications();
@@ -62,9 +160,10 @@ class EventSchedule extends Model
 			->join('event_schedule_bloco', 'id_esb = w_programado')
 			->join('event_schedule', 'id_sch = esb_day')
 			->join('event_local','id_lc = esb_local')
-			->where('id_w', $id)
+			->where('w_id', $id)
 			->where('w_evento', $ev)
 			->first();
+
 		if ($dt != []) {
 			$sx = '<table class="table table-striped table-bordered">';
 			$sx .= '<tr><td colspan="2" class="bg-light">';
@@ -85,7 +184,7 @@ class EventSchedule extends Model
 			$sx .= $dt['lc_nome'];
 			$sx .= '</td>';
 			$sx .= '<td class="text-end">';
-			$sx .= '<a href="'.base_url('admin/workEventCancel/'.$id).'" onclick="return confirm(\'Deseja cancelar a programação?\');" class="btn btn-danger btn-sm">Cancelar programação</a>';
+			$sx .= '<a href="'.base_url('admin/workEventCancel/'.$id.'/'.$ev).'" onclick="return confirm(\'Deseja cancelar a programação?\');" class="btn btn-danger btn-sm">Cancelar programação</a>';
 			$sx .= '</td></tr>';
 			$sx .= '</table>';
 
@@ -122,6 +221,7 @@ class EventSchedule extends Model
 			foreach ($dt as $id => $line) {
 				$xSection = $line['id_esb'];
 				$xDay = $line['sch_day'];
+
 				if ($xDay != $day) {
 					$sx .= view('admin/event/schedule_day', $line);
 					$day = $xDay;
@@ -130,6 +230,7 @@ class EventSchedule extends Model
 					$sx .= view('admin/event/schedule_section', $line);
 					$section = $xSection;
 				}
+
 				$sx .= view('admin/event/schedule', $line);
 			}
 			$sx .= '</div>';

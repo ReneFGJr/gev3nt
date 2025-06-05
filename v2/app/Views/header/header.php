@@ -17,3 +17,5 @@
 			.catch((err) => console.error('Erro ao registrar o Service Worker:', err));
 	}
 </script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render=SUA_SITE_KEY_V3"></script>

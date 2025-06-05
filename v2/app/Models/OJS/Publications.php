@@ -223,6 +223,48 @@ class Publications extends Model
 		return True;
 	}
 
+	function workEventSchedule($id, $ev, $w)
+	{
+		$dd = [];
+		if ($ev == '') {
+			echo "Evento não informado";
+			exit;
+		}
+		if ($id == '') {
+			echo "Trabalho não informado";
+			exit;
+		}
+		if ($w == '') {
+			echo "Local/Sessão não informado";
+			exit;
+		}
+		$dd['w_programado'] = $w;
+		$this->set($dd)
+			->where('w_id', $id)
+			->where('w_evento', $ev)
+			->update();
+		return true;
+	}
+
+	function workEventCancel($id,$ev)
+	{
+		$dd = [];
+		if ($ev == '') {
+			echo "Evento não informado";
+			exit;
+		}
+		if ($id == '') {
+			echo "Trabalho não informado";
+			exit;
+		}
+		$dd['w_programado'] = 0;
+		$this->set($dd)
+			->where('w_id', $id)
+			->where('w_evento', $ev)
+			->update();
+		return true;
+	}
+
 	function works($ev)
 	{
 		$dt = $this
@@ -278,6 +320,7 @@ class Publications extends Model
 		$EventSchedule = new \App\Models\Event\EventSchedule();
 		$sx .= $EventSchedule->show($dt['w_id'], $dt['w_evento']);
 
+		/********************************** Documentos */
 		$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 		$sx .= $ArticleDoc->show($dt['w_id'], $dt['w_evento']);
 		return $sx;

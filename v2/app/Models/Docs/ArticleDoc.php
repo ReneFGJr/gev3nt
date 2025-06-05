@@ -181,6 +181,7 @@ class ArticleDoc extends Model
 	{
 		$Work = new \App\Models\OJS\Publications();
 		$dados = $Work->where('w_id', $id)->first();
+
 		if ($dados == []) {
 			echo "ID: " . $id;
 			echo "Article not found";

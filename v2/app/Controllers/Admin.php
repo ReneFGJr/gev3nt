@@ -20,9 +20,11 @@ class Admin extends BaseController
 		$data = [];
 		$data['navbar'] = view('header/navbar');
 		if ($UserID == []) {
-			$sx .= view('login', $data);
+			$sx .= '<meta http-equiv="refresh" content="0; url=' . base_url('/signin') . '">';
+			return $sx;
+			exit;
 		} else {
-			if (($UserID['id_n'] != 1) and ($UserID['id_n'] != 239)) {
+			if (($UserID['id_n'] != 1) and ($UserID['id_n'] != 2) and ($UserID['id_n'] != 239)) {
 				echo "Forbiden";
 				exit;
 			}
@@ -35,6 +37,14 @@ class Admin extends BaseController
 			$ev = 2;
 
 			switch ($a1) {
+				case 'sessions':
+					$EventSchedule = new \App\Models\Event\EventSchedule();
+					$data['event'] .= $EventSchedule->sessions($ev);
+					break;
+				case 'session_ed':
+					$EventSchedule = new \App\Models\Event\EventSchedule();
+					$data['event'] .= $EventSchedule->session_ed($a2, $ev);
+					break;
 				case 'accepts':
 					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
 					$data['event'] .= $ArticleDoc->accepts($ev);
@@ -71,6 +81,19 @@ class Admin extends BaseController
 				case 'import_api':
 					$Publications = new \App\Models\OJS\Publications();
 					$data['event'] .= $Publications->import_ojs();
+					break;
+				case 'workEventSchedule':
+					$a4 = get('id_esb');
+					$Publications = new \App\Models\OJS\Publications();
+					$dt = $Publications->workEventSchedule($a2, $a3, $a4);
+					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $a2) . '";</script>';
+					return $redirect;
+					break;
+				case 'workEventCancel':
+					$Publications = new \App\Models\OJS\Publications();
+					$dt = $Publications->workEventCancel($a2, $a3);
+					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $a2) . '";</script>';
+					return $redirect;
 					break;
 				case 'workEvent':
 					$Publications = new \App\Models\OJS\Publications();

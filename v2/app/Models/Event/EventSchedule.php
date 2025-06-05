@@ -184,7 +184,7 @@ class EventSchedule extends Model
 			$sx .= $dt['lc_nome'];
 			$sx .= '</td>';
 			$sx .= '<td class="text-end">';
-			$sx .= '<a href="'.base_url('admin/workEventCancel/'.$id.'/'.$ev).'" onclick="return confirm(\'Deseja cancelar a programação?\');" class="btn btn-danger btn-sm">Cancelar programação</a>';
+			$sx .= '<a href="'.base_url('admin/workEventCancel/'.$dt['w_id'].'/'.$ev).'" onclick="return confirm(\'Deseja cancelar a programação?\');" class="btn btn-danger btn-sm">Cancelar programação</a>';
 			$sx .= '</td></tr>';
 			$sx .= '</table>';
 

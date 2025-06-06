@@ -8,6 +8,7 @@ helper("nbrtitle");
 
 class Admin extends BaseController
 {
+
 	public function index($a1 = '', $a2 = '', $a3 = ''): string
 	{
 		$EventInscritos = new \App\Models\Event\EventInscritos();
@@ -37,6 +38,13 @@ class Admin extends BaseController
 			$ev = 2;
 
 			switch ($a1) {
+				case 'attendanceList':
+					$EventInscritos = new \App\Models\Event\EventInscritos();
+					$ev = 2;
+					echo $sx;
+					echo $EventInscritos->attendanceList($ev, 1);
+					exit;
+					break;
 				case 'sessions':
 					$EventSchedule = new \App\Models\Event\EventSchedule();
 					$data['event'] .= $EventSchedule->sessions($ev);
@@ -125,6 +133,25 @@ class Admin extends BaseController
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {
+						case 'cracha':
+							$dt = [];
+							$dt['data'] = $EventInscritos->getInscricao($a3);
+							if ($_POST) {
+								$dd = [];
+								$dd['id_n']	= $dt['data']['id_n'];
+								$dd['n_badge_name'] = get('n_badge_name');
+								$dd['n_badge_print'] = 1;
+								$dd['id_ein'] = $dt['data']['id_ein'];
+								$EventInscritos->updateCracha($dd);
+								$sx = '<meta http-equiv="refresh" content="0; url=' . base_url('/admin/inscricoes/view/' . $a3) . '">';
+								return $sx;
+							} else {
+								$dt['n_badge_name'] = $dt['data']['n_badge_name'];
+								$dt['cb_sigla'] = $dt['data']['cb_sigla'];
+							}
+
+							$data['event'] .= view('admin/cracha/editar_cracha', $dt);
+							break;
 						case 'email_alert':
 							$data['event'] .= $EventInscritos->email_alert($a3);
 							break;
@@ -149,8 +176,8 @@ class Admin extends BaseController
 							$dt['data'] = $EventInscritos->getInscricao($a3);
 							$dt['action'] = false;
 							$data['event'] .= view('admin/inscricao', $dt);
+							$data['event'] .= view('admin/event/inscricoes_botoes', $dt);
 							break;
-
 						case 'checked':
 							$dt['action'] = false;
 							$dt['data'] = $EventInscritos->getInscricao($a3);

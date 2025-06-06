@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary d-print-none">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#">Navbar</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,8 @@
 						</li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/summary'); ?>">Resumo Geral</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/inscricoes/validar2'); ?>">Relatório Inscrições</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/attendanceList'); ?>">Relação Inscritos</a></li>
+
 					</ul>
 				</li>
 

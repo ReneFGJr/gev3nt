@@ -19,7 +19,7 @@ class EventInscritos extends Model
 		'ein_data',
 		'ein_pago',
 		'ein_pago_em',
-		'ein_recibo'
+		'ein_recibo',
 	];
 
 	protected bool $allowEmptyInserts = false;
@@ -53,6 +53,11 @@ class EventInscritos extends Model
 	protected $afterDelete    = [];
 
 
+	public function updateCracha($dd)
+		{
+			$Users = new \App\Models\User\Users();
+			$Users->set($dd)->where('id_n', $dd['id_n'])->update();
+		}
 
 	public function summary($ev = 2)
 	{
@@ -279,5 +284,60 @@ class EventInscritos extends Model
 			$UploadFiles->saveDocument($dir . $fileID . '.pdf', $ID, 'registration');
 		}
 		return $ID;
+	}
+
+	public function attendanceList(int $eventId): string
+	{
+		// Recupera todos os inscritos ativos/validados para o evento, ordenados por nome
+		$inscritos = $this->getInscritos($eventId, 2);
+
+		// Início da montagem da tabela HTML
+		$html  = '<div class="row">';
+		$html .= '  <div class="col-12">';
+		$html .= '    <h4>Lista de Presença - Evento #' . esc($eventId) . '</h4>';
+		$html .= '    <table class="table table-bordered table-striped">';
+		$html .= '      <thead class="thead-dark">';
+		$html .= '        <tr>';
+		$html .= '          <th style="width: 5%; text-align: center;">#</th>';
+		$html .= '          <th>Nome</th>';
+		$html .= '          <th style="width: 15%;">Filiação / Organização</th>';
+		$html .= '          <th style="width: 10%;">Situação</th>';
+		$html .= '          <th style="width: 10%;">Assinatura</th>';
+		$html .= '        </tr>';
+		$html .= '      </thead>';
+		$html .= '      <tbody>';
+
+		$contador = 1;
+		$pagoT = 0;
+		foreach ($inscritos as $row) {
+			// Supõe-se que, na consulta feita em getInscritos, haja um JOIN em events_names (alias: n_nome)
+			// e em corporatebody (alias: cb_name). Caso seu nome do campo seja diferente, ajuste aqui.
+			$nome       = isset($row['n_nome'])       ? $row['n_nome']       : '(Nome não informado)';
+			$filiacao   = isset($row['cb_sigla'])      ? $row['cb_sigla']      : '—';
+			$pago	   = isset($row['ein_pago'])     ? ($row['ein_pago'] ? 'Pago' : 'Pendente') : '—';
+
+			$html .= '<tr>';
+			$html .= '  <td style="text-align: center;">' . $contador . '</td>';
+			$html .= '  <td>' . esc($nome) . '</td>';
+			$html .= '  <td>' . esc($filiacao) . '</td>';
+			$html .= '  <td>' . esc($pago) . '</td>';
+			$html .= '  <td>_________________________</td>';
+			$html .= '</tr>';
+
+			if ($row['ein_pago'] == 1) {
+				$pagoT++;
+			}
+			$contador++;
+		}
+
+		$html .= '      </tbody>';
+		$html .= '    </table>';
+		$html .= '  </div>';
+		$html .= '</div>';
+		$html .= 'Total de inscritos: ' . count($inscritos) . '<br>';
+		$html .= 'Total de inscritos pagos: ' . $pagoT . '<br>';
+		$html .= 'Total de inscritos pendentes: ' . (count($inscritos) - $pagoT) . '<br>';
+
+		return $html;
 	}
 }

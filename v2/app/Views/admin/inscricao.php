@@ -14,6 +14,16 @@
 				<p><strong>E-mail:</strong> <?= esc($data['n_email']) ?></p>
 				<p><strong>CPF:</strong> <?= esc($data['n_cpf']) ?></p>
 				<p><strong>Afiliação:</strong> <?= esc($data['cb_nome']); ?></p>
+				<label>Nome no Crachá
+					<?php if ($data['n_badge_print'] == 1) {
+						echo "(Imprimir)";
+					} ?> </p>
+				</label>
+				<div class="border border-secondary rounded p-3 text-center">
+					<h1><?= esc($data['n_badge_name']); ?></h1>
+					<h2><?= esc($data['cb_sigla']);?></h2>
+
+				</div>
 			</div>
 			<?php if ($action == True) { ?>
 				<div class="card-footer text-end">

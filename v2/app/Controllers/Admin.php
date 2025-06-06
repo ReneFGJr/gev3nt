@@ -133,6 +133,10 @@ class Admin extends BaseController
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {
+						case 'etiqueta':
+							$Users = new \App\Models\User\Users();
+							$Users->etiqueta($ev);
+							break;
 						case 'cracha':
 							$dt = [];
 							$dt['data'] = $EventInscritos->getInscricao($a3);

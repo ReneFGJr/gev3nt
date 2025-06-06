@@ -8,51 +8,93 @@ helper('cookie');
 
 class Users extends Model
 {
-    protected $table            = 'events_names';
-    protected $primaryKey       = 'id_n';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [
-		'n_password','apikey','n_nome','n_cpf','n_email','n_estrangeiro',
-		'n_badge_name','n_afiliacao',
+	protected $table            = 'events_names';
+	protected $primaryKey       = 'id_n';
+	protected $useAutoIncrement = true;
+	protected $returnType       = 'array';
+	protected $useSoftDeletes   = false;
+	protected $protectFields    = true;
+	protected $allowedFields    = [
+		'n_password',
+		'apikey',
+		'n_nome',
+		'n_cpf',
+		'n_email',
+		'n_estrangeiro',
+		'n_badge_name',
+		'n_afiliacao',
+		'n_badge_print',
 		'n_biografia',
 		'n_orcid'
 	];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
+	protected bool $allowEmptyInserts = false;
+	protected bool $updateOnlyChanged = true;
 
-    protected array $casts = [];
-    protected array $castHandlers = [];
+	protected array $casts = [];
+	protected array $castHandlers = [];
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+	// Dates
+	protected $useTimestamps = false;
+	protected $dateFormat    = 'datetime';
+	protected $createdField  = 'created_at';
+	protected $updatedField  = 'updated_at';
+	protected $deletedField  = 'deleted_at';
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+	// Validation
+	protected $validationRules      = [];
+	protected $validationMessages   = [];
+	protected $skipValidation       = false;
+	protected $cleanValidationRules = true;
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+	// Callbacks
+	protected $allowCallbacks = true;
+	protected $beforeInsert   = [];
+	protected $afterInsert    = [];
+	protected $beforeUpdate   = [];
+	protected $afterUpdate    = [];
+	protected $beforeFind     = [];
+	protected $afterFind      = [];
+	protected $beforeDelete   = [];
+	protected $afterDelete    = [];
 
 	/**************************** COOKIE */
-	public function saveCookieUser($dt=[])
+
+	function etiqueta($ev)
+	{
+		$cp = 'n_badge_name, cb_sigla, id_n';
+		$dt = $this
+			->select($cp)
+			->join('corporatebody', 'n_afiliacao = id_cb')
+			->where('n_badge_print', 1)
+			->findAll(5);
+		$texto = '';
+
+		foreach ($dt as $line) {
+			$texto .= 'L
+N
+D11
+191215100400080' . strtoupper($line['n_badge_name']) . '
+191200300150080' . strtoupper($line['cb_sigla']) . '
+E';		}
+		$file = 'etiqueta-'.date("Y-m-d-H:i:s").'.prn';
+
+		$dd = [];
+		$dd['n_badge_print'] = 0;
+		$this->set($dd)->where('id_n',$line['id_n'])->update();
+
+		// Headers para forçar download do .prn
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . strlen($texto));
+		echo $texto;
+		exit;
+	}
+	public function saveCookieUser($dt = [])
 	{
 		// Nome do cookie
 		$cookieName = 'g3ventos_permanent_cookie';
@@ -87,18 +129,18 @@ class Users extends Model
 	}
 
 	function getUserId($id)
-		{
-			$dt = $this
-				->join('corporatebody', 'n_afiliacao = id_cb')
-				->find($id);
-			return $dt;
-		}
+	{
+		$dt = $this
+			->join('corporatebody', 'n_afiliacao = id_cb')
+			->find($id);
+		return $dt;
+	}
 
 	public function logoff()
-		{
-			$this->deleteCookie();
-			return true;
-		}
+	{
+		$this->deleteCookie();
+		return true;
+	}
 
 	public function deleteCookie()
 	{
@@ -133,36 +175,35 @@ class Users extends Model
 	}
 
 	function getByEmail($email)
-		{
-			$dt = $this->where('n_email', $email)->first();
-			if (count($dt) > 0) {
-				return $dt;
-			} else {
-				return [];
-			}
+	{
+		$dt = $this->where('n_email', $email)->first();
+		if (count($dt) > 0) {
+			return $dt;
+		} else {
+			return [];
 		}
+	}
 
-	function updatePassword($idu,$pass)
-		{
-			$dt = [];
-			$dt['n_password'] = $pass;
-			$this->set($dt)->where('id_n', $idu)->update();
-			return 1;
-		}
+	function updatePassword($idu, $pass)
+	{
+		$dt = [];
+		$dt['n_password'] = $pass;
+		$this->set($dt)->where('id_n', $idu)->update();
+		return 1;
+	}
 
 	function check_email($email)
-		{
-			if ($email == '') {
-				return -1;
-			}
-			$dt = $this->where('n_email', $email)->findAll();
-			if (count($dt) > 0)
-				{
-					return 1;
-				} else {
-					return 0;
-				}
+	{
+		if ($email == '') {
+			return -1;
 		}
+		$dt = $this->where('n_email', $email)->findAll();
+		if (count($dt) > 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 
 	public static function validateCPF(string $cpf): bool
 	{

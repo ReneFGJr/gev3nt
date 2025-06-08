@@ -10,10 +10,16 @@
 				<p><strong>Modalidade:</strong> <?= esc($data['ei_modalidade']) ?> (R$ <?= number_format($data['ei_preco'], 2, ',', '.') ?>)</p>
 
 				<h3 class="mt-3">Dados do Participante</h3>
-				<p><strong>Nome:</strong> <?= esc($data['n_nome']) ?></p>
-				<p><strong>E-mail:</strong> <?= esc($data['n_email']) ?></p>
-				<p><strong>CPF:</strong> <?= esc($data['n_cpf']) ?></p>
-				<p><strong>Afiliação:</strong> <?= esc($data['cb_nome']); ?></p>
+				<p><strong>Nome:</strong> <?= esc($data['n_nome']) ?>
+					<br><strong>E-mail:</strong> <?= esc($data['n_email']) ?>
+					<br><strong>CPF:</strong> <?= esc($data['n_cpf']) ?>
+					<br><strong>Afiliação:</strong> <?= esc($data['cb_nome']); ?>
+					<br><strong>Financiamento:</strong> <?= esc($data['cbb_name']); ?>
+				</p>
+
+				<div>
+
+				</div>
 				<label>Nome no Crachá
 					<?php if ($data['n_badge_print'] == 1) {
 						echo "(Imprimir)";
@@ -21,7 +27,7 @@
 				</label>
 				<div class="border border-secondary rounded p-3 text-center">
 					<h1><?= esc($data['n_badge_name']); ?></h1>
-					<h2><?= esc($data['cb_sigla']);?></h2>
+					<h2><?= esc($data['cb_sigla']); ?></h2>
 
 				</div>
 			</div>

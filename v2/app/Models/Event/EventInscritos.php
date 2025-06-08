@@ -20,6 +20,7 @@ class EventInscritos extends Model
 		'ein_pago',
 		'ein_pago_em',
 		'ein_recibo',
+		'ein_budget'
 	];
 
 	protected bool $allowEmptyInserts = false;
@@ -172,7 +173,8 @@ class EventInscritos extends Model
 			->join('event', 'ein_event = id_e')
 			->join('event_inscricoes', 'ein_tipo = id_ei')
 			->join('events_names', 'id_n = ein_user')
-			->join('corporatebody', 'n_afiliacao = id_cb', 'left')
+			->join('corporatebody', 'n_afiliacao = corporatebody.id_cb', 'left')
+			->join('corporatebody_budget', 'ein_budget = id_cbb', 'left')
 			->where('id_ein', $id)
 			->orderBy('ein_data desc, id_ein desc')
 			->first();

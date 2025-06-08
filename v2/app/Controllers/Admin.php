@@ -68,8 +68,6 @@ class Admin extends BaseController
 					$redirect = '<script>window.location.href ="' . base_url('/admin/work/' . $id) . '";</script>';
 					return $redirect;
 					break;
-
-					break;
 				case 'docs_emitir':
 					$id = get('id');
 					$ArticleDoc = new \App\Models\Docs\ArticleDoc();
@@ -133,23 +131,12 @@ class Admin extends BaseController
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {
+						case 'fomento':
+							$dt = $this->fomento($a3);
+							$data['event'] .= view('admin/cracha/editar_fomento', $dt);
+							break;
 						case 'cracha':
-							$dt = [];
-							$dt['data'] = $EventInscritos->getInscricao($a3);
-							if ($_POST) {
-								$dd = [];
-								$dd['id_n']	= $dt['data']['id_n'];
-								$dd['n_badge_name'] = get('n_badge_name');
-								$dd['n_badge_print'] = 1;
-								$dd['id_ein'] = $dt['data']['id_ein'];
-								$EventInscritos->updateCracha($dd);
-								$sx = '<meta http-equiv="refresh" content="0; url=' . base_url('/admin/inscricoes/view/' . $a3) . '">';
-								return $sx;
-							} else {
-								$dt['n_badge_name'] = $dt['data']['n_badge_name'];
-								$dt['cb_sigla'] = $dt['data']['cb_sigla'];
-							}
-
+							$dt = $this->cracha($a3);
 							$data['event'] .= view('admin/cracha/editar_cracha', $dt);
 							break;
 						case 'email_alert':
@@ -213,5 +200,50 @@ class Admin extends BaseController
 
 		$sx .= view('main', $data);
 		return $sx;
+	}
+
+	function cracha($a3)
+	{
+		$EventInscritos = new \App\Models\Event\EventInscritos();
+		$dt = [];
+		$dt['data'] = $EventInscritos->getInscricao($a3);
+		if ($_POST) {
+			$dd = [];
+			$dd['id_n']	= $dt['data']['id_n'];
+			$dd['n_badge_name'] = get('n_badge_name');
+			$dd['n_badge_print'] = 1;
+			$dd['id_ein'] = $dt['data']['id_ein'];
+			$EventInscritos->updateCracha($dd);
+			$sx = '<meta http-equiv="refresh" content="0; url=' . base_url('/admin/inscricoes/view/' . $a3) . '">';
+			return $sx;
+		} else {
+			$dt['n_badge_name'] = $dt['data']['n_badge_name'];
+			$dt['cb_sigla'] = $dt['data']['cb_sigla'];
+		}
+		return $dt;
+	}
+
+	function fomento($a3)
+	{
+		$EventInscritos = new \App\Models\Event\EventInscritos();
+		$Faps = new \App\Models\Event\Faps();
+		$dt = [];
+		$dt['data'] = $EventInscritos->getInscricao($a3);
+		$dt['fomentos'] = $Faps->getFaps();
+		//pre($dt);
+		if ($_POST) {
+			$dd = [];
+			$dd['id_ein']	= $dt['data']['id_ein'];
+			$dd['ein_budget'] = get('ein_budget');
+			$EventInscritos->set($dd)->where('id_ein', $dd['id_ein'])->update();
+			$sx = '<meta http-equiv="refresh" content="0; url=' . base_url('/admin/inscricoes/view/' . $a3) . '">';
+			echo $sx;
+			exit;
+			return $sx;
+		} else {
+			$dt['n_badge_name'] = $dt['data']['n_badge_name'];
+			$dt['cb_sigla'] = $dt['data']['cb_sigla'];
+		}
+		return $dt;
 	}
 }

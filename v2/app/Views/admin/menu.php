@@ -32,6 +32,7 @@
 						<li><a class="dropdown-item" href="<?= base_url('/admin/summary'); ?>">Resumo Geral</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/inscricoes/validar2'); ?>">Relatório Inscrições</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/attendanceList'); ?>">Relação Inscritos</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/inscricoes/etiqueta'); ?>">Imprimir Etiquetas</a></li>
 
 					</ul>
 				</li>

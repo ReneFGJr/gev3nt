@@ -136,6 +136,9 @@ class Admin extends BaseController
 							$dt = $EventInscritos->recibo_pagamento($a3);
 							$dt = [];
 							$data['event'] .= 'Recibo de Pagamento';
+						case 'etiqueta':
+							$Users = new \App\Models\User\Users();
+							$Users->etiqueta($ev);
 							break;
 						case 'fomento':
 							$dt = $this->fomento($a3);

@@ -131,6 +131,12 @@ class Admin extends BaseController
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {
+						case 'recibo_pagamento':
+							$EventInscritos = new \App\Models\Event\EventInscritos();
+							$dt = $EventInscritos->recibo_pagamento($a3);
+							$dt = [];
+							$data['event'] .= 'Recibo de Pagamento';
+							break;
 						case 'fomento':
 							$dt = $this->fomento($a3);
 							$data['event'] .= view('admin/cracha/editar_fomento', $dt);

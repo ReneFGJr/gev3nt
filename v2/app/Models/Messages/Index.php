@@ -47,6 +47,40 @@ class Index extends Model
 	public function messages($tp = 0, $dt = [])
 	{
 		switch ($tp) {
+			case '6': /* Reci */
+				$message = '<center><h2>RECIBO [NRR]</h2></center>
+							<br>
+							<br>Recebemos o pagamento de [Nome], portadora do CPF [CPF], referente a inscrição no evento [Evento] e confirmamos a sua participação.
+							<br>
+							<br>Detalhes da Inscrição:
+							<br>Nome: [Nome]
+							<br>Categoria: [Tipo]
+							<br>Valor Pago: R$ [Valor]
+							<br>
+							<br>[PAGAMENTO]
+							<br>
+							<br>Agradecemos pela sua participação e esperamos vê-lo(a) no evento!
+							<br>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+				break;
+			case '5': /* Recibo e-mail */
+				$message = '<br>Prezados(as) autor(es) <b>[Autores]</b>.
+							<br>
+							<br>Temos o prazer de informar que o trabalho intitulado "<b>[Titulo]</b>", submetido à [Evento], foi <b>ACEITO</b> para apresentação.
+							<br>
+							<br>Será uma grande satisfação contar com a participação no evento. Informamos que, neste ano, as apresentações serão obrigatoriamente presenciais. Solicitamos, portanto, a confirmação da presença.
+							<br>
+							<br>Encaminhamos a carta de aprovação neste e-mail.
+							<br>
+							<br>Caso tenham dúvidas relacionadas ao evento, entrem em contato pelo e-mail: [EventoEmail].
+							<br>
+							<br>Esperamos encontrá-los!
+							<br>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+				break;
+
 			case '4': /* Aceite de Trabalho */
 				$message = '<br>Prezados(as) autor(es) <b>[Autores]</b>.
 							<br>
@@ -150,9 +184,19 @@ class Index extends Model
 		$message = str_replace('[Nome]', '<b>' . $dt['n_nome'] . '</b>', $message);
 		$message = str_replace('[Evento]', $dt['e_name'], $message);
 		$message = str_replace('[EventoEmail]', $dt['e_email'], $message);
+		$message = str_replace('[CPF]', '<b>' . $dt['n_cpf'] . '</b>', $message);
 
 		if (isset($dt['titulo'])) {
 			$message = str_replace('[Titulo]', $dt['titulo'], $message);
+		}
+
+		if (isset($dt['NRR']))
+			{
+				$message = str_replace('[NRR]', $dt['NRR'], $message);
+			}
+
+		if (isset($dt['PAGAMENTO'])) {
+			$message = str_replace('[PAGAMENTO]', $dt['PAGAMENTO'], $message);
 		}
 
 		if (isset($dt['autores'])) {

@@ -53,6 +53,31 @@ class EventInscritos extends Model
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
 
+	function recibo_pagamento($id)
+	{
+		$PaymentReceipt = new \App\Models\Docs\PaymentReceipt();
+		$dt = $this->getInscricao($id);
+		$dt['NRR'] = str_pad($dt['id_ein'], 4, "0", STR_PAD_LEFT).'/'.substr($dt['ein_data'],0,4);
+		$dt['PAGAMENTO'] = '';
+		if ($dt['ein_budget'] == 1) {
+			$dt['PAGAMENTO'] = $dt['cbb_name'];
+		} else {
+			$dt['PAGAMENTO'] = 'Pagamento efetuado por:<br>';
+			$dt['PAGAMENTO'] .= $dt['cbb_name'];
+			$dt['PAGAMENTO'] .= '<br>'.$dt['cbb_endereco'];
+			$dt['PAGAMENTO'] .= ' - ' . $dt['cbb_bairro'];
+			$dt['PAGAMENTO'] .= ' - ' . $dt['cbb_cidade'].', '.$dt['cbb_estado'];
+			$dt['PAGAMENTO'] .= '<br>CNPJ:' . $dt['cbb_cnpj'];
+		}
+
+		$txt = $this->messages(6, $dt);
+		$file = 'Payment_'.str_pad($dt['id_ein'], 6, "0", STR_PAD_LEFT).'.pdf';
+		$PaymentReceipt->emitir($txt,0,'d:\lixo\\'.$file);
+		$sx = '';
+		$dt = [];
+		$dt['message'] = 'Recibo emitido com sucesso!';
+		return $dt;
+	}
 
 	public function updateCracha($dd)
 		{

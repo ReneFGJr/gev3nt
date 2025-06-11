@@ -272,6 +272,23 @@ class Home extends BaseController
 		return $sx;
 	}
 
+	function media($act='',$id='')
+		{
+			$sx = '';
+			$Users = new \App\Models\User\Users();
+			$UserID = $Users->getCookie();
+
+			$Events = new \App\Models\Event\Events();
+			$sx .= view('header/header');
+			$data = [];
+			$data['navbar'] = view('header/navbar');
+			$Media = new \App\Models\Media\Index();
+			$data['event'] = $Media->index($act, $id);
+
+			$sx .= view('main', $data);
+			return $sx;
+		}
+
 	function profile()
 	{
 		$Users = new \App\Models\User\Users();

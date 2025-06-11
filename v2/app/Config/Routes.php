@@ -14,11 +14,20 @@ $routes->get('/downloadDoc', 'Home::downloadDoc');
 
 //http://g3vent/inscricoes/download?file=doc_00000044.pdf&check470de110dbbeb21638ec2f89a4539eda
 
+$routes->get('boleto/form', 'BoletoController::form');
+$routes->post('boleto/registrar', 'BoletoController::registrar');
+$routes->get('boleto/consultar/(:num)', 'BoletoController::consultar/$1');
+
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/(:any)', 'Admin::index/$1');
 $routes->post('/admin/(:any)', 'Admin::index/$1');
 $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin/(:any)/(:any)/(:any)', 'Admin::index/$1/$2/$3');
+
+$routes->get('/media', 'Home::media');
+$routes->get('/media/(:any)', 'Home::media/$1');
+$routes->get('/media/(:any)/(:any)', 'Home::media/$1/$2');
+$routes->post('/media', 'Home::media');
 
 
 $routes->get($pre. '/subscribe/(:any)', 'Home::subscribe/$1');

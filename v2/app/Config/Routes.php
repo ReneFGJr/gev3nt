@@ -11,6 +11,10 @@ $routes->get('/main', 'Home::main');
 $routes->get('/download', 'Home::download');
 $routes->get('/downloadDoc', 'Home::downloadDoc');
 
+$routes->get('/upload_presentation/(:num)', 'Home::upload_presentation/$1');
+$routes->post('/upload_presentation/(:num)', 'Home::upload_presentation/$1');
+
+
 
 //http://g3vent/inscricoes/download?file=doc_00000044.pdf&check470de110dbbeb21638ec2f89a4539eda
 
@@ -53,6 +57,9 @@ $routes->get($pre . '/setpassword', 'Home::setpassword');
 $routes->post($pre . '/setpassword', 'Home::setpassword');
 
 $routes->get($pre . '/profile', 'Home::profile');
+
+$routes->get($pre . '/certificate', 'Home::certificate');
+$routes->get($pre . '/certificate/(:any)', 'Home::made_certificate/$1');
 
 $routes->get($pre . '/meuseventos', 'Home::meuseventos');
 $routes->get($pre . '/meuseventos/(:any)', 'Home::meuseventos');

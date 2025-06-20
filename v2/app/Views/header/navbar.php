@@ -24,6 +24,11 @@ if ($data != []) {
 			<a href="<?= base_url("/meuseventos"); ?>" class="nav-link" title="Programação Próximo evento">
 				<i class="bi bi-calendar-event sizeB me-5"></i>
 			</a>
+
+			<a href="<?= base_url("/certificate"); ?>" class="nav-link" title="Certificados">
+				<i class="bi bi-award sizeB me-5"></i>
+			</a>
+
 		<?php } ?>
 	</div>
 

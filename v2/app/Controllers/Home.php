@@ -289,6 +289,53 @@ class Home extends BaseController
 			return $sx;
 		}
 
+
+		function upload_presentation($id = 0)
+	{
+		$sx = '';
+		$Users = new \App\Models\User\Users();
+		$UserID = $Users->getCookie();
+
+		$Events = new \App\Models\Event\Events();
+		$sx .= view('header/header');
+		$data = [];
+		$data['navbar'] = view('header/navbar');
+
+		$Media = new \App\Models\Media\Index();
+		$data['event'] = $Media->index('upload', $id);
+
+		if (isset($_FILES['media_file']) and (count($_FILES['media_file']) > 0)) {
+			$valid_type = $Media->valid_type($_FILES['media_file']['type']);
+			if ($valid_type == 1) {
+				$dir = '../uploads/';
+				// Verifica se o diretório existe antes de criar
+				if (!is_dir($dir)) {
+					mkdir($dir, 0777, true);
+				}
+				$IDf = 1;
+				$fileID = 'presentation_' . str_pad($id, 8, "0", STR_PAD_LEFT) . '_' . $IDf . '.pdf';
+
+				while (file_exists($dir . $fileID)) {
+					$IDf++;
+					$fileID = 'presentation_' . str_pad($id, 8, "0", STR_PAD_LEFT) . '_' . $IDf . '.pdf';
+				}
+				move_uploaded_file($_FILES['media_file']['tmp_name'], $dir . $fileID);
+				$data['event'] .= '<div class="alert alert-success">Arquivo enviado com sucesso: ' . $fileID . '</div>';
+				// Salva o documento
+				$Media->saveDocument($dir . $fileID, $id, 'presentation');
+				$data['event'] .= '<meta http-equiv="refresh" content="0;url=' . base_url('upload_presentation/' . $id) . '">';
+			} else {
+				$data['event'] .= '<div class="alert alert-danger">Tipo de arquivo inválido. Apenas PDF é permitido.</div>';
+			}
+		}
+
+		$data['event'] .= $Media->upload_list($id);
+
+		$sx .= view('main', $data);
+		return $sx;
+	}
+
+
 	function profile()
 	{
 		$Users = new \App\Models\User\Users();
@@ -332,6 +379,29 @@ class Home extends BaseController
 		$sx .= view('main', $data);
 		return $sx;
 	}
+
+	function made_certificate($id)
+		{
+			$ev = 2;
+			$Certificate = new \App\Models\Certificate\Index();
+			$Certificate->makeCertificate($id, $ev);
+			exit;
+		}
+
+	function certificate()
+		{
+			$ev = 2;
+			$Certificate = new \App\Models\Certificate\Index();
+			$sx = '';
+			$sx .= view('header/header');
+			$data = [];
+			if (get("type") == '') { $_GET['type'] = '1'; }
+			$data['navbar'] = view('header/navbar');
+			$data['event'] = view('event/certificate/search');
+			$data['event'] .= $Certificate->searchName(get('search'),$ev);
+			$sx .= view('main', $data);
+			return $sx;
+		}
 
 	function subscribe_confirm($id, $check)
 	{

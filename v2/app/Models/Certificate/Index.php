@@ -52,6 +52,111 @@ class Index extends Model
 	protected $beforeDelete   = [];
 	protected $afterDelete    = [];
 
+	function index($a2 = '', $a3 = '', $ev = 2)
+	{
+		$sx = '';
+		switch ($a2) {
+			case 'email':
+				$CertificadoOutros	= new \App\Models\Certificate\CertificadoOutros();
+				$sx .= $CertificadoOutros->enviarEmailTodos(1,2);
+				break;
+			case 'gerar':
+				$sx .= $this->gerarCertificados($a3, $ev);
+				break;
+			default:
+				$sx .= '<div class="alert alert-danger">Opção inválida - ' . $a2 . '-' . $a3 . '</div>';
+				break;
+		}
+		return $sx;
+	}
+
+	function gerarCertificados($id = '', $ev = 2)
+	{
+
+		if ($_POST) {
+			$sx = $this->gerarCertificadosPost($id, $ev);
+		} else {
+			return $this->gerarCertificadosForm($id, $ev);
+		}
+
+		return $sx;
+	}
+
+	function gerarCertificadosForm($id = '', $ev = 2)
+	{
+		$sx = '';
+		$sx .= '<h3>Gerar Certificados</h3>';
+		$sx .= '<form method="post" action="' . base_url('admin/certificados/gerar') . '">'.chr(10);
+		$sx .= '<div class="mb-3">' . chr(10);
+		$sx .= '<label for="name" class="form-label">Nomes</label>' . chr(10);
+		$sx .= '<textarea
+				class="form-control border border-secondary"
+				id="name"
+				name="name"
+				rows="10"
+				placeholder="Digite um nome por linha, seguido do e-mail. Ex: João Silva - joao@email.com">'.get("name").'</textarea>' . chr(10);
+		$sx .= '</div>' . chr(10);
+		$sx .= '<div class="mb-3">' . chr(10);
+		$sx .= '<button type="submit" class="btn btn-primary">Gerar Certificado</button>' . chr(10);
+		$sx .= '</form>' . chr(10);
+		$sx .= '</div>' . chr(10);
+		return $sx;
+	}
+
+	function gerarCertificadosPost($id, $ev)
+	{
+		$sx = '';
+		$name = get("name");
+		if ($name == '') {
+			return '<div class="alert alert-danger">Informe os nomes para gerar os certificados</div>';
+		}
+		$names = explode("\n", $name);
+		$names = array_map('trim', $names); // Remove espaços em branco
+		$names = array_filter($names); // Remove linhas vazias
+		$tp = 1;
+		foreach ($names as $n) {
+			// Verifica se o nome contém um e-mail
+			$n = str_replace("\t", ';',$n);
+			$n = explode(';', $n);
+			if ($this->isEmail($n[1]))
+				{
+					$sx .= '<li>'.$this->gerarCertificadoDB($n[0], $n[1], $ev, $tp). '</li>';
+				}
+			}
+		return $sx;
+	}
+
+	function gerarCertificadoDB($name, $email, $ev, $tp)
+	{
+		$data = '2025-06-25';
+		$CertificadoOutros = new \App\Models\Certificate\CertificadoOutros();
+		$data = [
+			'c_nome' => $name,
+			'c_email' => $email, // Certificado
+			'c_certificado' => $tp,
+			'c_data' => $data,
+			'e_evento'=> $ev
+		];
+
+		$dt = $CertificadoOutros->where('c_certificado', $tp)
+			->where('c_email', $email)
+			->where('e_evento', $ev)
+			->first();
+
+		if ($dt == []) {
+			// Verifica se o certificado já existe
+			$CertificadoOutros->set($data)->insert();
+			return $name . ' - ' . $email . ' - Certificado inserido com sucesso.';
+		} else {
+			return $name . ' - ' . $email . ' - Certificado já existe.';
+		}
+	}
+
+	function isEmail($email)
+	{
+		return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+	}
+
 	function makeCertificate($id, $ev)
 	{
 		$dir = 'cert';
@@ -124,7 +229,7 @@ class Index extends Model
 		// Conteúdo
 		$pdf->SetXY(10, 50);
 		$pdf->SetFont('helvetica', '', 28);
-		//$pdf->Write(0, 'Certificado', '', 0, 'C', true, 0, false, false, 0);
+		$pdf->Write(0, 'Certificado', '', 0, 'C', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', '', 16);
 		$pdf->Ln(10);
 
@@ -133,9 +238,9 @@ class Index extends Model
 			$autores = str_replace(' ,', ',', $autores);
 		}
 
-		$text = 'Este certificado é concedido a: <b>' . trim($autores) . '</b>';
-		$text .= ' pela apresentação do trabalho intitulado: <b>' . $dt['titulo'] . '</b>';
-		$text .= ' no evento: <b>' . $dt['e_name'] . '</b>, realizado entre ' . date('d/m/Y', strtotime($dt['e_data_i'])) . ' e ' . date('d/m/Y', strtotime($dt['e_data_f'])) . '.';
+		$text = 'Este certificado é concedido a <b>' . trim($autores) . '</b>';
+		$text .= ' pela apresentação do trabalho intitulado <b>' . $dt['titulo'] . '</b>';
+		$text .= ' no evento do <b>' . $dt['e_name'] . '</b>, realizado entre ' . date('d/m/Y', strtotime($dt['e_data_i'])) . ' e ' . date('d/m/Y', strtotime($dt['e_data_f'])) . '.';
 		$text .= ' <br> <br> Declaro que o trabalho foi apresentado e discutido com os participantes do evento.';
 		$text .= ' <br> <br> Porto Alegre, ' . date('d', strtotime($dt['e_data_f'])) . ' ' . $this->nome_mes(date('m', strtotime($dt['e_data_f']))) . ' ' . date('Y', strtotime($dt['e_data_f'])) . '.';
 		$pdf->writeHTMLCell(260, 120, '20', '75', $text, 0, 1, false, true, 'J', true);
@@ -242,6 +347,27 @@ class Index extends Model
 		return $pdf->Output('certificado.pdf', 'I');
 	}
 
+	function gerar_certificado_pdf_outros($id)
+		{
+			$CertificadoOutros = new \App\Models\Certificate\CertificadoOutros();
+			$dt = $CertificadoOutros->find($id);
+			if ($dt == []) {
+				return '<div class="alert alert-danger">Certificado não encontrado</div>';
+			}
+			$ev = $dt['e_evento'];
+			$dir = 'cert';
+			for ($i = 0; $i < 10; $i++) {
+				if (file_exists($dir)) break;
+				$dir = '../' . $dir;
+			}
+			$certPem   = $dir . '/cert_luciana.pem';
+			$keyPem    = $dir . '/key_luciana.pem';
+			$keyPass   = '';
+
+			echo "OK";
+			pre($dt);
+		}
+
 	function nome_mes($mes)
 	{
 		$meses = [
@@ -294,11 +420,9 @@ class Index extends Model
 			}
 
 			$sx .= '</div>';
+			$sx .= '</div>';
+		}
 
-		}
-		if ($sx == '') {
-			$sx = '<div class="alert alert-warning">Nenhum certificado encontrado com o nome "' . $kw . '"</div>';
-		}
 		return $sx;
 	}
 }

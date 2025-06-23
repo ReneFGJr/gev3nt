@@ -388,17 +388,33 @@ class Home extends BaseController
 			exit;
 		}
 
+	function made_certificate_other($id)
+		{
+			$ev = 2;
+			$Certificate = new \App\Models\Certificate\CertificadoOutros();
+			$Certificate->makeCertificate($id, $ev);
+			exit;
+		}
+
 	function certificate()
 		{
 			$ev = 2;
 			$Certificate = new \App\Models\Certificate\Index();
+			$CertificadoOutros = new \App\Models\Certificate\CertificadoOutros();
 			$sx = '';
 			$sx .= view('header/header');
 			$data = [];
 			if (get("type") == '') { $_GET['type'] = '1'; }
 			$data['navbar'] = view('header/navbar');
 			$data['event'] = view('event/certificate/search');
-			$data['event'] .= $Certificate->searchName(get('search'),$ev);
+			$ss = $Certificate->searchName(get('search'),$ev);
+			$ss .= $CertificadoOutros->searchName(get('search'), $ev);
+
+			if ($ss == '') {
+				$ss = '<div class="alert alert-warning">Nenhum certificado encontrado com o nome "' . $kw . '"</div>';
+			}
+			$data['event'] .= $ss;
+
 			$sx .= view('main', $data);
 			return $sx;
 		}

@@ -25,8 +25,12 @@ $routes->get('boleto/consultar/(:num)', 'BoletoController::consultar/$1');
 $routes->get('/admin', 'Admin::index');
 $routes->get('/admin/(:any)', 'Admin::index/$1');
 $routes->post('/admin/(:any)', 'Admin::index/$1');
+
 $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
+$routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
+
 $routes->get('/admin/(:any)/(:any)/(:any)', 'Admin::index/$1/$2/$3');
+$routes->post('/admin/(:any)/(:any)/(:any)', 'Admin::index/$1/$2/$3');
 
 $routes->get('/media', 'Home::media');
 $routes->get('/media/(:any)', 'Home::media/$1');
@@ -60,6 +64,7 @@ $routes->get($pre . '/profile', 'Home::profile');
 
 $routes->get($pre . '/certificate', 'Home::certificate');
 $routes->get($pre . '/certificate/(:any)', 'Home::made_certificate/$1');
+$routes->get($pre . '/certificateO/(:any)', 'Home::made_certificate_other/$1');
 
 $routes->get($pre . '/meuseventos', 'Home::meuseventos');
 $routes->get($pre . '/meuseventos/(:any)', 'Home::meuseventos');

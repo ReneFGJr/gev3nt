@@ -39,6 +39,16 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Certificados
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?= base_url('/admin/certificados/gerar'); ?>">Gerar certificados</a></li>
+						<li><a class="dropdown-item" href="<?= base_url('/admin/certificados/email'); ?>">Enviar certificados por e-mail</a></li>
+					</ul>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Tools
 					</a>
 					<ul class="dropdown-menu">

@@ -128,6 +128,11 @@ class Admin extends BaseController
 						return $redirect;
 					}
 					break;
+				/********************** Certificados */
+				case 'certificados':
+					$Certificate = new \App\Models\Certificate\Index();
+					$data['event'] .= $Certificate->index($a2,$a3,$ev);
+					break;
 				/**********************	Inscições  */
 				case 'inscricoes':
 					switch ($a2) {

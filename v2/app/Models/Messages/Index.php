@@ -47,6 +47,26 @@ class Index extends Model
 	public function messages($tp = 0, $dt = [])
 	{
 		switch ($tp) {
+			case '7': /* Email certificado */
+				$message = '<center><h2>Certificado</h2></center>
+							<br>
+							<br>Prezado(a) [Nome],
+							<br>
+							<br>É com grande satisfação que informamos que o seu certificado no evento [Evento] está disponível.
+							<br>
+							<br>Detalhes do Certificado:
+							<br>Nome: [Nome]
+							<br>Categoria: [Tipo]
+							<br>Data: [Data]
+							<br>
+							<br>Para acessar o seu certificado, clique no link abaixo:
+							<br><a href="[site]">Acessar Certificado</a>
+							<br>
+							<br>Agradecemos pela sua participação e esperamos vê-lo(a) em nossos próximos eventos!
+							<br>
+							<br>Atenciosamente,
+							<br><b>Comitê Organizador - [Evento]</b>';
+				break;
 			case '6': /* Reci */
 				$message = '<center><h2>RECIBO [NRR]</h2></center>
 							<br>
@@ -211,6 +231,10 @@ class Index extends Model
 		}
 		$message = str_replace('[Data]', $dt['cb_created'], $message);
 		$message = str_replace('[EmailSuporte]', 'isko@isko.org.br', $message);
+
+		if (isset($dt['ct_titulo'])) {
+			$message = str_replace('[Tipo]', '<b>'.$dt['ct_titulo']. '</b>', $message);
+		}
 
 		if (isset($dt['site'])) {
 			$message = str_replace('[site]', $dt['site'], $message);

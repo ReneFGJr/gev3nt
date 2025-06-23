@@ -75,12 +75,20 @@ class CertificadoOutros extends Model
 		if ($dt == []) {
 			return '<div class="alert alert-danger">Certificado não encontrado</div>';
 		}
-		$dir = '';
-		$file = $dir . 'certificado_'.($dt['id_c']) . '.pdf';
 
-		$this->makeCertificate($id, $ev, $file);
+		$Message = new \App\Models\Messages\Index();
+		$dt['n_nome'] = $dt['c_nome'];
+		$dt['n_cpf'] = '';
+		$dt['cb_created'] = $dt['c_data'];
+		$dt['site'] = base_url('certificateO/' . $id);
+		$txt = $Message->messages(7, $dt);
 
-		pre($dt);
+		$Email = new \App\Models\IO\EmailX();
+		$email = $dt['c_email'];
+		$email = 'renefgj@gmail.com';
+		$subject = '[' . $dt['e_name'] . '] Certificado Ad DOC - ' . $dt['c_nome'];
+		$rsp = $Email->sendEmail($email, $subject, $txt);
+		pre($txt);
 	}
 
 
@@ -269,8 +277,6 @@ class CertificadoOutros extends Model
 		if ('Certificado.pdf' != $fileName) {
 			$pdf->Output($fileName,'F');
 		} else {
-			echo "OK";
-			exit;
 			return $pdf->Output($fileName, 'I');
 		}
 	}

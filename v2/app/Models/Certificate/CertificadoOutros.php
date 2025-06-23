@@ -19,7 +19,9 @@ class CertificadoOutros extends Model
 		'c_email',
 		'c_certificado',
 		'c_data',
-		'e_evento'
+		'e_evento',
+		'e_email',
+		'e_emitido'
 	];
 
 	protected bool $allowEmptyInserts = false;
@@ -54,16 +56,26 @@ class CertificadoOutros extends Model
 
 	function enviarEmailTodos($tp=1)
 	{
+		$limit = 1;
 		$dt = $this
 			->where('c_certificado', $tp)
 			->where('e_email', '0')
-			->findAll();
+			->findAll($limit);
 		if ($dt == []) {
 			return '<div class="alert alert-danger">Certificados não encontrados</div>';
 		}
+		$sx = '';
 		foreach ($dt as $d) {
-			$this->enviarEmail($d['id_c'], $d['e_evento']);
+				$sx .= '<li>'.$this->enviarEmail($d['id_c'], $d['e_evento']). '</li>';
+			$dd = [];
+			$dd['e_email'] = 1;
+			$this->set($dd)->where('id_c', $d['id_c'])->update();
 		}
+		if (count($dt) == $limit) {
+			$sx .= '<li>Mais certificados encontrados, <a href="' . base_url('certificateO/enviarEmailTodos/' . $tp) . '">continuar</a></li>';
+			$sx .= '<meta http-equiv="refresh" content="60;url=' . base_url('admin/certificados/email') . '">';
+		}
+		return $sx;
 	}
 
 	function enviarEmail($id, $ev)
@@ -85,10 +97,9 @@ class CertificadoOutros extends Model
 
 		$Email = new \App\Models\IO\EmailX();
 		$email = $dt['c_email'];
-		$email = 'renefgj@gmail.com';
 		$subject = '[' . $dt['e_name'] . '] Certificado Ad DOC - ' . $dt['c_nome'];
 		$rsp = $Email->sendEmail($email, $subject, $txt);
-		pre($txt);
+		return 'E-mail enviado para ' . $dt['c_nome'] . ' (' . $email . ')';
 	}
 
 
@@ -272,6 +283,10 @@ class CertificadoOutros extends Model
 			false,
 			1
 		);
+
+		$dd = [];
+		$dd['e_emitido'] = 1;
+		$this->set($dd)->where('id_c',$id)->update();
 
 		$pdf->setSignatureAppearance($signX, $signY, $signW, $signH);
 		if ('Certificado.pdf' != $fileName) {

@@ -14,7 +14,10 @@ $routes->get('/downloadDoc', 'Home::downloadDoc');
 $routes->get('/upload_presentation/(:num)', 'Home::upload_presentation/$1');
 $routes->post('/upload_presentation/(:num)', 'Home::upload_presentation/$1');
 
-
+/******************** Votacao */
+$routes->get('votacao', 'Votacao::index');
+$routes->post('votacao/autenticar', 'Votacao::autenticar');
+$routes->post('votacao/votar', 'Votacao::votar');
 
 //http://g3vent/inscricoes/download?file=doc_00000044.pdf&check470de110dbbeb21638ec2f89a4539eda
 

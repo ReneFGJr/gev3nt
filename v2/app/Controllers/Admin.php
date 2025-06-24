@@ -60,6 +60,7 @@ class Admin extends BaseController
 				case 'summary':
 					$EventInscritos = new \App\Models\Event\EventInscritos();
 					$data['event'] .= $EventInscritos->summary($ev);
+					$data['event'] .= $EventInscritos->summary($ev,1);
 					break;
 				case 'docs_email':
 					$id = get('id');
@@ -152,6 +153,11 @@ class Admin extends BaseController
 							break;
 						case 'cracha':
 							$dt = $this->cracha($a3);
+							if (is_array($dt)) {
+								$data['event'] .= view('admin/cracha/editar_cracha', $dt);
+							} else {
+								$data['event'] .= $dt;
+							}
 							$data['event'] .= view('admin/cracha/editar_cracha', $dt);
 							break;
 						case 'email_alert':
@@ -230,6 +236,8 @@ class Admin extends BaseController
 			$dd['id_ein'] = $dt['data']['id_ein'];
 			$EventInscritos->updateCracha($dd);
 			$sx = '<meta http-equiv="refresh" content="0; url=' . base_url('/admin/inscricoes/view/' . $a3) . '">';
+			echo $sx;
+			exit;
 			return $sx;
 		} else {
 			$dt['n_badge_name'] = $dt['data']['n_badge_name'];

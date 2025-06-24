@@ -65,23 +65,30 @@ class Users extends Model
 		$cp = 'n_badge_name, cb_sigla, id_n';
 		$dt = $this
 			->select($cp)
-			->join('corporatebody', 'n_afiliacao = id_cb')
+			->join('corporatebody', 'n_afiliacao = id_cb','left')
 			->where('n_badge_print', 1)
-			->findAll(5);
+			->orderBy('n_badge_name', 'ASC')
+			->findAll();
 		$texto = '';
+
+		if (count($dt) == 0) {
+			return "Nenhum participante com crachá impresso.";
+		}
 
 		foreach ($dt as $line) {
 			$texto .= 'L
 N
 D11
-191215100400080' . strtoupper($line['n_badge_name']) . '
-191200300150080' . strtoupper($line['cb_sigla']) . '
-E';		}
-		$file = 'etiqueta-'.date("Y-m-d-H:i:s").'.prn';
+191215100400080' . mb_strtoupper(ascii($line['n_badge_name'])) . '
+191200300150080' . mb_strtoupper(ascii($line['cb_sigla'])) . '
+E';
+			$dd = [];
+			$dd['n_badge_print'] = 0;
+			$this->set($dd)->where('id_n', $line['id_n'])->update();
+		}
+		$file = 'etiqueta-' . date("Y-m-d-H:i:s") . '.prn';
 
-		$dd = [];
-		$dd['n_badge_print'] = 0;
-		$this->set($dd)->where('id_n',$line['id_n'])->update();
+
 
 		// Headers para forçar download do .prn
 		header('Content-Description: File Transfer');

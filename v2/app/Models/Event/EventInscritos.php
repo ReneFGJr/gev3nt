@@ -85,15 +85,19 @@ class EventInscritos extends Model
 			$Users->set($dd)->where('id_n', $dd['id_n'])->update();
 		}
 
-	public function summary($ev = 2)
+	public function summary($ev = 2,$pag=0)
 	{
-		$dt = $this
+		$this
 			->select('count(*) as total, ei_modalidade, sum(ei_preco) as valor')
 			//->join('event', 'ein_event = id_e')
 			->join('event_inscricoes', 'ein_tipo = id_ei')
-			->where('ein_event', $ev)
-			->groupBy('ei_modalidade')
+			->where('ein_event', $ev);
+		if ($pag == 1) {
+			$this->where('ein_pago', 1);
+		}
+		$dt = $this->groupBy('ei_modalidade')
 			->findAll();
+
 		$sx = '<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -124,6 +128,11 @@ class EventInscritos extends Model
 				</tfoot>
 				</table>';
 
+		if ($pag == 1) {
+			$sx .= '<p class="alert alert-info">Total de inscrições pagas: ' . $ins . '</p>';
+		} else {
+			$sx .= '<p class="alert alert-info">Total de inscrições: ' . $ins . '</p>';
+		}
 		$dt = '<div class="row">
 					<div class="col-md-12">
 						<h4>Resumo de Inscrições</h4>

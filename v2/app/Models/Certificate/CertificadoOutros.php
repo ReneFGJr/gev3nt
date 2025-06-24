@@ -72,7 +72,7 @@ class CertificadoOutros extends Model
 			$this->set($dd)->where('id_c', $d['id_c'])->update();
 		}
 		if (count($dt) == $limit) {
-			$sx .= '<li>Mais certificados encontrados, <a href="' . base_url('certificateO/enviarEmailTodos/' . $tp) . '">continuar</a></li>';
+			$sx .= '<li>Mais certificados encontrados, <a href="' . base_url('admin/certificados/email') . '">continuar</a></li>';
 			$sx .= '<meta http-equiv="refresh" content="60;url=' . base_url('admin/certificados/email') . '">';
 		}
 		return $sx;
@@ -245,6 +245,34 @@ class CertificadoOutros extends Model
 			'Reason'      => 'Apresentação do trabalho',
 			'ContactInfo' => 'Presidente da ISKO Brasil',
 		];
+
+		$certPem   = $dir . '/cert_rita.pem';
+		$keyPem    = $dir . '/key_rita.pem';
+		$keyPass   = '';
+
+		$public = __DIR__;
+		$loop = 0;
+		while (($public != '') and ($loop < 10)) { {
+				$loop++;
+				$d = explode('/', $public);
+				$public = '';
+				for ($i = 0; $i < count($d) - 1; $i++) {
+					$public .= $d[$i];
+					if ($i < count($d) - 2) {
+						$public .= '/';
+					}
+					if (is_dir($public . 'public')) {
+						$public .= 'public/';
+						break;
+					}
+				}
+			}
+		}
+		if (!file_exists($certPem)) {
+			echo 'Certificado não encontrado: ' . $certPem;
+			exit;
+		}
+
 		$pdf->setSignature(
 			'file://' . realpath($certPem),
 			'file://' . realpath($keyPem),
@@ -299,6 +327,10 @@ class CertificadoOutros extends Model
 	function searchName($name, $ev = 2)
 	{
 		$sx = '';
+		if ($name == '') {
+			return '';
+		}
+
 		$k = explode(' ', $name);
 		foreach ($k as $v) {
 			$v = trim($v);

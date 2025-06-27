@@ -47,6 +47,26 @@ class Index extends Model
 	public function messages($tp = 0, $dt = [])
 	{
 		switch ($tp) {
+			case '8': /* Email de confirmação de votacao */
+				$message = '<center><h2>Link de Votação</h2></center>
+							<br>
+							<br>Prezado(a) associado(a),
+							<br>
+							<br>Você está habilitado(a) a participar da votação para a nova gestão da ISKO Brasil (2026-2027). Para registrar seu voto, utilize o link abaixo, exclusivo e intransferível:
+							<br>
+							<br>👉 Clique aqui para votar
+							<br>Ou acesse manualmente:
+							<br>
+							<a href="[link]">[link]</a>
+							<br>A votação é simples, rápida e segura. Basta escolher a chapa de sua preferência e confirmar.
+							<br>
+							<br>📅 Prazo para votação: até o dia 26/05/2025 as 19h30.
+							<br>
+							<br>Agradecemos sua participação e seu compromisso com o fortalecimento da nossa comunidade científica.Estamos ansiosos para recebê-lo(a) em nosso evento e proporcionar uma experiência enriquecedora com debates e aprendizados.
+							<br>
+							<br>Atenciosamente,
+							<br><b>Diretoria da ISKO Brasil (2024-2025) - [Evento]</b>';
+				break;
 			case '7': /* Email certificado */
 				$message = '<center><h2>Certificado</h2></center>
 							<br>
@@ -240,6 +260,10 @@ class Index extends Model
 			$message = str_replace('[site]', $dt['site'], $message);
 		} else {
 			$message = str_replace('[site]', 'https://isko.org.br/inscricoes', $message);
+		}
+
+		if (isset($dt['link'])) {
+			$message = str_replace('[link]', $dt['link'], $message);
 		}
 		return $message;
 	}

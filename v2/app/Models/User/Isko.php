@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 use CodeIgniter\Model;
 
-class VotoModel extends Model
+class Isko extends Model
 {
 	protected $DBGroup          = 'isko';
-	protected $table            = 'votos';
+	protected $table            = 'isko';
 	protected $primaryKey       = 'id_nb';
 	protected $useAutoIncrement = true;
 	protected $returnType       = 'array';
 	protected $useSoftDeletes   = false;
 	protected $protectFields    = true;
-	protected $allowedFields = ['id_voto', 'id_socio', 'id_chapa','id_ip'];
+	protected $allowedFields    = ['mb_token'];
 
 	protected bool $allowEmptyInserts = false;
 	protected bool $updateOnlyChanged = true;

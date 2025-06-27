@@ -396,6 +396,35 @@ class Home extends BaseController
 			exit;
 		}
 
+	function presentations($d1='', $d2='')
+		{
+			$sx = '';
+			$sx = view('header/header');
+			$sx .= view('header/event_header');
+
+			switch ($d1) {
+				case 'finished':
+
+				case 'list':
+					$Media = new \App\Models\Media\Index();
+					$sx .= $Media->index('list', $d2);
+					break;
+				case 'upload':
+					$Media = new \App\Models\Media\Index();
+					$sx .= $Media->index('upload', $d2);
+					break;
+				case 'block':
+					$Media = new \App\Models\Media\Index();
+					$sx .= $Media->index('block', $d2);
+					break;
+				default:
+					$Media = new \App\Models\Media\Index();
+					$sx .= $Media->index('blocks', $d2);
+			}
+
+		return $sx;
+		}
+
 	function certificate()
 		{
 			$ev = 2;

@@ -4,16 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class VotoModel extends Model
+class ChapaModel extends Model
 {
 	protected $DBGroup          = 'isko';
-	protected $table            = 'votos';
-	protected $primaryKey       = 'id_nb';
+	protected $table 			= 'chapas';
+	protected $primaryKey 		= 'id_chapa';
+	protected $allowedFields 	= ['nome', 'descricao'];
+
+
 	protected $useAutoIncrement = true;
 	protected $returnType       = 'array';
 	protected $useSoftDeletes   = false;
 	protected $protectFields    = true;
-	protected $allowedFields = ['id_voto', 'id_socio', 'id_chapa','id_ip'];
 
 	protected bool $allowEmptyInserts = false;
 	protected bool $updateOnlyChanged = true;

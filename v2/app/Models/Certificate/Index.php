@@ -56,6 +56,12 @@ class Index extends Model
 	{
 		$sx = '';
 		switch ($a2) {
+			case 'presentation':
+				$sx .= '<h3>Certificados</h3>';
+				$sx .= '<p>Selecione uma opção no menu.</p>';
+				$Certificado	= new \App\Models\Certificate\Certificado();
+				$sx .= $Certificado->list($ev);
+				break;
 			case 'email':
 				$CertificadoOutros	= new \App\Models\Certificate\CertificadoOutros();
 				$sx .= $CertificadoOutros->enviarEmailTodos(1,2);
@@ -113,7 +119,7 @@ class Index extends Model
 		$names = explode("\n", $name);
 		$names = array_map('trim', $names); // Remove espaços em branco
 		$names = array_filter($names); // Remove linhas vazias
-		$tp = 1;
+		$tp = 2;
 		foreach ($names as $n) {
 			// Verifica se o nome contém um e-mail
 			$n = str_replace("\t", ';',$n);

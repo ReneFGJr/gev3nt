@@ -438,9 +438,10 @@ class Home extends BaseController
 			$data['event'] = view('event/certificate/search');
 			$ss = $Certificate->searchName(get('search'),$ev);
 			$ss .= $CertificadoOutros->searchName(get('search'), $ev);
+			$kw = get('search');
 
 			if ($ss == '') {
-				$ss = '<div class="alert alert-warning">Nenhum certificado encontrado com o nome "' . $kw . '"</div>';
+				$ss = '<div class="alert alert-warning">Nenhum certificado encontrado com o nome "' . $kw . ', tente inserir somente a primeira letra do nome em maiúscula, ex: "João"</div>';
 			}
 			$data['event'] .= $ss;
 

@@ -43,6 +43,7 @@
 						Certificados
 					</a>
 					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?= base_url('/admin/certificados/presentation'); ?>">Certificados Apresentação</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/certificados/gerar'); ?>">Gerar certificados</a></li>
 						<li><a class="dropdown-item" href="<?= base_url('/admin/certificados/email'); ?>">Enviar certificados por e-mail</a></li>
 					</ul>

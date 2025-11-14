@@ -39,8 +39,87 @@ class EventCertificateModel extends Model
         'ec_event_id'  => 'permit_empty|integer',
     ];
 
+    function assinaturaPDF($pdf,$ass)
+        {
+            $EventAssinatureModel = new \App\Models\Certificate\Avulso\EventAssinatureModel();
+            $info = $EventAssinatureModel->where('id_ass',$ass)->first();
+            $dir = '../uploads/cert/';
+            // Assinatura digital 2
+
+            $certPem   = $dir . '/'.$ass.'/'.$info['ass_certPem'];
+            $keyPem    = $dir . '/'.$ass.'/'.$info['ass_keyPem'];
+            $assImg    = $dir . '/'.$ass.'/assinatura_1.png';
+            if (!file_exists($assImg)) {
+                $assImg    = $dir . '/'.$ass.'/assinatura_1.jpg';
+            }
+            $sealImage = $dir . '/selo.png';
+            $keyPass   = '';
+
+            if (!file_exists($certPem)) {
+                echo 'Certificado não encontrado: ' . $certPem;
+                exit;
+            }
+
+            $pdf->setSignature(
+                'file://' . realpath($certPem),
+                'file://' . realpath($keyPem),
+                $keyPass,
+                '',
+                2,
+                $info
+            ); 
+
+            // Campo de assinatura visível
+            $signX = 100;
+            $signY = 170;
+            $signW = 60;
+            $signH = 15;
+            $pdf->SetFont('helvetica', '', 8);
+            $pdf->SetXY($signX + 1, $signY + 1);
+            $emissao = date('d/m/Y H:i:s');
+
+            ////////////////////////////////////////////////// SELO
+            // Imagens de assinatura e selo     
+            if (!file_exists($sealImage)) {
+                echo 'Erro '. $sealImage;
+                exit;
+            }            
+    		$pdf->Image($sealImage, 70, 165, 30, 15, 'PNG');   
+
+            ////////////////////////////////////////////////// AASSINATURA
+            if (!file_exists($assImg)) {
+                echo 'Erro '. $assImg;
+                exit;
+            }
+            //$pdf->Image($sealImage, 70, 165, 30, 15, 'PNG');   
+            if (strpos($assImg,'.png')!==false) {
+                $pdf->Image($assImg, 80, 155, 50, 0,'PNG'); // ajustado Y para caber bem na página
+            } else {
+		        $pdf->Image($assImg, 80, 155, 50, 0); // ajustado Y para caber bem na página
+            }
+
+
+         
+
+
+            $pdf->MultiCell(
+                $signW - 2,   // largura interna
+                0,
+                $info['ass_name'] . "\n" .
+                    $info['ass_reason'] . "\n",
+                0,            // sem borda no texto
+                'L',          // alinhamento à esquerda
+                false,
+                1
+            );
+                        
+            return $pdf;           
+        }
+
     function emitir($id)
     {
+        $dir = '..\\';
+
         $EventCertificateEmitir = new \App\Models\Certificate\Avulso\EventCertificateEmitModel();
         $data = $EventCertificateEmitir
             ->join('event_people', 'id_p = ece_person')
@@ -55,6 +134,9 @@ class EventCertificateModel extends Model
             $evento = $data['e_name'];
             $dataEvento = date('d/m/Y', strtotime($data['e_date']));
             $textoModelo = $data['ec_text'];
+
+
+
 
             // Substituir variáveis do texto
             $textoFinal = str_replace(
@@ -95,7 +177,7 @@ class EventCertificateModel extends Model
             // ================================
             // 3. Imagem de fundo fixa (background.jpg)
             // ================================
-            $bgPath = '..\uploads\backgrounds\isko-premio.jpg';
+            $bgPath = $dir.'uploads\backgrounds\isko-premio.jpg';
             if (!file_exists($bgPath)) {
                 echo 'File notfound - '. $bgPath .'';
                 exit;
@@ -147,8 +229,10 @@ class EventCertificateModel extends Model
 
             $filePath = $dir . $fileName;
 
+            $pdf = $this->assinaturaPDF($pdf,1);
+
             // Mostrar na tela
-            $pdf->Output('certificado.pdf', 'I');
+            $pdf->Output($nome.'.pdf', 'I');
             exit;
 
             return $filePath;

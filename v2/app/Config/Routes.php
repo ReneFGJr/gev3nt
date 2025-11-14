@@ -4,8 +4,18 @@ use CodeIgniter\Router\RouteCollection;
 
 /**
  * @var RouteCollection $routes
+ * 
+ * 
  */
 $pre = '';
+
+
+/********************* Certificados */
+
+$routes->get('/certificado', 'Certificate::index');
+$routes->get('/certificado/(:any)', 'Certificate::index/$1');
+$routes->post('/certificado/(:any)', 'Certificate::index/$1');
+
 $routes->get('/', 'Home::index');
 $routes->get('/main', 'Home::main');
 $routes->get('/download', 'Home::download');

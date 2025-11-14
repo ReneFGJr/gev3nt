@@ -237,6 +237,7 @@ class CertificadoOutros extends Model
 
 		$pdf->setSignatureAppearance($signX, $signY, $signW, $signH);
 
+
 		// Assinatura digital 2
 		$info = [
 			'Name'        => 'Rita do Carmo Laipelt',

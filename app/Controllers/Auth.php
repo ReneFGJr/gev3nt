@@ -9,8 +9,6 @@ use Psr\Log\LoggerInterface;
 use App\Models\EventsNamesModel;
 use App\Models\UsersModel;
 
-helper('url');
-
 /**
  * BaseController provides a convenient place for loading components
  * and performing functions that are needed by all your controllers.
@@ -22,6 +20,9 @@ helper('url');
  *
  * For security, be sure to declare any new methods as protected or private.
  */
+
+helper('url');
+
 class Auth extends BaseController
     {
 		public function doLogin()

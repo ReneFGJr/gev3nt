@@ -15,4 +15,6 @@ $routes->group('auth', function($routes) {
 	$routes->post('registrar', 'Auth::doRegister');
 	$routes->get('recuperar-senha', 'Auth::forgot');
 	$routes->post('recuperar-senha', 'Auth::doForgot');
+	$routes->get('resetar-senha', 'Auth::resetPassword');
+	$routes->post('resetar-senha', 'Auth::doResetPassword');
 });

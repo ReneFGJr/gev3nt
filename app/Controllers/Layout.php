@@ -1,13 +1,10 @@
 <?php
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-
-class Layout extends Controller
+class Layout extends BaseController
 {
     public function index()
     {
-        $data['title'] = 'Bem-vindo ao Gev3nt';
-        return view('layout/header', $data);
+        return view('layout/index');
     }
 }

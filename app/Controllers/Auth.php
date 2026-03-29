@@ -1,112 +1,138 @@
 <?php
+
 namespace App\Controllers;
 
-use App\Models\EventsNamesModel;
 use CodeIgniter\Controller;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use App\Models\EventsNamesModel;
+use App\Models\UsersModel;
 
-class Auth extends Controller
-{
-    public function login()
+/**
+ * BaseController provides a convenient place for loading components
+ * and performing functions that are needed by all your controllers.
+ *
+ * Extend this class in any new controllers:
+ * ```
+ *     class Home extends BaseController
+ * ```
+ *
+ * For security, be sure to declare any new methods as protected or private.
+ */
+class Auth extends BaseController
     {
-        helper(['form']);
-        return view('auth/login');
-    }
+		public function doLogin()
+		{
+			$email = $this->request->getPost('n_email');
+			$senha = $this->request->getPost('n_password');
+			$model = new UsersModel();
+			$usuario = $model->where('n_email', $email)->first();
+			if ($usuario && password_verify($senha, $usuario['n_password'])) {
+				$session = session();
+				$session->set('usuario', [
+					'id' => $usuario['id_n'],
+					'nome' => $usuario['n_nome'],
+					'email' => $usuario['n_email']
+				]);
+				return redirect()->to('/');
+			} else {
+				return redirect()->back()->with('erro', 'E-mail ou senha inválidos.');
+			}
+		}
 
-    public function doLogin()
-    {
-        $session = session();
-        $model = new EventsNamesModel();
-        $email = $this->request->getPost('n_email');
-        $senha = $this->request->getPost('n_password');
-        $usuario = $model->where('n_email', $email)->first();
-        if ($usuario && password_verify($senha, $usuario['n_password'])) {
-            $session->set('usuario', [
-                'id' => $usuario['id'],
-                'nome' => $usuario['n_nome'],
-                'email' => $usuario['n_email']
-            ]);
-            return redirect()->to('/');
-        } else {
-            return redirect()->back()->with('erro', 'E-mail ou senha inválidos.');
-        }
-    }
+		public function doResetPassword()
+		{
+			$token = $this->request->getPost('token');
+			$senha = $this->request->getPost('n_password');
+			$senha2 = $this->request->getPost('n_password_confirm');
+			if (!$token) {
+				return redirect()->to('/auth/login')->with('erro', 'Token inválido.');
+			}
+			if ($senha !== $senha2) {
+				return redirect()->back()->with('erro', 'As senhas não conferem.');
+			}
+			$model = new UsersModel();
+			$usuario = $model->where('reset_token', $token)
+				->where('reset_token_expires >=', date('Y-m-d H:i:s'))
+				->first();
+			if (!$usuario) {
+				return redirect()->to('/auth/login')->with('erro', 'Token expirado ou inválido.');
+			}
+			$model->update($usuario['id_n'], [
+				'n_password' => password_hash($senha, PASSWORD_DEFAULT),
+				'reset_token' => null,
+				'reset_token_expires' => null
+			]);
+			return redirect()->to('/auth/login')->with('sucesso', 'Senha redefinida com sucesso! Faça login.');
+		}
 
-    public function logout()
-    {
-        session()->remove('usuario');
-        return redirect()->to('/');
-    }
+	public function resetPassword()
+	{
+		$token = $this->request->getGet('token');
+		if (!$token) {
+			return redirect()->to('/auth/login')->with('erro', 'Token inválido.');
+		}
+		$model = new UsersModel();
+		$usuario = $model->where('reset_token', $token)
+			->where('reset_token_expires >=', date('Y-m-d H:i:s'))
+			->first();
+		if (!$usuario) {
+			return redirect()->to('/auth/login')->with('erro', 'Token expirado ou inválido.');
+		}
+		return view('auth/reset_password', ['token' => $token]);
+	}
 
-    public function register()
-    {
-        helper(['form']);
-        $instituicaoModel = new \App\Models\InstituicaoModel();
-        $instituicoes = $instituicaoModel->orderBy('nome', 'asc')->findAll();
-        return view('auth/register', ['instituicoes' => $instituicoes]);
-    }
+	public function doForgot()
+	{
+		$model = new UsersModel();
+		$email = $this->request->getPost('n_email');
+		$usuario = $model->where('n_email', $email)->first();
 
-    public function doRegister()
-    {
-        $model = new EventsNamesModel();
-        $nome = $this->request->getPost('n_nome');
-        $email = $this->request->getPost('n_email');
-        $senha = $this->request->getPost('n_password');
-        $senha2 = $this->request->getPost('n_password_confirm');
-        $cracha = $this->request->getPost('n_cracha');
-        $cpf = $this->request->getPost('n_cpf');
-        $orcid = $this->request->getPost('n_orcid');
-        $afiliacao = $this->request->getPost('n_afiliacao');
-        if ($model->where('n_email', $email)->first()) {
-            return redirect()->back()->with('erro', 'E-mail já cadastrado.');
-        }
-        if ($senha !== $senha2) {
-            return redirect()->back()->with('erro', 'As senhas não conferem.');
-        }
-        $model->insert([
-            'n_nome' => $nome,
-            'n_email' => $email,
-            'n_password' => password_hash($senha, PASSWORD_DEFAULT),
-            'n_cracha' => $cracha,
-            'n_cpf' => $cpf,
-            'n_orcid' => $orcid,
-            'n_afiliacao' => $afiliacao
-        ]);
-        return redirect()->to('/auth/login')->with('sucesso', 'Conta criada com sucesso! Faça login.');
-    }
+		if (!$usuario) {
+			return redirect()->back()->with('erro', 'E-mail não encontrado.');
+		}
 
-    public function forgot()
-    {
-        helper(['form']);
-        return view('auth/forgot');
-    }
+		// Gerar token de redefinição
+		helper('text');
+		$token = bin2hex(random_bytes(32));
+		$expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+		$model->update($usuario['id_n'], [
+			'reset_token' => $token,
+			'reset_token_expires' => $expires
+		]);
 
-    public function doForgot()
-    {
-        $model = new EventsNamesModel();
-        $email = $this->request->getPost('n_email');
-        $usuario = $model->where('n_email', $email)->first();
+		$resetLink = base_url('auth/resetar-senha?token=' . $token);
 
-        if (!$usuario) {
-            return redirect()->back()->with('erro', 'E-mail não encontrado.');
-        }
+		$emailService = \Config\Services::email();
+		$emailService->setTo($email);
+		$emailService->setFrom(getenv('email.fromEmail'), getenv('email.fromName'));
+		$emailService->setSubject('Recuperação de senha - Gev3nt');
+		$emailService->setMessage(
+			'<p>Olá, ' . esc($usuario['n_nome']) . '.</p>' .
+			'<p>Você solicitou a redefinição de senha para o sistema Gev3nt.</p>' .
+			'<p><a href="' . $resetLink . '" style="background:#1976d2;color:#fff;padding:10px 24px;border-radius:6px;text-decoration:none;">Clique aqui para criar uma nova senha</a></p>' .
+			'<p>Este link é válido por 1 hora.</p>' .
+			'<p>Se não foi você, ignore este e-mail.</p>'
+		);
 
-        // Enviar a senha por e-mail (NUNCA recomendado em produção, apenas para exemplo)
-        $emailService = \Config\Services::email();
-        $emailService->setTo($email);
-        $emailService->setFrom(getenv('email.fromEmail'), getenv('email.fromName'));
-        $emailService->setSubject('Recuperação de senha - Gev3nt');
-        $emailService->setMessage(
-            '<p>Olá, ' . esc($usuario['n_nome']) . '.</p>' .
-            '<p>Você solicitou a recuperação de senha para o sistema Gev3nt.</p>' .
-            '<p><strong>Sua senha criptografada é:</strong></p>' .
-            '<p>' . esc($usuario['n_password']) . '</p>' .
-            '<p>Se não foi você, ignore este e-mail.</p>'
-        );
+		if ($emailService->send()) {
+			return redirect()->back()->with('sucesso', 'Se o e-mail existir, um link de redefinição foi enviado.');
+		} else {
+			return redirect()->back()->with('erro', 'Erro ao enviar o e-mail.');
+		}
+	}
 
-        if ($emailService->send()) {
-            return redirect()->back()->with('sucesso', 'Se o e-mail existir, a senha foi enviada.');
-        } else {
-            return redirect()->back()->with('erro', 'Erro ao enviar o e-mail.');
-        }
-    }
+	public function forgot()
+	{
+		helper(['form']);
+		return view('auth/forgot');
+	}
+
+	public function login()
+	{
+		helper(['form']);
+		return view('auth/login');
+	}
+
 }

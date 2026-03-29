@@ -3,23 +3,22 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EventsNamesModel extends Model
+class UsersModel extends Model
 {
     protected $DBGroup = 'default';
     protected $table = 'events_names';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_n';
     protected $allowedFields = [
         'n_email',
         'n_cracha',
         'n_nome',
-        'n_email',
         'n_password',
         'n_cpf',
         'n_orcid',
         'n_afiliacao',
         'created_at',
         'updated_at',
-        'apikey'
+        'apikey', 'reset_token', 'reset_token_expires'
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

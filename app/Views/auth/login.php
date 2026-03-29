@@ -1,26 +1,96 @@
 <?= $this->extend('layout/header') ?>
 <?= $this->section('content') ?>
-<div style="max-width: 400px; margin: 60px auto; background: rgba(44,83,100,0.15); border-radius: 12px; box-shadow: 0 2px 12px rgba(44,83,100,0.10); padding: 32px 28px;">
-    <h2 style="text-align:center; color:#90caf9; margin-bottom: 24px;">Login</h2>
-    <?php if (session('erro')): ?>
-        <div style="background:#e57373; color:#fff; padding:10px 16px; border-radius:6px; margin-bottom:18px; text-align:center;">
-            <?= esc(session('erro')) ?>
+<style>
+    .login-bg {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1976d2 0%, #0f2027 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-card {
+        background: rgba(44,83,100,0.18);
+        border-radius: 22px;
+        box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 2.5rem 2rem 2rem 2rem;
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .login-card .icon {
+        font-size: 2.8rem;
+        color: #90caf9;
+        margin-bottom: 0.5rem;
+    }
+    .login-card .form-label {
+        color: #e3f2fd;
+        font-weight: 500;
+    }
+    .login-card .form-control {
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+        border: 1px solid #b0bec5;
+    }
+    .login-card .form-control:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 0.2rem rgba(25,118,210,0.15);
+    }
+    .login-card .btn-primary {
+        background: linear-gradient(90deg, #1976d2 60%, #64b5f6 100%);
+        border: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+    }
+    .login-card .btn-primary:hover {
+        background: linear-gradient(90deg, #1565c0 60%, #1976d2 100%);
+    }
+    .login-card .links a {
+        color: #90caf9;
+        font-weight: 500;
+        margin: 0 8px;
+        transition: color 0.2s;
+    }
+    .login-card .links a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-bg">
+    <div class="login-card">
+        <div class="icon text-center mb-2">
+            <i class="bi bi-person-circle"></i>
         </div>
-    <?php endif; ?>
-    <form method="post" action="<?= base_url('auth/login') ?>">
-        <div style="margin-bottom: 18px;">
-            <label for="email" style="color:#fff; font-weight:500;">E-mail</label>
-            <input type="email" name="email" id="email" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #b0bec5; margin-top:6px;">
+        <h2 class="text-center mb-4" style="color:#90caf9; font-weight:700; letter-spacing:1px;">Login</h2>
+        <?php if (session('erro')): ?>
+            <div class="alert alert-danger text-center" role="alert">
+                <?= esc(session('erro')) ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session('sucesso')): ?>
+            <div class="alert alert-success text-center" role="alert">
+                <?= esc(session('sucesso')) ?>
+            </div>
+        <?php endif; ?>
+        <form method="post" action="<?= base_url('auth/login') ?>">
+            <div class="mb-3">
+                <label for="n_email" class="form-label">E-mail</label>
+                <input type="email" name="n_email" id="n_email" class="form-control" required autofocus>
+            </div>
+            <div class="mb-4">
+                <label for="n_password" class="form-label">Senha</label>
+                <input type="password" name="n_password" id="n_password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mb-2">Entrar</button>
+        </form>
+        <div class="links mt-3 text-center">
+            <a href="<?= base_url('auth/registrar') ?>">Criar conta</a>
+            |
+            <a href="<?= base_url('auth/recuperar-senha') ?>">Esqueci a senha</a>
         </div>
-        <div style="margin-bottom: 24px;">
-            <label for="senha" style="color:#fff; font-weight:500;">Senha</label>
-            <input type="password" name="senha" id="senha" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #b0bec5; margin-top:6px;">
-        </div>
-        <button type="submit" style="width:100%; background:#1976d2; color:#fff; padding:12px 0; border:none; border-radius:6px; font-size:1.1rem; font-weight:600;">Entrar</button>
-    </form>
-    <div style="margin-top: 18px; text-align:center;">
-        <a href="<?= base_url('auth/registrar') ?>" style="color:#90caf9; font-weight:500; margin-right: 18px;">Criar conta</a>
-        <a href="<?= base_url('auth/recuperar-senha') ?>" style="color:#90caf9; font-weight:500;">Esqueci a senha</a>
     </div>
 </div>
 <?= $this->endSection() ?>

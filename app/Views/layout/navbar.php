@@ -13,7 +13,7 @@
                 <span style="color: #fff; font-weight: 500; margin-right: 16px;">
                     <?= esc(explode(' ', session('usuario.nome'))[0]) ?>
                 </span>
-                <a href="/logout" style="background: #1976d2; color: #fff; padding: 8px 22px; border-radius: 20px; font-weight: 500; margin-left: 4px;">Sair</a>
+                <a href="/auth/logout" style="background: #1976d2; color: #fff; padding: 8px 22px; border-radius: 20px; font-weight: 500; margin-left: 4px;">Sair</a>
             <?php else: ?>
                 <a href="/auth/login" style="background: #1976d2; color: #fff; padding: 8px 22px; border-radius: 20px; font-weight: 500;">Login</a>
             <?php endif; ?>

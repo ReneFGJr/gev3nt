@@ -9,6 +9,8 @@ use Psr\Log\LoggerInterface;
 use App\Models\EventsNamesModel;
 use App\Models\UsersModel;
 
+helper('url');
+
 /**
  * BaseController provides a convenient place for loading components
  * and performing functions that are needed by all your controllers.

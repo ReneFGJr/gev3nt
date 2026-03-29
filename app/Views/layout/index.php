@@ -1,4 +1,3 @@
-<?php helper('url'); ?>
 <?= $this->extend('layout/header') ?>
 <?= $this->section('content') ?>
 <div class="row justify-content-center align-items-center" style="min-height: 70vh;">

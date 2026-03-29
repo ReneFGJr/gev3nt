@@ -15,7 +15,7 @@
     <form method="post" action="<?= base_url('auth/recuperar-senha') ?>">
         <div style="margin-bottom: 24px;">
             <label for="email" style="color:#fff; font-weight:500;">E-mail</label>
-            <input type="email" name="email" id="email" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #b0bec5; margin-top:6px;">
+            <input type="n_email" name="n_email" id="n_email" required style="width:100%; padding:10px; border-radius:6px; border:1px solid #b0bec5; margin-top:6px;">
         </div>
         <button type="submit" style="width:100%; background:#1976d2; color:#fff; padding:12px 0; border:none; border-radius:6px; font-size:1.1rem; font-weight:600;">Enviar link de recuperação</button>
     </form>

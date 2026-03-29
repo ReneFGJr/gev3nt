@@ -3,9 +3,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EventInscritosModel extends Model
+class EventsNamesModel extends Model
 {
-    protected $table = 'event_inscritos';
+    protected $DBGroup = 'default';
+    protected $table = 'events_names';
     protected $primaryKey = 'id';
     protected $allowedFields = [
         'n_email',

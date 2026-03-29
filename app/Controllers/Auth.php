@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\EventInscritosModel;
+use App\Models\EventsNamesModel;
 use CodeIgniter\Controller;
 
 class Auth extends Controller
@@ -15,15 +15,15 @@ class Auth extends Controller
     public function doLogin()
     {
         $session = session();
-        $model = new EventInscritosModel();
-        $email = $this->request->getPost('email');
-        $senha = $this->request->getPost('senha');
-        $usuario = $model->where('email', $email)->first();
-        if ($usuario && password_verify($senha, $usuario['senha'])) {
+        $model = new EventsNamesModel();
+        $email = $this->request->getPost('n_email');
+        $senha = $this->request->getPost('n_password');
+        $usuario = $model->where('n_email', $email)->first();
+        if ($usuario && password_verify($senha, $usuario['n_password'])) {
             $session->set('usuario', [
                 'id' => $usuario['id'],
-                'nome' => $usuario['nome'],
-                'email' => $usuario['email']
+                'nome' => $usuario['n_nome'],
+                'email' => $usuario['n_email']
             ]);
             return redirect()->to('/');
         } else {
@@ -47,21 +47,31 @@ class Auth extends Controller
 
     public function doRegister()
     {
-        $model = new EventInscritosModel();
-        $nome = $this->request->getPost('nome');
-        $email = $this->request->getPost('email');
-        $senha = $this->request->getPost('senha');
-        $instituicao_id = $this->request->getPost('instituicao_id');
-        if ($model->where('email', $email)->first()) {
+        $model = new EventsNamesModel();
+        $nome = $this->request->getPost('n_nome');
+        $email = $this->request->getPost('n_email');
+        $senha = $this->request->getPost('n_password');
+        $senha2 = $this->request->getPost('n_password_confirm');
+        $cracha = $this->request->getPost('n_cracha');
+        $cpf = $this->request->getPost('n_cpf');
+        $orcid = $this->request->getPost('n_orcid');
+        $afiliacao = $this->request->getPost('n_afiliacao');
+        if ($model->where('n_email', $email)->first()) {
             return redirect()->back()->with('erro', 'E-mail já cadastrado.');
         }
+        if ($senha !== $senha2) {
+            return redirect()->back()->with('erro', 'As senhas não conferem.');
+        }
         $model->insert([
-            'nome' => $nome,
-            'email' => $email,
-            'senha' => password_hash($senha, PASSWORD_DEFAULT),
-            'instituicao_id' => $instituicao_id
+            'n_nome' => $nome,
+            'n_email' => $email,
+            'n_password' => password_hash($senha, PASSWORD_DEFAULT),
+            'n_cracha' => $cracha,
+            'n_cpf' => $cpf,
+            'n_orcid' => $orcid,
+            'n_afiliacao' => $afiliacao
         ]);
-        return redirect()->to('/login')->with('sucesso', 'Conta criada com sucesso! Faça login.');
+        return redirect()->to('/auth/login')->with('sucesso', 'Conta criada com sucesso! Faça login.');
     }
 
     public function forgot()
@@ -72,14 +82,31 @@ class Auth extends Controller
 
     public function doForgot()
     {
-        $model = new EventInscritosModel();
-        $email = $this->request->getPost('email');
-        $usuario = $model->where('email', $email)->first();
+        $model = new EventsNamesModel();
+        $email = $this->request->getPost('n_email');
+        $usuario = $model->where('n_email', $email)->first();
+
         if (!$usuario) {
             return redirect()->back()->with('erro', 'E-mail não encontrado.');
         }
-        // Aqui você pode implementar o envio de e-mail real
-        // Por enquanto, apenas simula a ação
-        return redirect()->back()->with('sucesso', 'Se o e-mail existir, um link de recuperação foi enviado.');
+
+        // Enviar a senha por e-mail (NUNCA recomendado em produção, apenas para exemplo)
+        $emailService = \Config\Services::email();
+        $emailService->setTo($email);
+        $emailService->setFrom(getenv('email.fromEmail'), getenv('email.fromName'));
+        $emailService->setSubject('Recuperação de senha - Gev3nt');
+        $emailService->setMessage(
+            '<p>Olá, ' . esc($usuario['n_nome']) . '.</p>' .
+            '<p>Você solicitou a recuperação de senha para o sistema Gev3nt.</p>' .
+            '<p><strong>Sua senha criptografada é:</strong></p>' .
+            '<p>' . esc($usuario['n_password']) . '</p>' .
+            '<p>Se não foi você, ignore este e-mail.</p>'
+        );
+
+        if ($emailService->send()) {
+            return redirect()->back()->with('sucesso', 'Se o e-mail existir, a senha foi enviada.');
+        } else {
+            return redirect()->back()->with('erro', 'Erro ao enviar o e-mail.');
+        }
     }
 }

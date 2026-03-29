@@ -4,9 +4,9 @@
             Gev3nt
         </div>
         <ul style="list-style: none; display: flex; margin: 0 0 0 40px; padding: 0; gap: 24px;">
-            <li><a href="/" style="font-weight: 500;">Início</a></li>
-            <li><a href="/eventos" style="font-weight: 500;">Eventos</a></li>
-            <li><a href="/contato" style="font-weight: 500;">Contato</a></li>
+            <li><a href="<?=base_url('/');?>" style="font-weight: 500;">Início</a></li>
+            <li><a href="<?=base_url('/eventos');?>" style="font-weight: 500;">Eventos</a></li>
+            <li><a href="<?=base_url('/contato');?>" style="font-weight: 500;">Contato</a></li>
         </ul>
         <div style="margin-left: auto;">
             <?php if (session()->has('usuario')): ?>

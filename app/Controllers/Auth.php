@@ -25,6 +25,14 @@ helper('url');
 
 class Auth extends BaseController
 {
+    public function register()
+    {
+        helper(['form']);
+        $instituicaoModel = new \App\Models\InstituicaoRorModel();
+        $instituicoes = $instituicaoModel->orderBy('nome', 'asc')->findAll();
+        return view('auth/register', ['instituicoes' => $instituicoes]);
+    }
+
     public function logout()
     {
         $session = session();

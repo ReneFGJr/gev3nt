@@ -1,4 +1,0 @@
-RewriteEngine On
-# Redireciona qualquer URL que comece com /ojs/index.php/iskobrasil2025
-RewriteCond %{REQUEST_URI} ^/ojs/index.php/iskobrasil2025 [NC]
-RewriteRule ^ojs/index.php/iskobrasil2025(.*)$ /ojs/index.php/iskobrasil$1 [R=301,L]

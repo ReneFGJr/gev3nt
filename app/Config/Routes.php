@@ -1,3 +1,4 @@
+
 <?php
 
 use CodeIgniter\Router\RouteCollection;
@@ -8,6 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Layout::index');
 $routes->get('/layout', 'Layout::index');
 $routes->get('/contato', 'Layout::contato');
+$routes->get('certificados/imprimir/(:num)', 'Layout::imprimir/$1');
 $routes->group('auth', function($routes) {
 	$routes->get('login', 'Auth::login');
 	$routes->post('login', 'Auth::doLogin');

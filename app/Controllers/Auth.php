@@ -21,13 +21,12 @@ use App\Models\UsersModel;
  * For security, be sure to declare any new methods as protected or private.
  */
 
-helper('url');
+helper(['url', 'form']);
 
 class Auth extends BaseController
 {
     public function register()
     {
-        helper(['form']);
         $instituicaoModel = new \App\Models\InstituicaoRorModel();
         $instituicoes = $instituicaoModel->orderBy('nome', 'asc')->findAll();
         return view('auth/register', ['instituicoes' => $instituicoes]);
@@ -142,13 +141,11 @@ class Auth extends BaseController
 
     public function forgot()
     {
-        helper(['form']);
         return view('auth/forgot');
     }
 
     public function login()
     {
-        helper(['form']);
         return view('auth/login');
     }
 }

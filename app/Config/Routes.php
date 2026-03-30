@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Layout::index');
 $routes->get('/layout', 'Layout::index');
+$routes->get('/contato', 'Layout::contato');
 $routes->group('auth', function($routes) {
 	$routes->get('login', 'Auth::login');
 	$routes->post('login', 'Auth::doLogin');

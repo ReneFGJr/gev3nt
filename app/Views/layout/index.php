@@ -40,7 +40,7 @@
                                                 <td class="text-start"><?= esc($cert['e_name'] ?? '-') ?></td>
                                                 <td><?= esc($cert['i_titulo_trabalho'] ?? '-') ?></td>
                                                 <td><?= esc($cert['i_status'] == 1 ? 'Emitido' : 'Pendente') ?></td>
-                                                <td><a href="#" class="btn btn-success btn-sm">Imprimir</a></td>
+                                                <td><a href="<?= base_url('certificados/imprimir/'.$cert['id_i']) ?>" target="_blank" class="btn btn-success btn-sm">Imprimir</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

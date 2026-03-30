@@ -25,6 +25,46 @@ helper(['url', 'form']);
 
 class Auth extends BaseController
 {
+    public function doRegister()
+    {
+        $model = new UsersModel();
+        $nome = $this->request->getPost('n_nome');
+        $email = $this->request->getPost('n_email');
+        $cracha = $this->request->getPost('n_cracha');
+        $cpf = $this->request->getPost('n_cpf');
+        $orcid = $this->request->getPost('n_orcid');
+        $afiliacao = $this->request->getPost('n_afiliacao');
+        $senha = $this->request->getPost('n_password');
+        $senha2 = $this->request->getPost('n_password_confirm');
+
+        // Validação básica
+        if ($senha !== $senha2) {
+            return redirect()->back()->with('erro', 'As senhas não conferem.');
+        }
+        if ($model->where('n_email', $email)->first()) {
+            return redirect()->back()->with('erro', 'E-mail já cadastrado.');
+        }
+        if ($model->where('n_cpf', $cpf)->first()) {
+            return redirect()->back()->with('erro', 'CPF já cadastrado.');
+        }
+
+        $dados = [
+            'n_nome' => $nome,
+            'n_email' => $email,
+            'n_cracha' => $cracha,
+            'n_cpf' => $cpf,
+            'n_orcid' => $orcid,
+            'n_afiliacao' => $afiliacao,
+            'n_password' => password_hash($senha, PASSWORD_DEFAULT)
+        ];
+
+        if ($model->insert($dados)) {
+            return redirect()->to('/auth/login')->with('sucesso', 'Cadastro realizado com sucesso! Faça login.');
+        } else {
+            return redirect()->back()->with('erro', 'Erro ao cadastrar. Tente novamente.');
+        }
+    }
+
     public function register()
     {
         $instituicaoModel = new \App\Models\InstituicaoRorModel();

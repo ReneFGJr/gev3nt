@@ -14,26 +14,89 @@ class Layout extends BaseController
         $certModel = new \App\Models\EventsInscritosModel();
         $cert = $certModel
             ->join('events', 'events_inscritos.i_evento = events.id_e')
+            ->join('events_names', 'i_user = id_n')
             ->where('id_i', $id)
             ->first();
+
+        $text = $cert['e_texto'];
+        $text = str_replace('$nome', $cert['n_nome'], $text);
+        $text = str_replace('{evento}', $cert['e_name'], $text);
 
         if (!$cert) {
             return redirect()->to('/')->with('error', 'Certificado não encontrado.');
         }
 
-        // Renderizar view do certificado em HTML
-        $html = view('layout/certificado_pdf', ['cert' => $cert]);
+        // Gerar QR code para validação
+        $certUrl = base_url('certificados/imprimir/' . $id);
+        $qrDir = WRITEPATH . 'qrcodes/';
+        if (!is_dir($qrDir)) mkdir($qrDir, 0777, true);
+        $qrcodePath = $qrDir . 'cert_' . $id . '.png';
+        if (!file_exists($qrcodePath)) {
+            include_once(APPPATH . 'ThirdParty/phpqrcode/qrlib.php');
+            \QRcode::png($certUrl, $qrcodePath, QR_ECLEVEL_L, 5);
+        }
+
+
 
         // Gerar PDF com TCPDF
         require_once(APPPATH.'ThirdParty/tcpdf/tcpdf.php');
-        $pdf = new \TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Gev3nt');
         $pdf->SetAuthor('Gev3nt');
         $pdf->SetTitle('Certificado');
-        $pdf->SetMargins(10, 10, 10);
-        $pdf->SetAutoPageBreak(TRUE, 10);
+        $pdf->SetMargins(0, 0, 0, 0);
+        $pdf->SetAutoPageBreak(TRUE, 0);
         $pdf->AddPage();
-        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Adicionar imagem de background se existir
+        if (!empty($cert['e_background'])) {
+            $imgPath = $cert['e_background'];
+            if (strpos($imgPath, 'http') === 0) {
+                // Se for URL absoluta
+                $pdf->Image($imgPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+            } else {
+                // Caminho relativo ao public
+                $publicPath = FCPATH . ltrim($imgPath, '/');
+                if (file_exists($publicPath)) {
+                    $pdf->Image($publicPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                } else {
+                    // Mostra erro e caminho completo
+                    echo '<pre style="color:red;">Erro: Imagem de background não encontrada! Caminho: ' . $publicPath . '</pre>';
+                    exit;
+                }
+            }
+        }
+
+        $pdf->setXY(10, 10);
+        $header = '<h1 style="color:#000000; font-size:18px; font-weight: bold;">Certificado de Participação</h1>';
+        $text = $header . '<p style="line-height:1.5; font-size:16px;">' . $text . '</p>';
+        $text = '<table width="350" style="text-align: justify; border: 1px solid #000;"><tr><td>' . $text . '</td></tr></table>';
+
+        $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        $mes = round(substr(date('m', strtotime($cert['e_data'])), 0, 2));
+        $mes = $meses[$mes - 1];
+        $dia = date('d', strtotime($cert['e_data']));
+        $data = $cert['e_cidade'] . ' '.$dia.' de ' . $mes . ' de ' . date('Y', strtotime($cert['e_data'])).'.';
+        $text .= '<br>';
+        $text .= '<br>';
+
+
+        $data = str_replace(date('F'), $meses[date('n') - 1], $data);
+        $text .= '<table width="350" style="text-align: right; color:#000000; font-size:18px; font-weight: bold;"><tr><td>' . $data . '</td></tr></table>';
+
+        $pdf->writeHTML($text, true, false, true, false, '');
+
+        // Inserir QR code no lado direito do meio da página
+        $pageWidth = $pdf->getPageWidth();
+        $pageHeight = $pdf->getPageHeight();
+        $qrSize = 40; // mm
+        if (file_exists($qrcodePath)) {
+            $pdf->Image($qrcodePath, 165, 190, $qrSize, $qrSize, 'PNG');
+        } else {
+            echo '<pre style="color:red;">Erro: QR code não encontrado! Caminho: ' . $qrcodePath . '</pre>';
+            exit;
+        }
+
         $pdf->Output('certificado_'.$id.'.pdf', 'I');
         exit;
     }

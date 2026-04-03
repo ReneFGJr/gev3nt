@@ -19,6 +19,21 @@ class Layout extends BaseController
             ->where('id_i', $id)
             ->first();
 
+        if (!$cert) {
+            return redirect()->to('/')->with('error', 'Certificado não encontrado.');
+        }
+
+        $dateOut = trim((string) ($cert['i_date_out'] ?? ''));
+        if ($dateOut === '' || str_starts_with($dateOut, '0000-00-00')) {
+            $certModel->update($id, [
+                'i_date_out' => date('Y-m-d'),
+                'i_status' => 1,
+            ]);
+
+            $cert['i_date_out'] = date('Y-m-d');
+            $cert['i_status'] = 1;
+        }
+
         $text = $cert['e_certificado_texto'];
         $text = str_replace('$nome', $cert['n_nome'], $text);
         $text = str_replace('{evento}', $cert['e_name'], $text);
@@ -28,10 +43,6 @@ class Layout extends BaseController
         $text = str_replace('$data', date('d/m/Y', strtotime($cert['e_data'])), $text);
         $text = str_replace('$cidade', $cert['e_cidade'], $text);
         $text = str_replace('$ch', $cert['i_carga_horaria'], $text);
-
-        if (!$cert) {
-            return redirect()->to('/')->with('error', 'Certificado não encontrado.');
-        }
 
         // Gerar QR code para validação
         $certUrl = base_url('certificados/imprimir/' . $id);

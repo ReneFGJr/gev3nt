@@ -31,7 +31,8 @@ class EventsModel extends Model
         'e_hora_inicio',
         'e_hora_fim',
         'e_limit_inscritos',
-        'e_link_transmissao'
+        'e_link_transmissao',
+        'e_certificado_texto'
     ];
     protected $returnType = 'array';
 }

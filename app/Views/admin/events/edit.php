@@ -7,6 +7,19 @@
             <label for="e_name" class="form-label">Nome do Evento</label>
             <input type="text" class="form-control" id="e_name" name="e_name" value="<?= esc($event['e_name']) ?>" required>
         </div>
+        <div class="mb-3">
+            <label for="e_event" class="form-label">Vínculo com evento base</label>
+            <select class="form-select" id="e_event" name="e_event">
+                <option value="">Selecione...</option>
+                <?php if (!empty($eventosBase)): ?>
+                    <?php foreach ($eventosBase as $base): ?>
+                        <option value="<?= esc($base['id_e']) ?>" <?= ((string) ($event['e_event'] ?? '') === (string) $base['id_e']) ? 'selected' : '' ?>>
+                            <?= esc($base['e_name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
         <div class="row mb-3">
             <div class="col-md-4">
                 <label for="e_data_i" class="form-label">Data Inicial</label>

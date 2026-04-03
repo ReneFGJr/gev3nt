@@ -20,13 +20,23 @@ $routes->post('search-certificate', 'SearchCertificate::search');
 
 $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 	$routes->get('/', function() { return view('admin/index'); });
+	$routes->get('event', 'Admin\\EventCrud::index');
+	$routes->get('event/create', 'Admin\\EventCrud::create');
+	$routes->post('event/store', 'Admin\\EventCrud::store');
+	$routes->get('event/edit/(:num)', 'Admin\\EventCrud::edit/$1');
+	$routes->post('event/update/(:num)', 'Admin\\EventCrud::update/$1');
+	$routes->post('event/delete/(:num)', 'Admin\\EventCrud::delete/$1');
 	$routes->get('events', 'Admin\\Events::index');
 	$routes->get('events/create', 'Admin\\Events::create');
 	$routes->post('events/store', 'Admin\\Events::store');
 	$routes->get('events/view/(:num)', 'Admin\\Events::view/$1');
+	$routes->get('events/make_certificates/(:num)', 'Admin\\Events::makeCertificates/$1');
+	$routes->post('events/make_certificates/(:num)', 'Admin\\Events::makeCertificates/$1');
 	$routes->get('events/sign-list/(:num)', 'Admin\\Events::signList/$1');
 	$routes->get('events/edit/(:num)', 'Admin\\Events::edit/$1');
 	$routes->post('events/update/(:num)', 'Admin\\Events::update/$1');
+	$routes->get('events/import/(:num)', 'Admin\\Events::import/$1');
+	$routes->post('events/import/(:num)', 'Admin\\Events::import/$1');
 	$routes->get('event/import/(:num)', 'Admin\\Events::import/$1');
 	$routes->post('event/import/(:num)', 'Admin\\Events::import/$1');
 });

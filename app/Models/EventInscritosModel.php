@@ -12,11 +12,15 @@ class EventInscritosModel extends Model
         'ein_event',
         'ein_tipo',
         'ein_user',
+        'ein_titulo_trabalho',
+        'ein_coautores',
         'ein_data',
         'ein_pago',
         'ein_presente',
         'ein_pago_em',
-        'ein_recibo'
+        'ein_recibo',
+        'ein_titulo_trabalho',
+        'ein_coautores'
     ];
     protected $returnType = 'array';
 }

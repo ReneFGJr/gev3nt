@@ -96,7 +96,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 d-flex justify-content-end">
+                    <div class="mt-4 d-flex justify-content-end gap-2 flex-wrap">
+                        <a href="<?= base_url('admin/events/make_certificates/' . $event['id_e']) ?>" class="btn btn-success">
+                            Gerar certificados
+                        </a>
                         <a href="<?= base_url('admin/events/sign-list/' . $event['id_e']) ?>" class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">
                             Gerar lista de inscritos para assinatura
                         </a>

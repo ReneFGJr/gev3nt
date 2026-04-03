@@ -25,6 +25,8 @@
                                 <th>Linha</th>
                                 <th>Nome</th>
                                 <th>E-mail</th>
+                                <th>Título do trabalho</th>
+                                <th>Coautores</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,6 +35,8 @@
                                     <td><?= esc($item['line']) ?></td>
                                     <td><?= esc($item['name']) ?></td>
                                     <td><?= esc($item['email']) ?></td>
+                                    <td><?= esc($item['titulo'] ?? '') ?></td>
+                                    <td><?= esc($item['coautores'] ?? '') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -81,7 +85,7 @@
     <form action="<?= base_url('admin/events/import/' . esc($id)) ?>" method="post">
         <div class="mb-3">
             <label for="import_data" class="form-label">Cole ou digite a lista de inscritos:</label>
-            <textarea class="form-control" id="import_data" name="import_data" rows="10" placeholder="Nome;Email;Outro dado..."><?= esc($importData ?? '') ?></textarea>
+            <textarea class="form-control" id="import_data" name="import_data" rows="10" placeholder="Nome;Email;Título do Trabalho;Coautores"><?= esc($importData ?? '') ?></textarea>
         </div>
         <div class="d-flex gap-2">
             <button type="submit" name="mode" value="preview" class="btn btn-outline-primary">Pré-visualizar</button>

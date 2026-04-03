@@ -15,12 +15,19 @@ class Layout extends BaseController
         $cert = $certModel
             ->join('events', 'events_inscritos.i_evento = events.id_e')
             ->join('events_names', 'i_user = id_n')
+            ->join('event', 'events.e_event = event.id_e','left')
             ->where('id_i', $id)
             ->first();
 
-        $text = $cert['e_texto'];
+        $text = $cert['e_certificado_texto'];
         $text = str_replace('$nome', $cert['n_nome'], $text);
         $text = str_replace('{evento}', $cert['e_name'], $text);
+        $text = str_replace('$titulo', '<b>'.$cert['i_titulo_trabalho'].'</b>', $text);
+        $text = str_replace('$autores', '<i>'.$cert['i_autores'].'</i>', $text);
+        $text = str_replace('$evento', $cert['e_name'], $text);
+        $text = str_replace('$data', date('d/m/Y', strtotime($cert['e_data'])), $text);
+        $text = str_replace('$cidade', $cert['e_cidade'], $text);
+        $text = str_replace('$ch', $cert['i_carga_horaria'], $text);
 
         if (!$cert) {
             return redirect()->to('/')->with('error', 'Certificado não encontrado.');
@@ -49,6 +56,7 @@ class Layout extends BaseController
         $pdf->AddPage();
 
         // Adicionar imagem de background se existir
+
         if (!empty($cert['e_background'])) {
             $imgPath = $cert['e_background'];
             if (strpos($imgPath, 'http') === 0) {
@@ -68,7 +76,7 @@ class Layout extends BaseController
         }
 
         $pdf->setXY(10, 10);
-        $header = '<h1 style="color:#000000; font-size:18px; font-weight: bold;">Certificado de Participação</h1>';
+        $header = '<h1 style="color:#000000; font-size:18px; font-weight: bold; text-align: center;">CERTIFICADO</h1>';
         $text = $header . '<p style="line-height:1.5; font-size:16px;">' . $text . '</p>';
         $text = '<table width="350" style="text-align: justify; border: 1px solid #000;"><tr><td>' . $text . '</td></tr></table>';
 

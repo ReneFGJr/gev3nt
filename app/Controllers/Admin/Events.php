@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\EventsModel;
 use App\Models\EventInscritosModel;
+use App\Models\EventsInscritosModel;
 use App\Models\UsersModel;
 
 class Events extends BaseController
@@ -17,7 +18,9 @@ class Events extends BaseController
 
     public function create()
     {
-        return view('admin/events/create');
+        return view('admin/events/create', [
+            'eventosBase' => $this->getEventosBase(),
+        ]);
     }
 
     public function store()
@@ -36,7 +39,10 @@ class Events extends BaseController
         if (!$event) {
             return redirect()->to('/admin/events')->with('error', 'Evento não encontrado!');
         }
-        return view('admin/events/edit', ['event' => $event]);
+        return view('admin/events/edit', [
+            'event' => $event,
+            'eventosBase' => $this->getEventosBase(),
+        ]);
     }
 
     public function update($id)
@@ -129,6 +135,115 @@ class Events extends BaseController
         ]);
     }
 
+    public function makeCertificates($id)
+    {
+        $eventsModel = new EventsModel();
+        $event = $eventsModel->find((int) $id);
+
+        if (!$event) {
+            return redirect()->to('/admin/events')->with('error', 'Evento não encontrado!');
+        }
+
+        $inscritosModel = new EventInscritosModel();
+        $trabalhos = $inscritosModel
+            ->select('event_inscritos.id_ein, event_inscritos.ein_user, event_inscritos.ein_titulo_trabalho, event_inscritos.ein_coautores, events_names.n_nome, events_names.n_email')
+            ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
+            ->where('event_inscritos.ein_event', (int) $id)
+            ->orderBy('events_names.n_nome', 'ASC')
+            ->orderBy('event_inscritos.ein_titulo_trabalho', 'ASC')
+            ->findAll();
+
+        $selectedIds = [];
+        $gerados = [];
+        $message = null;
+        $messageType = null;
+
+        if (strtolower($this->request->getMethod()) === 'post') {
+            $selectedIds = $this->request->getPost('selected_inscritos') ?? [];
+            if (!is_array($selectedIds)) {
+                $selectedIds = [];
+            }
+
+            $selectedIds = array_values(array_unique(array_map('intval', $selectedIds)));
+
+            if (empty($selectedIds)) {
+                $message = 'Selecione pelo menos um trabalho para gerar certificados.';
+                $messageType = 'warning';
+            } else {
+                $indexados = [];
+                foreach ($trabalhos as $trabalho) {
+                    $indexados[(int) ($trabalho['id_ein'] ?? 0)] = $trabalho;
+                }
+
+                foreach ($selectedIds as $selectedId) {
+                    if (isset($indexados[$selectedId])) {
+                        $gerados[] = $indexados[$selectedId];
+                    }
+                }
+
+                if (empty($gerados)) {
+                    $message = 'Nenhum trabalho válido foi selecionado.';
+                    $messageType = 'warning';
+                } else {
+                    $certificadosModel = new EventsInscritosModel();
+                    $inseridos = 0;
+                    $ignorados = 0;
+
+                    foreach ($gerados as $item) {
+                        $userId = (int) ($item['ein_user'] ?? 0);
+                        $titulo = trim((string) ($item['ein_titulo_trabalho'] ?? ''));
+                        $autorPrincipal = trim((string) ($item['n_nome'] ?? ''));
+                        $coautores = trim((string) ($item['ein_coautores'] ?? ''));
+
+                        $autores = $autorPrincipal;
+                        if ($coautores !== '') {
+                            $autores = $autores !== '' ? ($autores . ', ' . $coautores) : $coautores;
+                        }
+
+                        $existente = $certificadosModel
+                            ->where('i_evento', (int) $id)
+                            ->where('i_user', $userId)
+                            ->where('i_titulo_trabalho', $titulo)
+                            ->first();
+
+                        if ($existente) {
+                            $ignorados++;
+                            continue;
+                        }
+
+                        $ok = $certificadosModel->insert([
+                            'i_evento' => (int) $id,
+                            'i_date_in' => date('Y-m-d H:i:s'),
+                            'i_user' => $userId,
+                            'i_status' => 1,
+                            'i_certificado' => date('Y-m-d H:i:s'),
+                            'i_titulo_trabalho' => $titulo,
+                            'i_autores' => $autores,
+                            'i_carga_horaria' => 0,
+                            'i_cracha' => 0,
+                        ]);
+
+                        if ($ok) {
+                            $inseridos++;
+                        }
+                    }
+
+                    $message = sprintf('%d certificado(s) gerado(s) e %d já existente(s) ignorado(s).', $inseridos, $ignorados);
+                    $messageType = $inseridos > 0 ? 'success' : 'warning';
+                }
+            }
+        }
+
+        return view('admin/events/make_certificates', [
+            'event' => $event,
+            'trabalhos' => $trabalhos,
+            'selectedIds' => $selectedIds,
+            'gerados' => $gerados,
+            'message' => $message,
+            'messageType' => $messageType,
+        ]);
+    }
+
     private function processImportData(int $eventId, string $importData, bool $dryRun = false): array
     {
         $usersModel = new UsersModel();
@@ -153,8 +268,13 @@ class Events extends BaseController
 
             $lineNumber = count($report['success']) + count($report['failed']) + 1;
 
+            $columns = $this->splitImportColumns($line);
+
             $email = null;
-            if (preg_match('/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i', $line, $matches)) {
+            $emailColuna = $columns[1] ?? '';
+            if (filter_var($emailColuna, FILTER_VALIDATE_EMAIL)) {
+                $email = strtolower(trim($emailColuna));
+            } elseif (preg_match('/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i', $line, $matches)) {
                 $email = strtolower(trim($matches[0]));
             }
 
@@ -168,16 +288,25 @@ class Events extends BaseController
                 continue;
             }
 
-            $parts = array_values(array_filter(array_map('trim', preg_split('/[;\t,]+/', $line) ?: []), static fn ($value) => $value !== ''));
-            $name = $parts[0] ?? '';
+            $name = trim((string) ($columns[0] ?? ''));
             if ($name === '' || filter_var($name, FILTER_VALIDATE_EMAIL)) {
                 $name = strstr($email, '@', true) ?: $email;
+            }
+
+            $tituloTrabalho = trim((string) ($columns[2] ?? ''));
+            $coautores = '';
+            if (count($columns) > 3) {
+                $restantes = array_map(static fn ($v) => trim((string) $v), array_slice($columns, 3));
+                $restantes = array_values(array_filter($restantes, static fn ($v) => $v !== ''));
+                $coautores = $this->buildUniqueAuthorsString($name, $restantes);
             }
 
             $report['parsed'][] = [
                 'line' => $lineNumber,
                 'name' => $name,
                 'email' => $email,
+                'titulo' => $tituloTrabalho,
+                'coautores' => $coautores,
             ];
 
             $user = $usersModel->where('n_email', $email)->first();
@@ -233,6 +362,8 @@ class Events extends BaseController
                     'ein_event' => $eventId,
                     'ein_tipo' => 1,
                     'ein_user' => $userId,
+                    'ein_titulo_trabalho' => $tituloTrabalho,
+                    'ein_coautores' => $coautores,
                     'ein_data' => date('Y-m-d H:i:s'),
                     'ein_pago' => 0,
                     'ein_presente' => 0,
@@ -263,5 +394,68 @@ class Events extends BaseController
 
 
         return $report;
+    }
+
+    private function splitImportColumns(string $line): array
+    {
+        $delimiter = ',';
+        if (strpos($line, "\t") !== false) {
+            $delimiter = "\t";
+        } elseif (strpos($line, ';') !== false) {
+            $delimiter = ';';
+        }
+
+        $columns = str_getcsv($line, $delimiter);
+        $columns = array_map(static fn ($value) => trim((string) $value), $columns);
+
+        if (!empty($columns[0])) {
+            $columns[0] = preg_replace('/^\xEF\xBB\xBF/', '', $columns[0]) ?? $columns[0];
+        }
+
+        return $columns;
+    }
+
+    private function buildUniqueAuthorsString(string $autorPrincipal, array $coautores): string
+    {
+        $seen = [];
+        $result = [];
+
+        $principalKey = $this->normalizeAuthorKey($autorPrincipal);
+        if ($principalKey !== '') {
+            $seen[$principalKey] = true;
+        }
+
+        foreach ($coautores as $coautor) {
+            $nome = trim((string) $coautor);
+            if ($nome === '') {
+                continue;
+            }
+
+            $key = $this->normalizeAuthorKey($nome);
+            if ($key === '' || isset($seen[$key])) {
+                continue;
+            }
+
+            $seen[$key] = true;
+            $result[] = $nome;
+        }
+
+        return implode(', ', $result);
+    }
+
+    private function normalizeAuthorKey(string $name): string
+    {
+        return mb_strtolower(trim(preg_replace('/\s+/', ' ', $name) ?? ''), 'UTF-8');
+    }
+
+    private function getEventosBase(): array
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('event')
+            ->select('id_e, e_name, e_data_i, e_data_f, e_active')
+            ->orderBy('e_name', 'ASC')
+            ->get()
+            ->getResultArray();
     }
 }

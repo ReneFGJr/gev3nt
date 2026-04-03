@@ -3,8 +3,8 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow border-0">
-                <div class="card-body text-center">
+            <div class="content shadow border-0">
+                <div class="row text-center">
                     <h2 class="mb-4">Busca de Certificado</h2>
                     <?php if (!empty($query)): ?>
                         <div class="alert alert-info">Resultado da busca para: <strong><?= esc($query) ?></strong></div>

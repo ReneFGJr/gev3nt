@@ -25,7 +25,14 @@ class SearchCertificate extends Controller
                 }
             } else {
                 // Busca por nome exato
-                $user = $UsersModel->where('n_nome', $query)->first();
+                $name = explode(' ', $query);
+                foreach ($name as $value) {
+                    $value = trim($value);
+                    if ($value !== '') {
+                        $UsersModel->like('n_nome', $value);
+                    }
+                }
+                $user = $UsersModel->first();
                 if ($user) {
                     $nome = $user['n_nome'];
                     $email = $user['n_email'];
@@ -42,14 +49,27 @@ class SearchCertificate extends Controller
             }
 
             $EventsInscritosModel = new \App\Models\EventsInscritosModel();
+            $certificados = [];
+
             if ($userId) {
                 // Busca certificados pelo ID do usuário
                 $certificados = $EventsInscritosModel->getCertificadosByUser($userId);
-            } elseif ($nome) {
-                // Busca certificados onde o nome aparece nos autores
-                $certificados = $EventsInscritosModel
-                    ->like('i_autores', $nome)
-                    ->findAll();
+            }
+
+            // Amplia a busca para também pesquisar pelo termo em i_autores
+            $certificadosPorAutores = $EventsInscritosModel
+                ->like('i_autores', $query)
+                ->findAll();
+
+            if (!empty($certificadosPorAutores)) {
+                $mapa = [];
+                foreach ($certificados as $cert) {
+                    $mapa[$cert['id_i']] = $cert;
+                }
+                foreach ($certificadosPorAutores as $cert) {
+                    $mapa[$cert['id_i']] = $cert;
+                }
+                $certificados = array_values($mapa);
             }
         }
 

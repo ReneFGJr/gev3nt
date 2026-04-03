@@ -31,7 +31,7 @@
                                     <path d="M8 5.5A2.5 2.5 0 1 0 8 10a2.5 2.5 0 0 0 0-4.5zM8 9A1 1 0 1 1 8 7a1 1 0 0 1 0 2z"/>
                                 </svg>
                             </a>
-                            <a href="/admin/events/edit/<?= esc($event['id_e']) ?>" title="Editar" class="btn btn-sm btn-outline-primary">
+                            <a href="<?= base_url('admin/events/edit/' . $event['id_e']) ?>" title="Editar" class="btn btn-sm btn-outline-primary">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                     <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 3 10.707V13h2.293l7.5-7.5z"/>
                                 </svg>

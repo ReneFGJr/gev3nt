@@ -39,9 +39,9 @@
                     </p>
                 </div>
             </div>
-            <a href="/admin/events" class="btn btn-secondary">Voltar</a>
-            <a href="/admin/events/edit/<?= esc($event['id_e']) ?>" class="btn btn-primary">Editar</a>
-            <a href="/admin/event/import/<?= esc($event['id_e']) ?>" class="btn btn-warning ms-2">Importar usuários / dados</a>
+            <a href="<?= base_url('admin/events') ?>" class="btn btn-secondary">Voltar</a>
+            <a href="<?= base_url('admin/events/edit/' . $event['id_e']) ?>" class="btn btn-primary">Editar</a>
+            <a href="<?= base_url('admin/event/import/' . $event['id_e']) ?>" class="btn btn-warning ms-2">Importar usuários / dados</a>
         </div>
         <div class="col-12 col-md-6">
             <h2 class="mb-3">Detalhes do Evento</h2>

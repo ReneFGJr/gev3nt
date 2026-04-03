@@ -41,21 +41,22 @@
                 <label for="e_hora_fim" class="form-label">Hora Final</label>
                 <input type="time" class="form-control" id="e_hora_fim" name="e_hora_fim" value="<?= esc($event['e_hora_fim'] ?? '') ?>">
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-8">
-                <label for="e_location" class="form-label">Localização</label>
-                <input type="text" class="form-control" id="e_location" name="e_location" value="<?= esc($event['e_location']) ?>">
-            </div>
             <div class="col-md-2">
                 <label for="e_limit_inscritos" class="form-label">Limite de inscritos</label>
                 <input type="number" class="form-control" id="e_limit_inscritos" name="e_limit_inscritos" min="1" step="1" value="<?= esc($event['e_limit_inscritos'] ?? 9999) ?>">
                 <div class="form-text">Valor padrão: 9999</div>
             </div>
         </div>
-        <div class="mb-3">
-            <label for="e_link_transmissao" class="form-label">Link da transmissão</label>
-            <input type="url" class="form-control" id="e_link_transmissao" name="e_link_transmissao" value="<?= esc($event['e_link_transmissao'] ?? '') ?>" placeholder="https://...">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="e_location" class="form-label">Localização</label>
+                <input type="text" class="form-control" id="e_location" name="e_location" value="<?= esc($event['e_location']) ?>">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="e_link_transmissao" class="form-label">Link da transmissão</label>
+                <input type="url" class="form-control" id="e_link_transmissao" name="e_link_transmissao" value="<?= esc($event['e_link_transmissao'] ?? '') ?>" placeholder="https://...">
+            </div>
         </div>
         <div class="mb-3">
             <label for="e_texto" class="form-label">Descrição do Evento</label>

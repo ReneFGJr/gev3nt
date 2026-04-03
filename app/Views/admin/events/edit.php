@@ -47,7 +47,7 @@
                 <label for="e_location" class="form-label">Localização</label>
                 <input type="text" class="form-control" id="e_location" name="e_location" value="<?= esc($event['e_location']) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <label for="e_limit_inscritos" class="form-label">Limite de inscritos</label>
                 <input type="number" class="form-control" id="e_limit_inscritos" name="e_limit_inscritos" min="1" step="1" value="<?= esc($event['e_limit_inscritos'] ?? 9999) ?>">
                 <div class="form-text">Valor padrão: 9999</div>

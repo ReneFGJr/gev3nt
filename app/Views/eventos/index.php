@@ -73,22 +73,22 @@
                                         <?php if ($jaInscrito): ?>
                                             <div class="d-flex gap-2 flex-wrap">
                                                 <button type="button" class="btn btn-secondary" disabled>Já inscrito</button>
-                                                <form action="/eventos/enviar-confirmacao/<?= esc($evento['id_e']) ?>" method="post">
+                                                <form action="<?= base_url('eventos/enviar-confirmacao/' . $evento['id_e']) ?>" method="post">
                                                     <button type="submit" class="btn btn-outline-primary">Enviar para meu e-mail</button>
                                                 </form>
-                                                <form action="/eventos/cancelar/<?= esc($evento['id_e']) ?>" method="post">
+                                                <form action="<?= base_url('eventos/cancelar/' . $evento['id_e']) ?>" method="post">
                                                     <button type="submit" class="btn btn-outline-danger">Cancelar inscrição</button>
                                                 </form>
                                             </div>
                                         <?php else: ?>
-                                            <form action="/eventos/inscrever/<?= esc($evento['id_e']) ?>" method="post">
+                                            <form action="<?= base_url('eventos/inscrever/' . $evento['id_e']) ?>" method="post">
                                                 <button type="submit" class="btn btn-primary">Inscrever-se</button>
                                             </form>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <div class="d-flex gap-2 flex-wrap">
-                                            <a href="/auth/registrar" class="btn btn-outline-success">Cadastrar-se</a>
-                                            <a href="/auth/login" class="btn btn-outline-primary">Fazer Login</a>
+                                            <a href="<?= base_url('auth/registrar') ?>" class="btn btn-outline-success">Cadastrar-se</a>
+                                            <a href="<?= base_url('auth/login') ?>" class="btn btn-outline-primary">Fazer Login</a>
                                         </div>
                                     <?php endif; ?>
                                 </div>

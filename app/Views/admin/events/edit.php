@@ -21,19 +21,19 @@
             </select>
         </div>
         <div class="row mb-3">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="e_data_i" class="form-label">Data Inicial</label>
                 <input type="date" class="form-control" id="e_data_i" name="e_data_i" value="<?= esc($event['e_data_i']) ?>" required>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="e_data_f" class="form-label">Data Final</label>
                 <input type="date" class="form-control" id="e_data_f" name="e_data_f" value="<?= esc($event['e_data_f']) ?>" required>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="e_data" class="form-label">Data do Certificado</label>
                 <input type="date" class="form-control" id="e_data" name="e_data" value="<?= esc($event['e_data'] ?? '') ?>">
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <label for="e_hora_inicio" class="form-label">Hora Inicial</label>
                 <input type="time" class="form-control" id="e_hora_inicio" name="e_hora_inicio" value="<?= esc($event['e_hora_inicio']) ?>">
             </div>

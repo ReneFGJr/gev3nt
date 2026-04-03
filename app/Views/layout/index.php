@@ -3,6 +3,12 @@
 <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="col-md-6 col-lg-6">
         <h1>Emissão de Certificados</h1>
+        <form action="/search-certificate" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="query" class="form-control form-control-lg" placeholder="Digite seu nome completo ou e-mail" required>
+                <button class="btn btn-primary btn-lg" type="submit">Buscar Certificado</button>
+            </div>
+        </form>
         <p>Em breve, esta seção permitirá que os organizadores de eventos emitam certificados personalizados para os participantes. Fique atento para mais novidades!</p>
     </div>
     <div class="col-md-12">

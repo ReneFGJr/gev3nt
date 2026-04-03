@@ -10,6 +10,8 @@ $routes->get('/', 'Layout::index');
 $routes->get('/layout', 'Layout::index');
 $routes->get('/contato', 'Layout::contato');
 $routes->get('certificados/imprimir/(:num)', 'Layout::imprimir/$1');
+$routes->get('search-certificate', 'SearchCertificate::index');
+$routes->post('search-certificate', 'SearchCertificate::search');
 $routes->group('auth', function($routes) {
 	$routes->get('login', 'Auth::login');
 	$routes->post('login', 'Auth::doLogin');

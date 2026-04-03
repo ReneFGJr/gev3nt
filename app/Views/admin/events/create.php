@@ -37,7 +37,7 @@
             <input type="file" class="form-control" id="card_img" name="card_img" accept="image/*">
         </div>
         <button type="submit" class="btn btn-success">Criar Evento</button>
-        <a href="/admin/events" class="btn btn-secondary">Cancelar</a>
+        <a href="<?= base_url('admin/events') ?>" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 <?= $this->endSection() ?>

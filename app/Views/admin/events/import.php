@@ -86,8 +86,8 @@
         <div class="d-flex gap-2">
             <button type="submit" name="mode" value="preview" class="btn btn-outline-primary">Pré-visualizar</button>
             <button type="submit" name="mode" value="import" class="btn btn-success">Importar</button>
-            <a href="/admin/events/view/<?= esc($id) ?>" class="btn btn-secondary">Cancelar</a>
-            <a href="/admin/events/view/<?= esc($id) ?>" class="btn btn-outline-primary">Voltar</a>
+            <a href="<?= base_url('admin/events/view/' . esc($id)) ?>" class="btn btn-secondary">Cancelar</a>
+            <a href="<?= base_url('admin/events/view/' . esc($id)) ?>" class="btn btn-outline-primary">Voltar</a>
         </div>
     </form>
 </div>

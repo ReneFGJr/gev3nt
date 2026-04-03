@@ -45,7 +45,7 @@
                     <?php else: ?>
                         <div class="alert alert-warning">Nenhum termo de busca informado.</div>
                     <?php endif; ?>
-                    <a href="/" class="btn btn-primary mt-3">Voltar para o início</a>
+                    <a href="<?=base_url('/');?>" class="btn btn-primary mt-3">Voltar para o início</a>
                 </div>
             </div>
         </div>

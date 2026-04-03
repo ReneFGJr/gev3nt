@@ -12,8 +12,27 @@ class Events extends BaseController
     public function index()
     {
         $eventsModel = new EventsModel();
+
+        $q = trim((string) $this->request->getGet('q'));
+        $status = (string) $this->request->getGet('status');
+
+        if ($q !== '') {
+            $eventsModel->like('e_name', $q);
+        }
+
+        if (in_array($status, ['0', '1', '9'], true)) {
+            $eventsModel->where('e_status', (int) $status);
+        }
+
         $events = $eventsModel->orderBy('id_e', 'DESC')->findAll();
-        return view('admin/events/index', ['events' => $events]);
+
+        return view('admin/events/index', [
+            'events' => $events,
+            'filters' => [
+                'q' => $q,
+                'status' => $status,
+            ],
+        ]);
     }
 
     public function create()
@@ -49,6 +68,11 @@ class Events extends BaseController
     {
         $eventsModel = new EventsModel();
         $data = $this->request->getPost();
+
+        if (empty($data['e_data'])) {
+            return redirect()->back()->withInput()->with('error', 'O campo Data do Certificado é obrigatório.');
+        }
+
         $limiteInscritos = (int) ($data['e_limit_inscritos'] ?? 0);
         $data['e_limit_inscritos'] = $limiteInscritos > 0 ? $limiteInscritos : 9999;
 

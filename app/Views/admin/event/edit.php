@@ -24,10 +24,6 @@
             <input type="text" class="form-control" id="e_cidade" name="e_cidade" value="<?= esc($item['e_cidade'] ?? '') ?>">
         </div>
         <div class="mb-3">
-            <label for="e_assinatura" class="form-label">Texto do certificado</label>
-            <textarea class="form-control" id="e_assinatura" name="e_assinatura" rows="6" placeholder="Digite o texto base do certificado..."><?= esc($item['e_assinatura'] ?? '') ?></textarea>
-        </div>
-        <div class="mb-3">
             <label for="e_background_file" class="form-label">Background do certificado (somente JPG)</label>
             <input type="file" class="form-control" id="e_background_file" name="e_background_file" accept=".jpg,.jpeg,image/jpeg">
             <?php if (!empty($item['e_background'])): ?>

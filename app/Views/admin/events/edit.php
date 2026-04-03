@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-2">
                 <label for="e_data" class="form-label">Data do Certificado</label>
-                <input type="date" class="form-control" id="e_data" name="e_data" value="<?= esc($event['e_data'] ?? '') ?>">
+                <input type="date" class="form-control" id="e_data" name="e_data" value="<?= esc($event['e_data'] ?? '') ?>" required>
             </div>
             <div class="col-md-2">
                 <label for="e_hora_inicio" class="form-label">Hora Inicial</label>

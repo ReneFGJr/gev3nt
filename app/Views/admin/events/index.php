@@ -6,6 +6,26 @@
     <?php if (session('success')): ?>
         <div class="alert alert-success"><?= session('success') ?></div>
     <?php endif; ?>
+
+    <?php $filters = $filters ?? ['q' => '', 'status' => '']; ?>
+    <form method="get" action="<?= base_url('admin/events') ?>" class="row g-2 mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="q" placeholder="Pesquisar por nome do evento" value="<?= esc($filters['q'] ?? '') ?>">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" name="status">
+                <option value="">Todos os status</option>
+                <option value="0" <?= (($filters['status'] ?? '') === '0') ? 'selected' : '' ?>>Aberto</option>
+                <option value="1" <?= (($filters['status'] ?? '') === '1') ? 'selected' : '' ?>>Fechado</option>
+                <option value="9" <?= (($filters['status'] ?? '') === '9') ? 'selected' : '' ?>>Cancelado</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Filtrar</button>
+            <a href="<?= base_url('admin/events') ?>" class="btn btn-outline-secondary">Limpar</a>
+        </div>
+    </form>
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>

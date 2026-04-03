@@ -27,8 +27,11 @@ class EventsModel extends Model
         'e_background',
         'e_templat',
         'e_location',
+        'e_link_transmissao',
         'e_hora_inicio',
-        'e_hora_fim'
+        'e_hora_fim',
+        'e_limit_inscritos',
+        'e_link_transmissao'
     ];
     protected $returnType = 'array';
 }

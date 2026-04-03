@@ -24,6 +24,11 @@
             <input type="text" class="form-control" id="e_location" name="e_location">
         </div>
         <div class="mb-3">
+            <label for="e_limit_inscritos" class="form-label">Limite de inscritos</label>
+            <input type="number" class="form-control" id="e_limit_inscritos" name="e_limit_inscritos" min="1" step="1" value="9999">
+            <div class="form-text">Valor padrão: 9999</div>
+        </div>
+        <div class="mb-3">
             <label for="e_hora_inicio" class="form-label">Hora Inicial (opcional)</label>
             <input type="time" class="form-control" id="e_hora_inicio" name="e_hora_inicio">
         </div>

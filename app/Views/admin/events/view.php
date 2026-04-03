@@ -20,10 +20,12 @@
                             <?= $statusLabels[$status]['label'] ?? 'Desconhecido' ?>
                         </span>
                     </h4>
+
                     <?php if (!empty($event['e_ass_img'])): ?>
                         <img src="<?= base_url($event['e_ass_img']) ?>" alt="Imagem do Evento" style="max-width:300px;" class="mb-3 d-block">
                     <?php endif; ?>
-                    <p><strong>Descrição:</strong> <?= nl2br(esc($event['e_texto'])) ?></p>
+
+                    <p><strong>Descrição:</strong> <?= nl2br(esc((string) ($event['e_texto'] ?? ''))) ?></p>
                     <p><strong>Localização:</strong> <?= esc($event['e_location']) ?></p>
                     <p><strong>Data Inicial:</strong> <?= esc($event['e_data_i']) ?>
                         <?php if (!empty($event['e_hora_inicio'])): ?>
@@ -42,16 +44,57 @@
             <a href="/admin/event/import/<?= esc($event['id_e']) ?>" class="btn btn-warning ms-2">Importar usuários / dados</a>
         </div>
         <div class="col-12 col-md-6">
-            <h2>Detalhes do Evento</h2>
-            <div class="mb-3 p-3 border rounded bg-light shadow-sm" style="min-width:220px;">
-                <strong class="d-block mb-2 text-secondary" style="font-size:1.1rem;">Indicadores</strong>
-                <div class="container">
-                <div class="row">
+            <h2 class="mb-3">Detalhes do Evento</h2>
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <strong class="d-block text-secondary text-uppercase small">Indicadores</strong>
+                            <span class="text-muted small">Resumo rápido da participação</span>
+                        </div>
+                        <span class="badge rounded-pill bg-info-subtle text-info-emphasis px-3 py-2">Atualizado</span>
+                    </div>
 
-                </div></div>
-                <span class="badge bg-primary" style="font-size:1rem;">Inscritos: <?= esc($totalInscritos ?? 0) ?></span>
-                <span class="badge bg-success ms-2" style="font-size:1rem;">Presentes: <?= esc($totalPresentes ?? 0) ?></span>
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-4">
+                            <div class="border rounded-4 bg-white p-3 h-100 shadow-sm">
+                                <div class="text-muted small mb-1">Inscritos</div>
+                                <div class="d-flex align-items-end gap-2">
+                                    <span class="fw-bold text-primary" style="font-size:2rem; line-height:1;">
+                                        <?= esc($totalInscritos ?? 0) ?>
+                                    </span>
+                                    <span class="text-muted mb-1">pessoas</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="border rounded-4 bg-white p-3 h-100 shadow-sm">
+                                <div class="text-muted small mb-1">Presentes</div>
+                                <div class="d-flex align-items-end gap-2">
+                                    <span class="fw-bold text-success" style="font-size:2rem; line-height:1;">
+                                        <?= esc($totalPresentes ?? 0) ?>
+                                    </span>
+                                    <span class="text-muted mb-1">pessoas</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="border rounded-4 bg-white p-3 h-100 shadow-sm">
+                                <div class="text-muted small mb-1">Limite de inscritos</div>
+                                <div class="d-flex align-items-end gap-2">
+                                    <span class="fw-bold text-warning" style="font-size:2rem; line-height:1;">
+                                        <?= esc($event['e_limit_inscritos'] ?? 9999) ?>
+                                    </span>
+                                    <span class="text-muted mb-1">pessoas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <?= $this->endSection() ?>
+</div>
+<?= $this->endSection() ?>

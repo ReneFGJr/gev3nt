@@ -1,8 +1,8 @@
 <?= $this->extend('layout/header') ?>
 <?= $this->section('content') ?>
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
             <div class="content shadow border-0">
                 <div class="row text-center">
                     <h2 class="mb-4">Busca de Certificado</h2>

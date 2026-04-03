@@ -132,6 +132,49 @@ class Layout extends BaseController
             $userId = session('usuario.id_n') ?? session('usuario.id');
             $certModel = new \App\Models\EventsInscritosModel();
             $certificados = $certModel->getCertificadosByUser($userId);
+
+            $query = session('usuario.nome') ?? '[X]';
+
+            // Amplia a busca para também pesquisar pelo termo em i_autores
+            $certificadosAutoresModel = new \App\Models\EventsInscritosModel();
+            $certificadosAutoresModel
+                ->join('events', 'events_inscritos.i_evento = events.id_e');
+            $queryParts = explode(' ', $query);
+            foreach ($queryParts as $part) {
+                $part = trim($part);
+                if ($part !== '') {
+                    $certificadosAutoresModel->like('i_autores', $part);
+                }
+            }
+
+            $certificadosPorAutores = $certificadosAutoresModel
+                ->orderBy('events.e_data', 'DESC')
+                ->orderBy('events_inscritos.id_i', 'DESC')
+                ->findAll();
+
+            if (!empty($certificadosPorAutores)) {
+                $mapa = [];
+                foreach ($certificados as $cert) {
+                    $mapa[$cert['id_i']] = $cert;
+                }
+                foreach ($certificadosPorAutores as $cert) {
+                    $mapa[$cert['id_i']] = $cert;
+                }
+                $certificados = array_values($mapa);
+            }
+
+            if (!empty($certificados)) {
+                usort($certificados, static function (array $a, array $b): int {
+                    $dataA = isset($a['e_data']) ? strtotime((string) $a['e_data']) : 0;
+                    $dataB = isset($b['e_data']) ? strtotime((string) $b['e_data']) : 0;
+
+                    if ($dataA === $dataB) {
+                        return ($b['id_i'] ?? 0) <=> ($a['id_i'] ?? 0);
+                    }
+
+                    return $dataB <=> $dataA;
+                });
+            }
         }
         return view('layout/index', [
             'certificados' => $certificados

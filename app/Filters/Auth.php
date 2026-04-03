@@ -15,7 +15,7 @@ class Auth implements FilterInterface
             return;
         }
         if (!session()->has('usuario')) {
-            return redirect()->to('/login');
+            return redirect()->to('/auth/login');
         }
     }
 

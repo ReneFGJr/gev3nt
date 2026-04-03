@@ -12,6 +12,21 @@ $routes->get('/contato', 'Layout::contato');
 $routes->get('certificados/imprimir/(:num)', 'Layout::imprimir/$1');
 $routes->get('search-certificate', 'SearchCertificate::index');
 $routes->post('search-certificate', 'SearchCertificate::search');
+
+
+$routes->group('admin', ['filter' => 'auth'], function ($routes) {
+	$routes->get('/', function() { return view('admin/index'); });
+	$routes->get('events', 'Admin\\Events::index');
+	$routes->get('events/create', 'Admin\\Events::create');
+	$routes->post('events/store', 'Admin\\Events::store');
+	$routes->get('events/view/(:num)', 'Admin\\Events::view/$1');
+	$routes->get('events/edit/(:num)', 'Admin\\Events::edit/$1');
+	$routes->post('events/update/(:num)', 'Admin\\Events::update/$1');
+	$routes->get('event/import/(:num)', 'Admin\\Events::import/$1');
+	$routes->post('event/import/(:num)', 'Admin\\Events::import/$1');
+});
+
+
 $routes->group('auth', function($routes) {
 	$routes->get('login', 'Auth::login');
 	$routes->post('login', 'Auth::doLogin');

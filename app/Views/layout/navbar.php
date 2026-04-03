@@ -1,7 +1,9 @@
 <nav style="background: rgba(15,32,39,0.95); box-shadow: 0 2px 8px rgba(44,83,100,0.2); padding: 0 20px;">
     <div style="display: flex; align-items: center; height: 60px; max-width: 1200px; margin: 0 auto; justify-content: space-between;">
-        <div style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; color: #90caf9;">
-            Gev3nt
+        <div>
+            <a href="<?= base_url('/') ?>">
+                <img src="<?= base_url('img/logo_Gev3nt.png') ?>" alt="Gev3nt" style="height:40px; width:auto; vertical-align:middle;">
+            </a>
         </div>
         <ul style="list-style: none; display: flex; margin: 0 0 0 40px; padding: 0; gap: 24px;">
             <li><a href="<?=base_url('/');?>" style="font-weight: 500;">Início</a></li>

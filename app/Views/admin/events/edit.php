@@ -58,6 +58,10 @@
             <textarea class="form-control" id="e_texto" name="e_texto" rows="8"><?= esc($event['e_texto']) ?></textarea>
         </div>
         <div class="mb-3">
+            <label for="e_certificado_texto" class="form-label">Texto do Certificado</label>
+            <textarea class="form-control" id="e_certificado_texto" name="e_certificado_texto" rows="8" placeholder="Digite o texto que será usado no certificado..."><?= esc($event['e_certificado_texto'] ?? '') ?></textarea>
+        </div>
+        <div class="mb-3">
             <label for="e_status" class="form-label">Status do Evento</label>
             <select class="form-select" id="e_status" name="e_status">
                 <option value="0" <?= $event['e_status'] == 0 ? 'selected' : '' ?>>Aberto para inscrição</option>

@@ -78,7 +78,7 @@
         <?php endif; ?>
     <?php endif; ?>
 
-    <form action="/admin/event/import/<?= esc($id) ?>" method="post">
+    <form action="<?= base_url('admin/events/import/' . esc($id)) ?>" method="post">
         <div class="mb-3">
             <label for="import_data" class="form-label">Cole ou digite a lista de inscritos:</label>
             <textarea class="form-control" id="import_data" name="import_data" rows="10" placeholder="Nome;Email;Outro dado..."><?= esc($importData ?? '') ?></textarea>

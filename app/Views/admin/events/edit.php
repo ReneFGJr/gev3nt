@@ -62,7 +62,7 @@
             <?php endif; ?>
         </div>
         <button type="submit" class="btn btn-success">Salvar Alterações</button>
-        <a href="/admin/events" class="btn btn-secondary">Cancelar</a>
+        <a href="<?= base_url('admin/events') ?>" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 <?= $this->endSection() ?>

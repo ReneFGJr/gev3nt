@@ -27,6 +27,7 @@ class EventsInscritosModel extends Model
         $rsp = $this
                 ->join('events', 'events_inscritos.i_evento = events.id_e')
                 ->where('i_user', $userId)
+                ->orderBy('events.e_data', 'DESC')
                 ->orderBy('id_i', 'DESC')
                 ->findAll();
         return $rsp;

@@ -61,6 +61,8 @@ class SearchCertificate extends Controller
             $certificadosPorAutores = $certificadosAutoresModel
                 ->join('events', 'events_inscritos.i_evento = events.id_e')
                 ->like('i_autores', $query)
+                ->orderBy('events.e_data', 'DESC')
+                ->orderBy('events_inscritos.id_i', 'DESC')
                 ->findAll();
 
             if (!empty($certificadosPorAutores)) {

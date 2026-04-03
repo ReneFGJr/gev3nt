@@ -20,6 +20,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>Evento</th>
+                                            <th>Ano</th>
                                             <th>Título do Trabalho</th>
                                             <th>Status</th>
                                             <th>Ação</th>
@@ -28,10 +29,11 @@
                                     <tbody>
                                         <?php foreach ($certificados as $cert): ?>
                                             <tr>
-                                                <td class="text-start"><?= esc($cert['e_name'] ?? '-') ?></td>
+                                                <td><?= esc($cert['e_name'] ?? '-') ?></td>
+                                                <td><?= esc(!empty($cert['e_data']) ? date('Y', strtotime($cert['e_data'])) : '-') ?></td>
                                                 <td><?= esc($cert['i_titulo_trabalho'] ?? '-') ?></td>
                                                 <td><?= esc($cert['i_status'] == 1 ? 'Emitido' : 'Pendente') ?></td>
-                                                <td><a href="<?= base_url('certificados/imprimir/'.$cert['id_i']) ?>" target="_blank" class="btn btn-success btn-sm">Imprimir</a></td>
+                                                <td><a href="<?= base_url('certificados/imprimir/' . $cert['id_i']) ?>" target="_blank" class="btn btn-success btn-sm">Imprimir</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

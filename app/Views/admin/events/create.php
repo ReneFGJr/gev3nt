@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="container py-4">
     <h2>Novo Evento</h2>
-    <form action="/admin/events/store" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('/admin/events/store'); ?>" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="e_name" class="form-label">Nome do Evento</label>
             <input type="text" class="form-control" id="e_name" name="e_name" required>

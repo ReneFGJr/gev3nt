@@ -86,7 +86,10 @@
                                             </form>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="/auth/registrar" class="btn btn-success">Cadastrar-se</a>
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <a href="/auth/registrar" class="btn btn-outline-success">Cadastrar-se</a>
+                                            <a href="/auth/login" class="btn btn-outline-primary">Fazer Login</a>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             </div>

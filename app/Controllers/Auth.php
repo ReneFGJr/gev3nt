@@ -27,9 +27,52 @@ class Auth extends BaseController
 {
     public function doRegister()
     {
+        $mode = (string) $this->request->getPost('mode');
         $model = new UsersModel();
+
+        $email = trim((string) $this->request->getPost('n_email'));
+
+        if ($mode === 'check_email') {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return view('auth/register', [
+                    'step' => 'check_email',
+                    'erro' => 'Informe um e-mail valido.',
+                    'checkedEmail' => $email,
+                ]);
+            }
+
+            if ($model->where('n_email', $email)->first()) {
+                return view('auth/register', [
+                    'step' => 'email_exists',
+                    'checkedEmail' => $email,
+                    'erro' => 'Este e-mail ja esta cadastrado.',
+                ]);
+            }
+
+            return view('auth/register', [
+                'step' => 'complete_register',
+                'checkedEmail' => $email,
+                'instituicoes' => $this->getInstituicoes(),
+            ]);
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return view('auth/register', [
+                'step' => 'check_email',
+                'erro' => 'Informe um e-mail valido.',
+                'checkedEmail' => $email,
+            ]);
+        }
+
+        if ($model->where('n_email', $email)->first()) {
+            return view('auth/register', [
+                'step' => 'email_exists',
+                'checkedEmail' => $email,
+                'erro' => 'Este e-mail ja esta cadastrado.',
+            ]);
+        }
+
         $nome = $this->request->getPost('n_nome');
-        $email = $this->request->getPost('n_email');
         $cracha = $this->request->getPost('n_cracha');
         $cpf = $this->request->getPost('n_cpf');
         $orcid = $this->request->getPost('n_orcid');
@@ -39,13 +82,22 @@ class Auth extends BaseController
 
         // Validação básica
         if ($senha !== $senha2) {
-            return redirect()->back()->with('erro', 'As senhas não conferem.');
-        }
-        if ($model->where('n_email', $email)->first()) {
-            return redirect()->back()->with('erro', 'E-mail já cadastrado.');
+            return view('auth/register', [
+                'step' => 'complete_register',
+                'checkedEmail' => $email,
+                'erro' => 'As senhas nao conferem.',
+                'instituicoes' => $this->getInstituicoes(),
+                'formData' => $this->request->getPost(),
+            ]);
         }
         if ($model->where('n_cpf', $cpf)->first()) {
-            return redirect()->back()->with('erro', 'CPF já cadastrado.');
+            return view('auth/register', [
+                'step' => 'complete_register',
+                'checkedEmail' => $email,
+                'erro' => 'CPF ja cadastrado.',
+                'instituicoes' => $this->getInstituicoes(),
+                'formData' => $this->request->getPost(),
+            ]);
         }
 
         $dados = [
@@ -61,15 +113,28 @@ class Auth extends BaseController
         if ($model->insert($dados)) {
             return redirect()->to('/auth/login')->with('sucesso', 'Cadastro realizado com sucesso! Faça login.');
         } else {
-            return redirect()->back()->with('erro', 'Erro ao cadastrar. Tente novamente.');
+            return view('auth/register', [
+                'step' => 'complete_register',
+                'checkedEmail' => $email,
+                'erro' => 'Erro ao cadastrar. Tente novamente.',
+                'instituicoes' => $this->getInstituicoes(),
+                'formData' => $this->request->getPost(),
+            ]);
         }
     }
 
     public function register()
     {
+        return view('auth/register', [
+            'step' => 'check_email',
+            'checkedEmail' => '',
+        ]);
+    }
+
+    private function getInstituicoes(): array
+    {
         $instituicaoModel = new \App\Models\InstituicaoRorModel();
-        $instituicoes = $instituicaoModel->orderBy('nome', 'asc')->findAll();
-        return view('auth/register', ['instituicoes' => $instituicoes]);
+        return $instituicaoModel->orderBy('nome', 'asc')->findAll();
     }
 
     public function logout()

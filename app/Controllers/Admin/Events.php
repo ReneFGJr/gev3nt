@@ -105,6 +105,30 @@ class Events extends BaseController
         return view('admin/events/import', ['id' => $id, 'importData' => '']);
     }
 
+    public function signList($id)
+    {
+        $eventsModel = new EventsModel();
+        $event = $eventsModel->find((int) $id);
+
+        if (!$event) {
+            return redirect()->to('/admin/events')->with('error', 'Evento não encontrado!');
+        }
+
+        $inscritosModel = new EventInscritosModel();
+        $inscritos = $inscritosModel
+            ->select('events_names.n_nome, events_names.n_email')
+            ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
+            ->where('event_inscritos.ein_event', (int) $id)
+            ->orderBy('events_names.n_nome', 'ASC')
+            ->orderBy('events_names.n_email', 'ASC')
+            ->findAll();
+
+        return view('admin/events/sign_list', [
+            'event' => $event,
+            'inscritos' => $inscritos,
+        ]);
+    }
+
     private function processImportData(int $eventId, string $importData, bool $dryRun = false): array
     {
         $usersModel = new UsersModel();

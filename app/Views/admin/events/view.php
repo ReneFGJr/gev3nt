@@ -1,6 +1,9 @@
 <?= $this->extend('layout/header') ?>
 <?= $this->section('content') ?>
 <div class="container py-4">
+    <div class="text-center mb-4">
+        <img src="<?= base_url('img/logo_Gev3nt.png') ?>" alt="Logo Gev3nt" style="max-height:72px; width:auto;" class="img-fluid">
+    </div>
     <div class="row">
         <div class="col-12 col-md-6">
             <h2>Dados do Evento</h2>
@@ -91,6 +94,12 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-end">
+                        <a href="<?= base_url('admin/events/sign-list/' . $event['id_e']) ?>" class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">
+                            Gerar lista de inscritos para assinatura
+                        </a>
                     </div>
                 </div>
             </div>

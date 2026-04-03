@@ -24,6 +24,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 	$routes->get('events/create', 'Admin\\Events::create');
 	$routes->post('events/store', 'Admin\\Events::store');
 	$routes->get('events/view/(:num)', 'Admin\\Events::view/$1');
+	$routes->get('events/sign-list/(:num)', 'Admin\\Events::signList/$1');
 	$routes->get('events/edit/(:num)', 'Admin\\Events::edit/$1');
 	$routes->post('events/update/(:num)', 'Admin\\Events::update/$1');
 	$routes->get('event/import/(:num)', 'Admin\\Events::import/$1');

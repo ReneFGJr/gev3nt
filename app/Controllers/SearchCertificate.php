@@ -75,6 +75,19 @@ class SearchCertificate extends Controller
                 }
                 $certificados = array_values($mapa);
             }
+
+            if (!empty($certificados)) {
+                usort($certificados, static function (array $a, array $b): int {
+                    $dataA = isset($a['e_data']) ? strtotime((string) $a['e_data']) : 0;
+                    $dataB = isset($b['e_data']) ? strtotime((string) $b['e_data']) : 0;
+
+                    if ($dataA === $dataB) {
+                        return ($b['id_i'] ?? 0) <=> ($a['id_i'] ?? 0);
+                    }
+
+                    return $dataB <=> $dataA;
+                });
+            }
         }
 
         return view('search-certificate', [

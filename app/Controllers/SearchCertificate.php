@@ -58,9 +58,17 @@ class SearchCertificate extends Controller
 
             // Amplia a busca para também pesquisar pelo termo em i_autores
             $certificadosAutoresModel = new \App\Models\EventsInscritosModel();
+            $certificadosAutoresModel
+                ->join('events', 'events_inscritos.i_evento = events.id_e');
+            $queryParts = explode(' ', $query);
+            foreach ($queryParts as $part) {
+                $part = trim($part);
+                if ($part !== '') {
+                    $certificadosAutoresModel->like('i_autores', $part);
+                }
+            }
+
             $certificadosPorAutores = $certificadosAutoresModel
-                ->join('events', 'events_inscritos.i_evento = events.id_e')
-                ->like('i_autores', $query)
                 ->orderBy('events.e_data', 'DESC')
                 ->orderBy('events_inscritos.id_i', 'DESC')
                 ->findAll();

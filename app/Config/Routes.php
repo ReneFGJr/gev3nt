@@ -23,6 +23,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 	$routes->get('event', 'Admin\\EventCrud::index');
 	$routes->get('event/create', 'Admin\\EventCrud::create');
 	$routes->post('event/store', 'Admin\\EventCrud::store');
+	$routes->get('event/view/(:num)', 'Admin\\EventCrud::view/$1');
 	$routes->get('event/edit/(:num)', 'Admin\\EventCrud::edit/$1');
 	$routes->post('event/update/(:num)', 'Admin\\EventCrud::update/$1');
 	$routes->post('event/delete/(:num)', 'Admin\\EventCrud::delete/$1');

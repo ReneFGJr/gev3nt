@@ -45,6 +45,20 @@ class EventCrud extends BaseController
         ]);
     }
 
+    public function view($id)
+    {
+        $model = new EventBaseModel();
+        $item = $model->find((int) $id);
+
+        if (!$item) {
+            return redirect()->to('/admin/event')->with('error', 'Registro não encontrado.');
+        }
+
+        return view('admin/event/view', [
+            'item' => $item,
+        ]);
+    }
+
     public function update($id)
     {
         $model = new EventBaseModel();

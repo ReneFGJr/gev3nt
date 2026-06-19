@@ -3,9 +3,21 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\EventBaseModel;
+use App\Models\UsersModel;
 
 class EventCrud extends BaseController
 {
+    private function getCurrentUserId(): ?int
+    {
+        $userId = session('usuario.id_n') ?? session('usuario.id');
+
+        if ($userId === null || $userId === '') {
+            return null;
+        }
+
+        return (int) $userId;
+    }
+
     public function index()
     {
         $model = new EventBaseModel();
@@ -54,9 +66,80 @@ class EventCrud extends BaseController
             return redirect()->to('/admin/event')->with('error', 'Registro não encontrado.');
         }
 
+        $usersModel = new UsersModel();
+        $users = $usersModel->orderBy('n_nome', 'ASC')->findAll();
+
+        $permissions = db_connect()
+            ->table('event_permissions')
+            ->select('event_permissions.id_ep, event_permissions.ep_event_id, event_permissions.ep_user_id, event_permissions.ep_created, events_names.n_nome, events_names.n_email')
+            ->join('events_names', 'events_names.id_n = event_permissions.ep_user_id', 'inner')
+            ->where('event_permissions.ep_event_id', (int) $id)
+            ->where('event_permissions.ep_can_manage', 1)
+            ->orderBy('events_names.n_nome', 'ASC')
+            ->get()
+            ->getResultArray();
+
         return view('admin/event/view', [
             'item' => $item,
+            'users' => $users,
+            'permissions' => $permissions,
         ]);
+    }
+
+    public function grantAccess($id)
+    {
+        $model = new EventBaseModel();
+        $item = $model->find((int) $id);
+
+        if (!$item) {
+            return redirect()->to('/admin/event')->with('error', 'Registro não encontrado.');
+        }
+
+        $userId = (int) $this->request->getPost('ep_user_id');
+        if ($userId <= 0) {
+            return redirect()->to('/admin/event/view/' . (int) $id)->with('error', 'Selecione um usuário para liberar o acesso.');
+        }
+
+        $db = db_connect();
+        $builder = $db->table('event_permissions');
+
+        $alreadyGranted = $builder
+            ->where('ep_event_id', (int) $id)
+            ->where('ep_user_id', $userId)
+            ->countAllResults() > 0;
+
+        if (!$alreadyGranted) {
+            $builder->insert([
+                'ep_event_id' => (int) $id,
+                'ep_user_id' => $userId,
+                'ep_can_manage' => 1,
+            ]);
+        } else {
+            $builder->where('ep_event_id', (int) $id)
+                ->where('ep_user_id', $userId)
+                ->update(['ep_can_manage' => 1]);
+        }
+
+        return redirect()->to('/admin/event/view/' . (int) $id)->with('success', 'Acesso liberado com sucesso.');
+    }
+
+    public function revokeAccess($permissionId)
+    {
+        $db = db_connect();
+        $permission = $db->table('event_permissions')
+            ->where('id_ep', (int) $permissionId)
+            ->get()
+            ->getRowArray();
+
+        if (!$permission) {
+            return redirect()->to('/admin/event')->with('error', 'Liberação não encontrada.');
+        }
+
+        $db->table('event_permissions')
+            ->where('id_ep', (int) $permissionId)
+            ->delete();
+
+        return redirect()->to('/admin/event/view/' . (int) ($permission['ep_event_id'] ?? 0))->with('success', 'Liberação excluída com sucesso.');
     }
 
     public function update($id)

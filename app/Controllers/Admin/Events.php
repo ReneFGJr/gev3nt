@@ -111,10 +111,60 @@ class Events extends BaseController
         $totalInscritos = $inscritosModel->where('ein_event', $id)->countAllResults();
         $totalPresentes = $inscritosModel->where(['ein_event' => $id, 'ein_presente' => 1])->countAllResults();
 
+        $eventInscricoes = db_connect()
+            ->table('event_inscricoes')
+            ->where('ei_event', (int) $id)
+            ->orderBy('ei_modalidade', 'ASC')
+            ->get()
+            ->getResultArray();
+
         return view('admin/events/view', [
             'event' => $event,
             'totalInscritos' => $totalInscritos,
-            'totalPresentes' => $totalPresentes
+            'totalPresentes' => $totalPresentes,
+            'eventInscricoes' => $eventInscricoes,
+        ]);
+    }
+
+    public function sections($id)
+    {
+        $eventsModel = new EventsModel();
+        $event = $eventsModel->find((int) $id);
+
+        if (!$event) {
+            return redirect()->to('/')->with('error', 'Evento não encontrado!');
+        }
+
+        $sections = $eventsModel
+            ->where('e_event', (int) $id)
+            ->orderBy('e_data_i', 'ASC')
+            ->orderBy('e_hora_inicio', 'ASC')
+            ->orderBy('e_name', 'ASC')
+            ->findAll();
+
+        $inscritosModel = new EventInscritosModel();
+        $inscritosBySection = [];
+        $totalInscritos = 0;
+
+        foreach ($sections as $section) {
+            $sectionId = (int) ($section['id_e'] ?? 0);
+            $inscritos = $inscritosModel
+                ->select('event_inscritos.id_ein, event_inscritos.ein_event, event_inscritos.ein_presente, events_names.n_nome, events_names.n_email')
+                ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
+                ->where('event_inscritos.ein_event', $sectionId)
+                ->orderBy('events_names.n_nome', 'ASC')
+                ->orderBy('events_names.n_email', 'ASC')
+                ->findAll();
+
+            $inscritosBySection[$sectionId] = $inscritos;
+            $totalInscritos += count($inscritos);
+        }
+
+        return view('admin/events/sections', [
+            'event' => $event,
+            'sections' => $sections,
+            'inscritosBySection' => $inscritosBySection,
+            'totalInscritos' => $totalInscritos,
         ]);
     }
     public function import($id)
@@ -146,17 +196,109 @@ class Events extends BaseController
 
         $inscritosModel = new EventInscritosModel();
         $inscritos = $inscritosModel
-            ->select('events_names.n_nome, events_names.n_email')
+            ->select('event_inscritos.id_ein, event_inscritos.ein_presente, events_names.n_nome, events_names.n_email')
             ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
             ->where('event_inscritos.ein_event', (int) $id)
             ->orderBy('events_names.n_nome', 'ASC')
             ->orderBy('events_names.n_email', 'ASC')
             ->findAll();
 
+        $totalPresentes = $inscritosModel
+            ->where('event_inscritos.ein_event', (int) $id)
+            ->where('event_inscritos.ein_presente', 1)
+            ->countAllResults();
+
         return view('admin/events/sign_list', [
             'event' => $event,
             'inscritos' => $inscritos,
+            'totalInscritos' => count($inscritos),
+            'totalPresentes' => $totalPresentes,
         ]);
+    }
+
+    public function attendance($id)
+    {
+        $eventsModel = new EventsModel();
+        $event = $eventsModel->find((int) $id);
+
+        if (!$event) {
+            return redirect()->to('/admin/events')->with('error', 'Evento não encontrado!');
+        }
+
+        $inscritosModel = new EventInscritosModel();
+        $inscritos = $inscritosModel
+            ->select('event_inscritos.id_ein, event_inscritos.ein_presente, events_names.n_nome, events_names.n_email')
+            ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
+            ->where('event_inscritos.ein_event', (int) $id)
+            ->findAll();
+
+        usort($inscritos, static function (array $left, array $right): int {
+            $leftPresent = (int) ($left['ein_presente'] ?? 0) === 1;
+            $rightPresent = (int) ($right['ein_presente'] ?? 0) === 1;
+
+            if ($leftPresent !== $rightPresent) {
+                return $leftPresent <=> $rightPresent;
+            }
+
+            $leftName = mb_strtolower(trim((string) ($left['n_nome'] ?? '')));
+            $rightName = mb_strtolower(trim((string) ($right['n_nome'] ?? '')));
+
+            if ($leftName === $rightName) {
+                $leftEmail = mb_strtolower(trim((string) ($left['n_email'] ?? '')));
+                $rightEmail = mb_strtolower(trim((string) ($right['n_email'] ?? '')));
+
+                return $leftEmail <=> $rightEmail;
+            }
+
+            return $leftName <=> $rightName;
+        });
+
+        $totalInscritos = count($inscritos);
+        $totalPresentes = 0;
+        foreach ($inscritos as $inscrito) {
+            if ((int) ($inscrito['ein_presente'] ?? 0) === 1) {
+                $totalPresentes++;
+            }
+        }
+
+        return view('admin/events/attendance', [
+            'event' => $event,
+            'inscritos' => $inscritos,
+            'totalInscritos' => $totalInscritos,
+            'totalPresentes' => $totalPresentes,
+        ]);
+    }
+
+    public function markPresent($idEin)
+    {
+        $inscritosModel = new EventInscritosModel();
+        $inscricao = $inscritosModel->find((int) $idEin);
+
+        if (!$inscricao) {
+            return redirect()->to('/admin/events')->with('error', 'Inscrição não encontrada!');
+        }
+
+        $inscritosModel->update((int) $idEin, [
+            'ein_presente' => 1,
+        ]);
+
+        return redirect()->to('/admin/events/attendance/' . (int) ($inscricao['ein_event'] ?? 0))->with('success', 'Presença marcada com sucesso!');
+    }
+
+    public function markPending($idEin)
+    {
+        $inscritosModel = new EventInscritosModel();
+        $inscricao = $inscritosModel->find((int) $idEin);
+
+        if (!$inscricao) {
+            return redirect()->to('/admin/events')->with('error', 'Inscrição não encontrada!');
+        }
+
+        $inscritosModel->update((int) $idEin, [
+            'ein_presente' => 0,
+        ]);
+
+        return redirect()->to('/admin/events/attendance/' . (int) ($inscricao['ein_event'] ?? 0))->with('success', 'Presença alterada para pendente.');
     }
 
     public function makeCertificates($id)

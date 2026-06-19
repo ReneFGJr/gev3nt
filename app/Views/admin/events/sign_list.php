@@ -60,15 +60,21 @@
 <body>
     <?php
     $totalInscritos = is_array($inscritos ?? null) ? count($inscritos) : 0;
+    $totalPresentes = (int) ($totalPresentes ?? 0);
+    $totalPendentes = max(0, $totalInscritos - $totalPresentes);
     ?>
     <div class="topo">
         <div>
-            <h1>Lista de Inscritos para Assinatura</h1>
+            <h1>Resumo das inscrições</h1>
             <div class="meta"><strong>Evento:</strong> <?= esc($event['e_name'] ?? '-') ?></div>
             <div class="meta"><strong>Data:</strong> <?= esc($event['e_data_i'] ?? '-') ?> até <?= esc($event['e_data_f'] ?? '-') ?></div>
             <div class="meta"><strong>Total de inscritos:</strong> <?= esc((string) $totalInscritos) ?></div>
+            <div class="meta"><strong>Presentes:</strong> <?= esc((string) $totalPresentes) ?> | <strong>Pendentes:</strong> <?= esc((string) $totalPendentes) ?></div>
         </div>
-        <button class="btn-print" onclick="window.print()">Imprimir</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+            <a class="btn-print" href="<?= base_url('admin/events/attendance/' . (int) ($event['id_e'] ?? 0)) ?>" style="text-decoration:none; display:inline-block;">Marcação de presença</a>
+            <button class="btn-print" onclick="window.print()">Imprimir</button>
+        </div>
     </div>
 
     <?php if ($totalInscritos === 0): ?>
@@ -80,6 +86,7 @@
                     <th style="width: 52px;">#</th>
                     <th>Nome</th>
                     <th>E-mail</th>
+                    <th style="width: 120px;">Presença</th>
                     <th style="width: 35%;">Assinatura</th>
                 </tr>
             </thead>
@@ -89,6 +96,7 @@
                         <td><?= esc((string) ($index + 1)) ?></td>
                         <td><?= esc($inscrito['n_nome'] ?? '-') ?></td>
                         <td><?= esc($inscrito['n_email'] ?? '-') ?></td>
+                        <td><?= (int) ($inscrito['ein_presente'] ?? 0) === 1 ? 'Presente' : 'Pendente' ?></td>
                         <td><div class="assinatura"></div></td>
                     </tr>
                 <?php endforeach; ?>

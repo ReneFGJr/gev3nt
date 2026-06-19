@@ -104,6 +104,51 @@
                             Gerar lista de inscritos para assinatura
                         </a>
                     </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <strong class="d-block text-secondary text-uppercase small">Inscrições vinculadas</strong>
+                            <span class="text-muted small">Registros da tabela event_inscricoes com ei_event igual ao ID do evento</span>
+                        </div>
+                        <span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis px-3 py-2">
+                            <?= esc((string) (is_array($eventInscricoes ?? null) ? count($eventInscricoes) : 0)) ?> registro(s)
+                        </span>
+                    </div>
+
+                    <?php if (empty($eventInscricoes)): ?>
+                        <div class="alert alert-info mb-0">Nenhuma inscrição encontrada para este evento.</div>
+                    <?php else: ?>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Modalidade</th>
+                                        <th>Descrição</th>
+                                        <th>Data início</th>
+                                        <th>Data final</th>
+                                        <th>Preço</th>
+                                        <th>Ativo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($eventInscricoes as $inscricao): ?>
+                                        <tr>
+                                            <td><?= esc((string) ($inscricao['id_ei'] ?? '')) ?></td>
+                                            <td><?= esc($inscricao['ei_modalidade'] ?? '-') ?></td>
+                                            <td><?= nl2br(esc((string) ($inscricao['ei_descricao'] ?? '-'))) ?></td>
+                                            <td><?= esc($inscricao['ei_data_inicio'] ?? '-') ?></td>
+                                            <td><?= esc($inscricao['ei_data_final'] ?? '-') ?></td>
+                                            <td><?= esc((string) ($inscricao['ei_preco'] ?? '0')) ?></td>
+                                            <td><?= (int) ($inscricao['ei_ativo'] ?? 0) === 1 ? 'Sim' : 'Não' ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

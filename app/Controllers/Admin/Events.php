@@ -315,6 +315,7 @@ class Events extends BaseController
             ->select('event_inscritos.id_ein, event_inscritos.ein_user, event_inscritos.ein_titulo_trabalho, event_inscritos.ein_coautores, events_names.n_nome, events_names.n_email')
             ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
             ->where('event_inscritos.ein_event', (int) $id)
+            ->where('event_inscritos.ein_presente', 1)
             ->orderBy('events_names.n_nome', 'ASC')
             ->orderBy('event_inscritos.ein_titulo_trabalho', 'ASC')
             ->findAll();

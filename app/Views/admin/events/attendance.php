@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +12,7 @@
             background: #f4f6f8;
             margin: 24px;
         }
+
         .wrap {
             max-width: 1100px;
             margin: 0 auto;
@@ -19,6 +21,7 @@
             border-radius: 12px;
             padding: 20px;
         }
+
         .topo {
             display: flex;
             justify-content: space-between;
@@ -27,14 +30,17 @@
             margin-bottom: 16px;
             flex-wrap: wrap;
         }
+
         h1 {
             font-size: 24px;
             margin: 0 0 8px 0;
         }
+
         .meta {
             margin: 2px 0;
             font-size: 14px;
         }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -47,60 +53,73 @@
             cursor: pointer;
             border-radius: 8px;
         }
+
         .btn-success {
             background: #198754;
             color: #fff;
             border-color: #198754;
         }
+
         .btn-secondary {
             background: #6c757d;
             color: #fff;
             border-color: #6c757d;
         }
+
         .cards {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
             margin-bottom: 18px;
         }
+
         .card {
             border: 1px solid #d8dee4;
             border-radius: 12px;
             padding: 14px;
             background: #fafbfc;
         }
+
         .card .label {
             font-size: 13px;
             color: #667085;
             margin-bottom: 6px;
         }
+
         .card .value {
             font-size: 28px;
             font-weight: 700;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: #fff;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #111;
             padding: 10px;
             font-size: 14px;
             vertical-align: middle;
         }
+
         th {
             text-align: left;
             background: #eef2f7;
         }
+
         .nome-link {
             color: #0d6efd;
             text-decoration: none;
             font-weight: 700;
         }
+
         .nome-link:hover {
             text-decoration: underline;
         }
+
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -108,14 +127,17 @@
             font-size: 12px;
             font-weight: 700;
         }
+
         .badge-ok {
             background: #d1e7dd;
             color: #0f5132;
         }
+
         .badge-pending {
             background: #fff3cd;
             color: #664d03;
         }
+
         @media (max-width: 768px) {
             .cards {
                 grid-template-columns: 1fr;
@@ -123,6 +145,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="wrap">
         <?php
@@ -178,7 +201,7 @@
                             <td>
                                 <?php if ($presente): ?>
                                     <form action="<?= base_url('admin/events/mark-pending/' . (int) ($inscrito['id_ein'] ?? 0)) ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="nome-link" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; text-align:left; color:#198754;">
+                                        <button type="submit" class="nome-link" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; text-align:left; color:#198754; font-size: 2rem;">
                                             <?= esc($inscrito['n_nome'] ?? '-') ?>
                                         </button>
                                     </form>
@@ -204,4 +227,5 @@
         <?php endif; ?>
     </div>
 </body>
+
 </html>

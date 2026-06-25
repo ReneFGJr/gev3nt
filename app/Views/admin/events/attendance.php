@@ -167,7 +167,6 @@
                     <tr>
                         <th style="width: 52px;">#</th>
                         <th>Nome</th>
-                        <th>E-mail</th>
                         <th style="width: 120px;">Status</th>
                     </tr>
                 </thead>
@@ -185,13 +184,12 @@
                                     </form>
                                 <?php else: ?>
                                     <form action="<?= base_url('admin/events/mark-present/' . (int) ($inscrito['id_ein'] ?? 0)) ?>" method="post" style="display:inline;">
-                                        <button type="submit" class="nome-link" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; text-align:left;">
+                                        <button type="submit" class="nome-link" style="background:none; border:none; padding:0; cursor:pointer; font:inherit; text-align:left; font-size: 2rem;">
                                             <?= esc($inscrito['n_nome'] ?? '-') ?>
                                         </button>
                                     </form>
                                 <?php endif; ?>
                             </td>
-                            <td><?= esc($inscrito['n_email'] ?? '-') ?></td>
                             <td>
                                 <?php if ($presente): ?>
                                     <span class="badge badge-ok">Presente</span>

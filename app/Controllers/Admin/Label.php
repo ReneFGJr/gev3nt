@@ -23,12 +23,69 @@ class Label extends BaseController
         $value = trim($value);
         $value = str_replace(["\r", "\n", '"'], [' ', ' ', "'"], $value);
 
+        $replacements = [
+            'ã' => 'a', 'Ã' => 'A',
+            'õ' => 'o', 'Õ' => 'O',
+            'á' => 'a', 'à' => 'a', 'â' => 'a', 'ä' => 'a', 'Á' => 'A', 'À' => 'A', 'Â' => 'A', 'Ä' => 'A',
+            'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e', 'É' => 'E', 'È' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+            'í' => 'i', 'ì' => 'i', 'î' => 'i', 'ï' => 'i', 'Í' => 'I', 'Ì' => 'I', 'Î' => 'I', 'Ï' => 'I',
+            'ó' => 'o', 'ò' => 'o', 'ô' => 'o', 'ö' => 'o', 'Ó' => 'O', 'Ò' => 'O', 'Ô' => 'O', 'Ö' => 'O',
+            'ú' => 'u', 'ù' => 'u', 'û' => 'u', 'ü' => 'u', 'Ú' => 'U', 'Ù' => 'U', 'Û' => 'U', 'Ü' => 'U',
+            'ç' => 'c', 'Ç' => 'C',
+            'ñ' => 'n', 'Ñ' => 'N',
+        ];
+
+        $value = strtr($value, $replacements);
+
         $normalized = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
         if ($normalized !== false) {
             $value = $normalized;
         }
 
-        return preg_replace('/\s+/', ' ', $value) ?? $value;
+        $value = preg_replace('/\s+/', ' ', $value) ?? $value;
+        $value = trim($value);
+
+        if ($value === '') {
+            return $value;
+        }
+
+        if (mb_strlen($value, 'UTF-8') <= 29) {
+            return $value;
+        }
+
+        $parts = preg_split('/\s+/', $value) ?: [$value];
+        $result = [$parts[0]];
+        $limit = 31;
+
+        for ($i = 1; $i < count($parts); $i++) {
+            $part = $parts[$i];
+            $candidate = $result;
+            $candidate[] = $part;
+
+            if (mb_strlen(implode(' ', $candidate), 'UTF-8') <= $limit) {
+                $result = $candidate;
+                continue;
+            }
+
+            if ($i === count($parts) - 1) {
+                break;
+            }
+
+            $shortened = mb_substr($part, 0, 1) . '.';
+            $candidate[count($candidate) - 1] = $shortened;
+            $result = $candidate;
+        }
+
+        while (mb_strlen(implode(' ', $result), 'UTF-8') > $limit && count($result) > 2) {
+            $lastIndex = count($result) - 1;
+            if ($lastIndex === 0) {
+                break;
+            }
+            $result[$lastIndex - 1] = mb_substr($result[$lastIndex - 1], 0, 1) . '.';
+            array_splice($result, $lastIndex, 1);
+        }
+
+        return implode(' ', $result);
     }
 
     private function wrapPrinterText(string $value, int $limit): array
@@ -50,43 +107,32 @@ class Label extends BaseController
 
     private function buildPrnContent(array $label): string
     {
-        $nameLines = $this->wrapPrinterText((string) ($label['nome'] ?? ''), 28);
-        $institutionLines = $this->wrapPrinterText((string) ($label['instituicao'] ?? ''), 34);
+        $templatePath = ROOTPATH . '_Docummentation/ARGOX/etiqueta.prn';
 
-        if ($nameLines === []) {
-            $nameLines = ['SEM NOME'];
+        if (!is_file($templatePath)) {
+            throw new \RuntimeException('Template da etiqueta Argox não encontrado em: ' . $templatePath);
         }
 
-        $commands = [
-            "\x02O0220",
-            "\x02M3000",
-            "\x02e",
-            "\x02c0000",
-            "\x02f330",
-            "\x02L",
-            'H13',
-            'D11',
-            'SE',
-            'PD',
-            'z',
-        ];
+        $content = (string) file_get_contents($templatePath);
 
-        $y = 950;
-        foreach (array_slice($nameLines, 0, 2) as $line) {
-            $commands[] = $this->buildPplaTextCommand('3', $y, 30, $line);
-            $y -= 180;
+        $nome = trim((string) ($label['nome'] ?? ''));
+        $instituicao = trim((string) ($label['instituicao'] ?? ''));
+
+        if ($nome === '') {
+            $nome = 'SEM NOME';
         }
 
-        $y -= 40;
-        foreach (array_slice($institutionLines, 0, 3) as $line) {
-            $commands[] = $this->buildPplaTextCommand('2', $y, 30, $line);
-            $y -= 150;
+        if ($instituicao === '') {
+            $instituicao = 'SEM INSTITUICAO';
         }
 
-        $commands[] = 'Q0001';
-        $commands[] = 'E';
+        $nome = $this->normalizePrinterText($nome);
+        $instituicao = $this->normalizePrinterText($instituicao);
 
-        return implode("\r", $commands) . "\r";
+        $content = str_replace('[NOME]', $nome, $content);
+        $content = str_replace('[INSTITUICAO]', $instituicao, $content);
+
+        return $content;
     }
 
     public function index()
@@ -167,7 +213,7 @@ class Label extends BaseController
             $label['status'] = 1;
         }
 
-        $fileName = 'label-' . (int) $label['id_label'] . '.prn';
+        $fileName = 'label-' . (int) $label['id_label'] . '.label';
         $content = $this->buildPrnContent($label);
 
         return $this->response

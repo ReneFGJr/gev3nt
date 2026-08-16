@@ -49,44 +49,9 @@ class Label extends BaseController
             return $value;
         }
 
-        if (mb_strlen($value, 'UTF-8') <= 29) {
             return $value;
+
         }
-
-        $parts = preg_split('/\s+/', $value) ?: [$value];
-        $result = [$parts[0]];
-        $limit = 31;
-
-        for ($i = 1; $i < count($parts); $i++) {
-            $part = $parts[$i];
-            $candidate = $result;
-            $candidate[] = $part;
-
-            if (mb_strlen(implode(' ', $candidate), 'UTF-8') <= $limit) {
-                $result = $candidate;
-                continue;
-            }
-
-            if ($i === count($parts) - 1) {
-                break;
-            }
-
-            $shortened = mb_substr($part, 0, 1) . '.';
-            $candidate[count($candidate) - 1] = $shortened;
-            $result = $candidate;
-        }
-
-        while (mb_strlen(implode(' ', $result), 'UTF-8') > $limit && count($result) > 2) {
-            $lastIndex = count($result) - 1;
-            if ($lastIndex === 0) {
-                break;
-            }
-            $result[$lastIndex - 1] = mb_substr($result[$lastIndex - 1], 0, 1) . '.';
-            array_splice($result, $lastIndex, 1);
-        }
-
-        return implode(' ', $result);
-    }
 
     private function wrapPrinterText(string $value, int $limit): array
     {
@@ -128,6 +93,10 @@ class Label extends BaseController
 
         $nome = $this->normalizePrinterText($nome);
         $instituicao = $this->normalizePrinterText($instituicao);
+
+        if (mb_strlen($instituicao, 'UTF-8') > 34) {
+           // $instituicao = trim(mb_substr($instituicao, 0, 34));
+        }
 
         $content = str_replace('[NOME]', $nome, $content);
         $content = str_replace('[INSTITUICAO]', $instituicao, $content);
@@ -184,17 +153,23 @@ class Label extends BaseController
         }
 
         $nome = trim((string) $this->request->getPost('nome'));
+        $instituicao = trim((string) $this->request->getPost('instituicao'));
 
         if ($nome === '') {
             return redirect()->back()->withInput()->with('error', 'Informe o nome da etiqueta.');
         }
 
+        if ($instituicao === '') {
+            return redirect()->back()->withInput()->with('error', 'Informe a instituição da etiqueta.');
+        }
+
         $labelModel = new \App\Models\LabelModel();
         $labelModel->update((int) $id, [
             'nome' => $nome,
+            'instituicao' => $instituicao,
         ]);
 
-        return redirect()->to('/admin/label')->with('success', 'Nome da etiqueta atualizado com sucesso.');
+        return redirect()->to('/admin/label')->with('success', 'Etiqueta atualizada com sucesso.');
     }
 
     public function print($id)
@@ -213,7 +188,7 @@ class Label extends BaseController
             $label['status'] = 1;
         }
 
-        $fileName = 'label-' . (int) $label['id_label'] . '.label';
+        $fileName = 'label-' . (int) $label['id_label'] . '.lbl';
         $content = $this->buildPrnContent($label);
 
         return $this->response

@@ -18,9 +18,9 @@
         </div>
         <div class="mb-3">
             <label for="instituicao" class="form-label">Instituição</label>
-            <input type="text" id="instituicao" class="form-control" value="<?= esc($label['instituicao']) ?>" disabled>
+            <input type="text" id="instituicao" name="instituicao" class="form-control" value="<?= esc(old('instituicao', $label['instituicao'])) ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Salvar nome</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 </div>
 <?= $this->endSection() ?>

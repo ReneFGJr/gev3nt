@@ -46,6 +46,12 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 	$routes->post('events/import/(:num)', 'Admin\\Events::import/$1');
 	$routes->get('event/import/(:num)', 'Admin\\Events::import/$1');
 	$routes->post('event/import/(:num)', 'Admin\\Events::import/$1');
+	$routes->get('label', 'Admin\\Label::index');
+	$routes->get('label/inport', 'Admin\\Label::inport');
+	$routes->post('label/inport', 'Admin\\Label::inport');
+	$routes->get('label/edit/(:num)', 'Admin\\Label::edit/$1');
+	$routes->post('label/update/(:num)', 'Admin\\Label::update/$1');
+	$routes->get('label/print/(:num)', 'Admin\\Label::print/$1');
 });
 
 

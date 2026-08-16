@@ -5,6 +5,7 @@
     <div class="list-group mt-4 mx-auto" style="max-width:400px;">
         <a href="<?= base_url('admin/event') ?>" class="list-group-item list-group-item-action">Gerenciar Evento Base (tabela event)</a>
         <a href="<?= base_url('admin/events') ?>" class="list-group-item list-group-item-action">Gerenciar Eventos</a>
+        <a href="<?= base_url('admin/label') ?>" class="list-group-item list-group-item-action">Etiquetas Argox OS214</a>
         <!-- Adicione mais links de administração aqui se necessário -->
     </div>
 </div>

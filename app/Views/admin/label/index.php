@@ -3,8 +3,14 @@
 <div class="container py-4">
     <h2>Etiquetas Argox OS214</h2>
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end gap-2 mb-3">
         <a href="<?= base_url('admin/label/inport') ?>" class="btn btn-primary">Incluir etiquetas</a>
+        <form method="post" action="<?= base_url('admin/label/print-all') ?>" class="d-inline">
+            <button type="submit" class="btn btn-outline-primary">Imprimir todas</button>
+        </form>
+        <form method="post" action="<?= base_url('admin/label/mark-for-printing') ?>" class="d-inline">
+            <button type="submit" class="btn btn-outline-warning">Marcar para impressão</button>
+        </form>
     </div>
 
     <?php if (session('success')): ?>

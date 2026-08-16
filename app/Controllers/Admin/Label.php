@@ -199,6 +199,44 @@ class Label extends BaseController
             ->setBody($content);
     }
 
+    public function printAll()
+    {
+        $labelModel = new \App\Models\LabelModel();
+        $labels = $labelModel
+            ->orderBy('status', 'ASC')
+            ->orderBy('nome', 'ASC')
+            ->findAll();
+
+        if ($labels === []) {
+            return redirect()->to('/admin/label')->with('error', 'Nenhuma etiqueta encontrada para impressão.');
+        }
+
+        $content = '';
+        $ids = [];
+
+        foreach ($labels as $label) {
+            $content .= $this->buildPrnContent($label);
+            $ids[] = (int) $label['id_label'];
+        }
+
+        $labelModel->whereIn('id_label', $ids)->builder()->update(['status' => 1]);
+
+        return $this->response
+            ->setHeader('Content-Type', 'application/octet-stream')
+            ->setHeader('Content-Disposition', 'attachment; filename="labels.lbl"')
+            ->setHeader('Content-Transfer-Encoding', 'binary')
+            ->setHeader('Content-Length', (string) strlen($content))
+            ->setBody($content);
+    }
+
+    public function markForPrinting()
+    {
+        $labelModel = new \App\Models\LabelModel();
+        $labelModel->builder()->update(['status' => 0]);
+
+        return redirect()->to('/admin/label')->with('success', 'Todas as etiquetas foram marcadas para impressão.');
+    }
+
     public function inport()
     {
         $method = strtoupper($this->request->getMethod());

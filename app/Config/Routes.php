@@ -52,6 +52,8 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 	$routes->get('label/edit/(:num)', 'Admin\\Label::edit/$1');
 	$routes->post('label/update/(:num)', 'Admin\\Label::update/$1');
 	$routes->get('label/print/(:num)', 'Admin\\Label::print/$1');
+	$routes->post('label/print-all', 'Admin\\Label::printAll');
+	$routes->post('label/mark-for-printing', 'Admin\\Label::markForPrinting');
 });
 
 

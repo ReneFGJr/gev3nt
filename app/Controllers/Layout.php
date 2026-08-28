@@ -101,23 +101,27 @@ class Layout extends BaseController
         $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
 
-        // Adicionar imagem de background se existir
+        $pageWidth = $pdf->getPageWidth();
+        $pageHeight = $pdf->getPageHeight();
+
+        // O fundo usa coordenadas absolutas e cobre toda a página,
+        // independentemente das margens aplicadas ao texto.
 
         if (!empty($cert['e_background'])) {
             $imgPath = $cert['e_background'];
             if (str_starts_with($imgPath, 'certificados/background/')) {
                 $publicPath = WRITEPATH . 'uploads/certificado/' . basename($imgPath);
                 if (is_file($publicPath)) {
-                    $pdf->Image($publicPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                    $pdf->Image($publicPath, 0, 0, $pageWidth, $pageHeight, '', '', '', false, 300, '', false, false, 0);
                 }
             } elseif (strpos($imgPath, 'http') === 0) {
                 // Se for URL absoluta
-                $pdf->Image($imgPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                $pdf->Image($imgPath, 0, 0, $pageWidth, $pageHeight, '', '', '', false, 300, '', false, false, 0);
             } else {
                 // Caminho relativo ao public
                 $publicPath = FCPATH . ltrim($imgPath, '/');
                 if (file_exists($publicPath)) {
-                    $pdf->Image($publicPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                    $pdf->Image($publicPath, 0, 0, $pageWidth, $pageHeight, '', '', '', false, 300, '', false, false, 0);
                 } else {
                     // Mostra erro e caminho completo
                     echo '<pre style="color:red;">Erro: Imagem de background não encontrada! Caminho: ' . $publicPath . '</pre>';
@@ -148,8 +152,6 @@ class Layout extends BaseController
         $pdf->writeHTMLCell($contentWidth, 0, $contentX, $contentY, $text, 0, 1, false, true, '', true);
 
         // Inserir QR code no lado direito do meio da página
-        $pageWidth = $pdf->getPageWidth();
-        $pageHeight = $pdf->getPageHeight();
         $qrSize = 40; // mm
         if (file_exists($qrcodePath)) {
             $pdf->Image($qrcodePath, 165, 190, $qrSize, $qrSize, 'PNG');

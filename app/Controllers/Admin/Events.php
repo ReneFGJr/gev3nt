@@ -311,14 +311,26 @@ class Events extends BaseController
         }
 
         $inscritosModel = new EventInscritosModel();
-        $trabalhos = $inscritosModel
-            ->select('event_inscritos.id_ein, event_inscritos.ein_user, event_inscritos.ein_titulo_trabalho, event_inscritos.ein_coautores, events_names.n_nome, events_names.n_email')
-            ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
-            ->where('event_inscritos.ein_event', (int) $id)
-            ->where('event_inscritos.ein_presente', 1)
-            ->orderBy('events_names.n_nome', 'ASC')
-            ->orderBy('event_inscritos.ein_titulo_trabalho', 'ASC')
-            ->findAll();
+        $presentUserIds = $inscritosModel
+            ->select('ein_user')
+            ->where('ein_event', (int) $id)
+            ->where('ein_presente', 1)
+            ->distinct()
+            ->findColumn('ein_user');
+
+        $trabalhos = [];
+        if (!empty($presentUserIds)) {
+            // A presença pertence ao participante: exibe todos os trabalhos dele,
+            // inclusive quando somente uma das inscrições foi marcada como presente.
+            $trabalhos = $inscritosModel
+                ->select('event_inscritos.id_ein, event_inscritos.ein_user, event_inscritos.ein_titulo_trabalho, event_inscritos.ein_coautores, events_names.n_nome, events_names.n_email')
+                ->join('events_names', 'events_names.id_n = event_inscritos.ein_user', 'left')
+                ->where('event_inscritos.ein_event', (int) $id)
+                ->whereIn('event_inscritos.ein_user', array_map('intval', $presentUserIds))
+                ->orderBy('events_names.n_nome', 'ASC')
+                ->orderBy('event_inscritos.ein_titulo_trabalho', 'ASC')
+                ->findAll();
+        }
 
         $selectedIds = [];
         $gerados = [];

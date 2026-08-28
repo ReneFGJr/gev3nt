@@ -123,8 +123,10 @@ class Layout extends BaseController
 
         $pdf->setXY(10, 10);
         $header = '<h1 style="color:#000000; font-size:18px; font-weight: bold; text-align: center;">CERTIFICADO</h1>';
-        $text = $header . '<p style="line-height:1.5; font-size:16px;">' . $text . '</p>';
-        $text = '<table width="350" style="text-align: justify; border: 1px solid #000;"><tr><td>' . $text . '</td></tr></table>';
+        $text = '<div style="text-align: justify; border: 1px solid #000; line-height:1.5; font-size:16px;">'
+            . $header
+            . $text
+            . '</div>';
 
         $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         $mes = round(substr(date('m', strtotime($cert['e_data'])), 0, 2));
@@ -136,7 +138,7 @@ class Layout extends BaseController
 
 
         $data = str_replace(date('F'), $meses[date('n') - 1], $data);
-        $text .= '<table width="350" style="text-align: right; color:#000000; font-size:18px; font-weight: bold;"><tr><td>' . $escapePdfHtml($data) . '</td></tr></table>';
+        $text .= '<div style="text-align: right; color:#000000; font-size:18px; font-weight: bold;">' . $escapePdfHtml($data) . '</div>';
 
         $pdf->writeHTML($text, true, false, true, false, '');
 

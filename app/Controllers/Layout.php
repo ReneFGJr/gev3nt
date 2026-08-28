@@ -92,8 +92,13 @@ class Layout extends BaseController
         $pdf->SetCreator('Gev3nt');
         $pdf->SetAuthor('Gev3nt');
         $pdf->SetTitle('Certificado');
-        $pdf->SetMargins(0, 0, 0, 0);
-        $pdf->SetAutoPageBreak(TRUE, 0);
+        $contentX = 10;
+        $contentY = 10;
+        $contentWidth = 135;
+        $rightMargin = $pdf->getPageWidth() - ($contentX + $contentWidth);
+
+        $pdf->SetMargins($contentX, $contentY, $rightMargin);
+        $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
 
         // Adicionar imagem de background se existir
@@ -121,7 +126,7 @@ class Layout extends BaseController
             }
         }
 
-        $pdf->setXY(10, 10);
+        $pdf->setXY($contentX, $contentY);
         $header = '<h1 style="color:#000000; font-size:18px; font-weight: bold; text-align: center;">CERTIFICADO</h1>';
         $text = '<div style="text-align: justify; border: 1px solid #000; line-height:1.5; font-size:16px;">'
             . $header
@@ -140,7 +145,7 @@ class Layout extends BaseController
         $data = str_replace(date('F'), $meses[date('n') - 1], $data);
         $text .= '<div style="text-align: right; color:#000000; font-size:18px; font-weight: bold;">' . $escapePdfHtml($data) . '</div>';
 
-        $pdf->writeHTML($text, true, false, true, false, '');
+        $pdf->writeHTMLCell($contentWidth, 0, $contentX, $contentY, $text, 0, 1, false, true, '', true);
 
         // Inserir QR code no lado direito do meio da página
         $pageWidth = $pdf->getPageWidth();

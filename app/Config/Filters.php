@@ -73,7 +73,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'auth' => ['except' => ['/', 'login', 'logout', 'registrar', 'recuperar-senha', 'auth/*', 'layout/*', 'contato', 'eventos', 'search-certificate', 'search-certificate/*', 'certificados/imprimir/*']],
+            'auth' => ['except' => ['/', 'login', 'logout', 'registrar', 'recuperar-senha', 'auth/*', 'layout/*', 'contato', 'eventos', 'search-certificate', 'search-certificate/*', 'certificados/imprimir/*', 'certificados/background/*']],
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',

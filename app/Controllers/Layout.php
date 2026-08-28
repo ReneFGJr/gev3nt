@@ -5,6 +5,23 @@ helper('url');
 
 class Layout extends BaseController
     {
+    public function background(string $filename)
+    {
+        if (!preg_match('/\Abackground_event_[0-9]+_[0-9]+\.jpg\z/', $filename)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $path = WRITEPATH . 'uploads/certificado/' . $filename;
+        if (!is_file($path)) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', 'image/jpeg')
+            ->setHeader('Content-Length', (string) filesize($path))
+            ->setBody(file_get_contents($path));
+    }
+
     public function imprimir($id = null)
     {
         if (!$id) {
@@ -70,7 +87,12 @@ class Layout extends BaseController
 
         if (!empty($cert['e_background'])) {
             $imgPath = $cert['e_background'];
-            if (strpos($imgPath, 'http') === 0) {
+            if (str_starts_with($imgPath, 'certificados/background/')) {
+                $publicPath = WRITEPATH . 'uploads/certificado/' . basename($imgPath);
+                if (is_file($publicPath)) {
+                    $pdf->Image($publicPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                }
+            } elseif (strpos($imgPath, 'http') === 0) {
                 // Se for URL absoluta
                 $pdf->Image($imgPath, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             } else {

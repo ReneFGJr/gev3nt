@@ -168,14 +168,27 @@ class EventCrud extends BaseController
                 return redirect()->back()->with('error', 'Arquivo inválido. Envie somente imagem JPG.');
             }
 
-            $destDir = FCPATH . 'img/certificado';
-            if (!is_dir($destDir)) {
-                mkdir($destDir, 0777, true);
+            $destDir = WRITEPATH . 'uploads/certificado';
+            if (!is_dir($destDir) && !@mkdir($destDir, 0775, true) && !is_dir($destDir)) {
+                return redirect()->back()->withInput()->with('error', 'Não foi possível preparar o diretório de uploads.');
+            }
+
+            if (!is_writable($destDir)) {
+                return redirect()->back()->withInput()->with('error', 'O diretório de uploads não possui permissão de escrita.');
             }
 
             $newName = 'background_event_' . (int) $id . '_' . time() . '.jpg';
-            $backgroundFile->move($destDir, $newName, true);
-            $data['e_background'] = 'img/certificado/' . $newName;
+            try {
+                $backgroundFile->move($destDir, $newName, true);
+            } catch (\Throwable $exception) {
+                log_message('error', 'Falha ao salvar background do certificado: {message}', [
+                    'message' => $exception->getMessage(),
+                ]);
+
+                return redirect()->back()->withInput()->with('error', 'Não foi possível salvar o background do certificado.');
+            }
+
+            $data['e_background'] = 'certificados/background/' . $newName;
         }
 
         $model->update((int) $id, $data);

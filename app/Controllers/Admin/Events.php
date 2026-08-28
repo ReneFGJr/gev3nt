@@ -507,10 +507,17 @@ class Events extends BaseController
             if ($dryRun && $userCreated) {
                 $existingSubscription = false;
             } else {
-                $existingSubscription = $inscritosModel
+                $subscriptionQuery = $inscritosModel
                     ->where('ein_event', $eventId)
-                    ->where('ein_user', $userId)
-                    ->first();
+                    ->where('ein_user', $userId);
+
+                // Um participante pode inscrever mais de um trabalho no mesmo evento.
+                // Quando existe título, somente o mesmo trabalho é considerado duplicado.
+                if ($tituloTrabalho !== '') {
+                    $subscriptionQuery->where('ein_titulo_trabalho', $tituloTrabalho);
+                }
+
+                $existingSubscription = $subscriptionQuery->first();
             }
 
             if ($existingSubscription) {

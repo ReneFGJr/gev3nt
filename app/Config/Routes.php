@@ -14,7 +14,7 @@ $routes->post('/eventos/inscrever/(:num)', 'Eventos::inscrever/$1');
 $routes->post('/eventos/cancelar/(:num)', 'Eventos::cancelar/$1');
 $routes->post('/eventos/enviar-confirmacao/(:num)', 'Eventos::enviarConfirmacao/$1');
 $routes->get('certificados/imprimir/(:num)', 'Layout::imprimir/$1');
-$routes->get('certificados/background/(:segment)', 'Layout::background/$1');
+$routes->match(['get', 'head'], 'certificados/background/(:segment)', 'Layout::background/$1');
 $routes->get('search-certificate', 'SearchCertificate::index');
 $routes->post('search-certificate', 'SearchCertificate::search');
 

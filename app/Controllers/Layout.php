@@ -16,10 +16,17 @@ class Layout extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        return $this->response
+        $response = $this->response
             ->setHeader('Content-Type', 'image/jpeg')
             ->setHeader('Content-Length', (string) filesize($path))
-            ->setBody(file_get_contents($path));
+            ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+            ->setHeader('Cache-Control', 'public, max-age=86400');
+
+        if ($this->request->getMethod() === 'HEAD') {
+            return $response;
+        }
+
+        return $response->setBody(file_get_contents($path));
     }
 
     public function imprimir($id = null)

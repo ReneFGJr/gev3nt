@@ -94,11 +94,9 @@ class Layout extends BaseController
         $pdf->SetTitle('Certificado');
         $contentX = 10;
         $contentY = 10;
-        $contentWidth = 135;
-        $rightMargin = $pdf->getPageWidth() - ($contentX + $contentWidth);
-
-        $pdf->SetMargins($contentX, $contentY, $rightMargin);
-        $pdf->SetAutoPageBreak(true, 10);
+        $contentWidth = 125;
+        $pdf->SetMargins(0, 0, 0);
+        $pdf->SetAutoPageBreak(true, 0);
         $pdf->AddPage();
 
         $pageWidth = $pdf->getPageWidth();

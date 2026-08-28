@@ -58,15 +58,21 @@ class Layout extends BaseController
             $cert['i_status'] = 1;
         }
 
-        $text = $cert['e_certificado_texto'];
-        $text = str_replace('$nome', $cert['n_nome'], $text);
-        $text = str_replace('{evento}', $cert['e_name'], $text);
-        $text = str_replace('$titulo', '<b>'.$cert['i_titulo_trabalho'].'</b>', $text);
-        $text = str_replace('$autores', '<i>'.$cert['i_autores'].'</i>', $text);
-        $text = str_replace('$evento', $cert['e_name'], $text);
-        $text = str_replace('$data', date('d/m/Y', strtotime($cert['e_data'])), $text);
-        $text = str_replace('$cidade', $cert['e_cidade'], $text);
-        $text = str_replace('$ch', $cert['i_carga_horaria'], $text);
+        $escapePdfHtml = static fn ($value): string => htmlspecialchars(
+            (string) $value,
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8'
+        );
+
+        $text = (string) ($cert['e_certificado_texto'] ?? '');
+        $text = str_replace('$nome', $escapePdfHtml($cert['n_nome'] ?? ''), $text);
+        $text = str_replace('{evento}', $escapePdfHtml($cert['e_name'] ?? ''), $text);
+        $text = str_replace('$titulo', '<b>' . $escapePdfHtml($cert['i_titulo_trabalho'] ?? '') . '</b>', $text);
+        $text = str_replace('$autores', '<i>' . $escapePdfHtml($cert['i_autores'] ?? '') . '</i>', $text);
+        $text = str_replace('$evento', $escapePdfHtml($cert['e_name'] ?? ''), $text);
+        $text = str_replace('$data', $escapePdfHtml(date('d/m/Y', strtotime((string) ($cert['e_data'] ?? '')))), $text);
+        $text = str_replace('$cidade', $escapePdfHtml($cert['e_cidade'] ?? ''), $text);
+        $text = str_replace('$ch', $escapePdfHtml($cert['i_carga_horaria'] ?? ''), $text);
 
         // Gerar QR code para validação
         $certUrl = base_url('certificados/imprimir/' . $id);
@@ -130,7 +136,7 @@ class Layout extends BaseController
 
 
         $data = str_replace(date('F'), $meses[date('n') - 1], $data);
-        $text .= '<table width="350" style="text-align: right; color:#000000; font-size:18px; font-weight: bold;"><tr><td>' . $data . '</td></tr></table>';
+        $text .= '<table width="350" style="text-align: right; color:#000000; font-size:18px; font-weight: bold;"><tr><td>' . $escapePdfHtml($data) . '</td></tr></table>';
 
         $pdf->writeHTML($text, true, false, true, false, '');
 

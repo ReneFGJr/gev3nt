@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Session;
 
 use CodeIgniter\Cookie\Cookie;
+use CodeIgniter\Helpers\Array\ArrayHelper;
 use CodeIgniter\I18n\Time;
 use Config\Cookie as CookieConfig;
 use Config\Session as SessionConfig;
@@ -315,7 +316,7 @@ class Session implements SessionInterface
         $key ??= '';
 
         if ($key !== '') {
-            return $_SESSION[$key] ?? dot_array_search($key, $_SESSION);
+            return $_SESSION[$key] ?? ArrayHelper::dotSearch($key, $_SESSION);
         }
 
         $userdata = [];

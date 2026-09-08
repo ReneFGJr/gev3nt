@@ -4,9 +4,27 @@ use App\Libraries\CertificateAuthors;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../app/Libraries/CertificateAuthors.php';
+require_once __DIR__ . '/../../app/Helpers/nbr_helper.php';
 
 final class CertificateAuthorsTest extends TestCase
 {
+    public function testPdfNormalizesCaseAndRemovesRepeatedAuthor(): void
+    {
+        self::assertSame(
+            'Rosa Helena Cunha Vidal e Rene Faustino Gabriel Junior',
+            CertificateAuthors::forPdf('ROSA HELENA CUNHA VIDAL, Rosa Helena Cunha Vidal E RENE FAUSTINO GABRIEL JUNIOR')
+        );
+    }
+
+    public function testPdfPreservesAccentsParticlesAndSeparators(): void
+    {
+        self::assertSame(
+            'Verônica Mendonça da Silveira, Daiane Barrili dos Santos e Rene Faustino Gabriel Junior',
+            CertificateAuthors::forPdf('VERÔNICA MENDONÇA DA SILVEIRA, Veronica Mendonça da Silveira, DAIANE BARRILI DOS SANTOS E RENE FAUSTINO GABRIEL JUNIOR')
+        );
+        self::assertSame('Álvaro de Sá', nbr_author(' ÁLVARO  DE SÁ ', 3));
+        self::assertSame('', CertificateAuthors::forPdf(''));
+    }
     public function testReportedCertificateKeepsFirstSpellingAndOtherAuthors(): void
     {
         self::assertSame(

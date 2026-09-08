@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-helper('url');
+helper(['url', 'nbr']);
 
 class Layout extends BaseController
     {
@@ -65,10 +65,10 @@ class Layout extends BaseController
         );
 
         $text = (string) ($cert['e_certificado_texto'] ?? '');
-        $text = str_replace('$nome', $escapePdfHtml($cert['n_nome'] ?? ''), $text);
+        $text = str_replace('$nome', $escapePdfHtml(nbr_author((string) ($cert['n_nome'] ?? ''), 3)), $text);
         $text = str_replace('{evento}', $escapePdfHtml($cert['e_name'] ?? ''), $text);
         $text = str_replace('$titulo', '<b>' . $escapePdfHtml($cert['i_titulo_trabalho'] ?? '') . '</b>', $text);
-        $text = str_replace('$autores', '<i>' . $escapePdfHtml(\App\Libraries\CertificateAuthors::unique((string) ($cert['i_autores'] ?? ''))) . '</i>', $text);
+        $text = str_replace('$autores', '<i>' . $escapePdfHtml(\App\Libraries\CertificateAuthors::forPdf((string) ($cert['i_autores'] ?? ''))) . '</i>', $text);
         $text = str_replace('$evento', $escapePdfHtml($cert['e_name'] ?? ''), $text);
         $text = str_replace('$data', $escapePdfHtml(date('d/m/Y', strtotime((string) ($cert['e_data'] ?? '')))), $text);
         $text = str_replace('$cidade', $escapePdfHtml($cert['e_cidade'] ?? ''), $text);

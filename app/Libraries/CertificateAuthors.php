@@ -12,6 +12,16 @@ final class CertificateAuthors
         return mb_strtolower(trim(preg_replace('/\s+/u', ' ', $name)), 'UTF-8');
     }
 
+    public static function forPdf(string $authors): string
+    {
+        $authors = preg_replace_callback(
+            '/[^,;]+/u',
+            static fn (array $match): string => \nbr_author($match[0], 3),
+            $authors
+        );
+
+        return self::unique(preg_replace('/\s*([,;])\s*/u', '$1 ', $authors));
+    }
     public static function unique(string $authors): string
     {
         // Preserve spelling and order; commas and semicolons delimit stored authors.

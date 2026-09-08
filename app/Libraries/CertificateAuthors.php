@@ -23,12 +23,25 @@ final class CertificateAuthors
                 continue;
             }
             $name = trim($name);
+            // Remove a repeated author before the final conjunction as well.
+            $separator = $index > 0 ? $parts[$index - 1] : '';
+            foreach (preg_split('/\s+e\s+/u', $name) as $prefix) {
+                if (!isset($seen[self::key($prefix)])) {
+                    break;
+                }
+                $remaining = preg_replace('/^' . preg_quote($prefix, '/') . '\s+e\s+/u', '', $name, 1);
+                if ($remaining === $name) {
+                    break;
+                }
+                $name = $remaining;
+                $separator = ' e ';
+            }
             $key = self::key($name);
             if ($key === '' || isset($seen[$key])) {
                 continue;
             }
             $seen[$key] = true;
-            $result .= ($result === '' ? '' : $parts[$index - 1]) . $name;
+            $result .= ($result === '' ? '' : $separator) . $name;
         }
 
         return $result;

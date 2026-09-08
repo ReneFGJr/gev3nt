@@ -397,7 +397,7 @@ class Events extends BaseController
                             'i_status' => 1,
                             'i_certificado' => date('Y-m-d H:i:s'),
                             'i_titulo_trabalho' => $titulo,
-                            'i_autores' => $autores,
+                            'i_autores' => \App\Libraries\CertificateAuthors::unique($autores),
                             'i_carga_horaria' => 0,
                             'i_cracha' => 0,
                         ]);
@@ -631,7 +631,7 @@ class Events extends BaseController
 
     private function normalizeAuthorKey(string $name): string
     {
-        return mb_strtolower(trim(preg_replace('/\s+/', ' ', $name) ?? ''), 'UTF-8');
+        return \App\Libraries\CertificateAuthors::key($name);
     }
 
     private function getEventosBase(): array

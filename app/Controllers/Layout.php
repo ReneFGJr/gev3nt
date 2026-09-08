@@ -68,7 +68,7 @@ class Layout extends BaseController
         $text = str_replace('$nome', $escapePdfHtml($cert['n_nome'] ?? ''), $text);
         $text = str_replace('{evento}', $escapePdfHtml($cert['e_name'] ?? ''), $text);
         $text = str_replace('$titulo', '<b>' . $escapePdfHtml($cert['i_titulo_trabalho'] ?? '') . '</b>', $text);
-        $text = str_replace('$autores', '<i>' . $escapePdfHtml($cert['i_autores'] ?? '') . '</i>', $text);
+        $text = str_replace('$autores', '<i>' . $escapePdfHtml(\App\Libraries\CertificateAuthors::unique((string) ($cert['i_autores'] ?? ''))) . '</i>', $text);
         $text = str_replace('$evento', $escapePdfHtml($cert['e_name'] ?? ''), $text);
         $text = str_replace('$data', $escapePdfHtml(date('d/m/Y', strtotime((string) ($cert['e_data'] ?? '')))), $text);
         $text = str_replace('$cidade', $escapePdfHtml($cert['e_cidade'] ?? ''), $text);
